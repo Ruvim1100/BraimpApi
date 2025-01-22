@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Applicationo\Braimp.Application.csproj" />
+    <ProjectReference Include="..\Braimp.Application\Braimp.Application.csproj" />
   </ItemGroup>
 
 </Project>

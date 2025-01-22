@@ -1,5 +1,4 @@
-﻿
-using Braimp.Domain.Entities;
+﻿using Braimp.Domain.Entities;
 using Braimp.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
