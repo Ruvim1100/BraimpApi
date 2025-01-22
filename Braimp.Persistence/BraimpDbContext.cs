@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Braimp.Persistence
 {
-    sealed class BraimpDbContext : DbContext, IBraimpDbContext
+    public class BraimpDbContext : DbContext, IBraimpDbContext
     {
         public DbSet<CourseCategory> CourseCategories { get; set; }
         public DbSet<Tag> Tags { get; set; }
