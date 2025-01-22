@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Domain\Braimp.Domain.csproj" />
+    <ProjectReference Include="..\Braimp.Domain\Braimp.Domain.csproj" />
   </ItemGroup>
 
 </Project>
