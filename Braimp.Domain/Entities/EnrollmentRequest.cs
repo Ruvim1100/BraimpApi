@@ -6,7 +6,7 @@ namespace Braimp.Domain.Entities
     public class EnrollmentRequest : BaseEntity
     {
         public DateTime RequestedAt { get; set; }
-        public EnrollmentStatus IsApproved { get; set; } = EnrollmentStatus.Pending;
+        public EnrollmentStatus Status { get; set; } = EnrollmentStatus.Pending;
         public Guid UserId { get; set; }
         public Guid CourseId { get; set; }
         public Course Course { get; set; }

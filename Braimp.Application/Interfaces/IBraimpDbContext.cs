@@ -1,7 +1,7 @@
 ﻿using Braimp.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Braimp.Application
+namespace Braimp.Application.Interfaces
 {
     public interface IBraimpDbContext
     {

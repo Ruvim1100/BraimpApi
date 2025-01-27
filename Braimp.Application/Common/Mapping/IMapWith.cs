@@ -1,7 +1,12 @@
-﻿
+﻿using AutoMapper;
+
 namespace Braimp.Application.Common.Mapping
 {
-    public interface IMapWith
+    public interface IMapWith<T>
     {
+        void Mapping(Profile profile)
+        {
+            profile.CreateMap(typeof(T), GetType());
+        }
     }
 }

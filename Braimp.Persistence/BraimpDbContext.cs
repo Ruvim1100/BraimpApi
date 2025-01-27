@@ -1,4 +1,4 @@
-﻿using Braimp.Application;
+﻿using Braimp.Application.Interfaces;
 using Braimp.Domain.Entities;
 using Braimp.Persistence.EntityTypeConfiguration;
 using Microsoft.EntityFrameworkCore;

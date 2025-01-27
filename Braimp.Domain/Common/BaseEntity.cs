@@ -1,5 +1,4 @@
-﻿
-namespace Braimp.Domain.Common
+﻿namespace Braimp.Domain.Common
 {
     public abstract class BaseEntity
     {

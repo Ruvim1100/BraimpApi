@@ -1,5 +1,4 @@
-﻿
-namespace Braimp.Domain.Enums
+﻿namespace Braimp.Domain.Enums
 {
     public enum QuestionType
     {

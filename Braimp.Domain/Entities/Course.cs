@@ -5,12 +5,12 @@ namespace Braimp.Domain.Entities
 {
     public class Course : BaseEntity
     {
+        public Guid OwnerId { get; set; }
         public string Title { get; set; }
         public string? Description { get; set; }
         public CourseStatus Status { get; set; } = CourseStatus.Pending;
-        public Guid OwnerId { get; set; }
         public DateTime CreatedAt { get; set; } 
-        public CourseSettings Settings { get; set; }
+        public CourseSettings? Settings { get; set; }
         public Guid CourseCategoryId { get; set; }
         public CourseCategory CourseCategory { get; set; }
         public ICollection<EnrollmentRequest> EnrollmentRequests { get; set; }

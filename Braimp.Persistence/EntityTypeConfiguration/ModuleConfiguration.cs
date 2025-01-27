@@ -24,7 +24,7 @@ namespace Braimp.Persistence.EntityTypeConfiguration
                 .HasDefaultValue(true)
                 .IsRequired();
 
-            builder.Property(m => m.Order)
+            builder.Property(m => m.SortIndex)
                 .IsRequired();
 
             builder.HasOne(m => m.Course)

@@ -6,7 +6,6 @@ namespace Braimp.Domain.Enums
         News = 0,
         Reminder = 1,
         AssignmentFeedback = 2,
-        QuizResult = 3,
-
+        QuizResult = 3
     }
 }
