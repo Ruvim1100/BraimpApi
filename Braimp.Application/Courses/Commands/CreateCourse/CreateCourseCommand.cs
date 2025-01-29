@@ -1,5 +1,4 @@
-﻿using Braimp.Domain.Entities;
-using MediatR;
+﻿using MediatR;
 
 namespace Braimp.Application.Courses.Commands.CreateCourse
 {

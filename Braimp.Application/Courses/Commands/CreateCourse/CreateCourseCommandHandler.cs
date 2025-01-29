@@ -39,7 +39,6 @@ namespace Braimp.Application.Courses.Commands.CreateCourse
             await _dbContext.SaveChangesAsync(cancellationToken);
 
             return course.Id;
-
         }
     }
 }
