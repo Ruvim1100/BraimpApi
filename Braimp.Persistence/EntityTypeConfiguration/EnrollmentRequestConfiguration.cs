@@ -17,7 +17,7 @@ namespace Braimp.Persistence.EntityTypeConfiguration
                 .HasDefaultValueSql("GETUTCDATE()")
                 .IsRequired();
 
-            builder.Property(e => e.IsApproved)
+            builder.Property(e => e.Status)
                 .HasDefaultValue(EnrollmentStatus.Pending)
                 .IsRequired();
 

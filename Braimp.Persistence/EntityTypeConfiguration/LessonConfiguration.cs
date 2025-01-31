@@ -21,7 +21,7 @@ namespace Braimp.Persistence.EntityTypeConfiguration
                 .IsRequired(false);
 
             builder.Property(l => l.CreatedAt)
-                .HasDefaultValueSql("GETUTCDATE")
+                .HasDefaultValueSql("GETUTCDATE()")
                 .IsRequired();
 
             builder.Property(l => l.IsVisibleToStudent)

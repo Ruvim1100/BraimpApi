@@ -16,9 +16,11 @@ namespace Braimp.Persistence.EntityTypeConfiguration
                 .IsRequired();
 
             builder.Property(qr => qr.Score)
+                .HasPrecision(5, 2)
                 .IsRequired();
 
             builder.Property(qr => qr.Grade)
+                .HasPrecision(5, 2)
                 .IsRequired(false);
 
             builder.Property(qr => qr.CorrectAnswerCount)

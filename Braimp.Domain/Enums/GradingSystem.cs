@@ -4,7 +4,6 @@
     {
         PointsOutOf10 = 0,
         PointsOutOf100= 1,
-        LetterGrade = 2,
-        Percent = 3,
+        Percent = 2,
     }
 }

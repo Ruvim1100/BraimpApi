@@ -1,0 +1,15 @@
+﻿using FluentValidation;
+
+namespace Braimp.Application.Courses.Commands.DeleteCourse
+{
+    public class DeleteCourseCommandValidator : AbstractValidator<DeleteCourseCommand>
+    {
+        DeleteCourseCommandValidator() 
+        {
+            RuleFor(deleteCourseCommand => deleteCourseCommand.Id)
+                .NotEqual(Guid.Empty);
+            RuleFor(deleteCourseCommand => deleteCourseCommand.OwnerId)
+                .NotEqual(Guid.Empty);
+        }
+    }
+}

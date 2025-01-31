@@ -28,6 +28,7 @@ namespace Braimp.Persistence.EntityTypeConfiguration
                 .IsRequired(false);
 
             builder.Property(s => s.Grade)
+                .HasPrecision(5, 2)
                 .IsRequired(false);
 
             builder.Property(s => s.ReviewComment)
