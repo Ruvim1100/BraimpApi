@@ -2,6 +2,7 @@ using Braimp.Application;
 using Braimp.Application.Common.Mapping;
 using Braimp.Application.Interfaces;
 using Braimp.Persistence;
+using Braimp.WebApi.Middleware;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -39,6 +40,8 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
+app.UseCustomExceptionHandler();
+app.UseRouting();
 app.UseHttpsRedirection();
 app.UseCors("AllowAll");
 
