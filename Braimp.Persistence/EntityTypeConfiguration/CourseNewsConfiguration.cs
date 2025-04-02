@@ -13,7 +13,7 @@ namespace Braimp.Persistence.EntityTypeConfiguration
             builder.HasKey(cn => cn.Id);
 
             builder.Property(cn => cn.Title)
-                .HasMaxLength(50)
+                .HasMaxLength(100)
                 .IsRequired();
 
             builder.Property(cn => cn.Content)

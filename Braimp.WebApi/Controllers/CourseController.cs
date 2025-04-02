@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Braimp.WebApi.Controllers
 {
+    [Produces("application/json")]
     [Route("api/[controller]")]
     public class CourseController : BaseController
     {
@@ -18,7 +19,18 @@ namespace Braimp.WebApi.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Gets the list of courses
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// GET /course
+        /// </remarks>
+        /// <returns>Returns CourseListVm</returns>
+        /// <response code="200">Suuces</response>
+        /// <response code="401">If the user is unauthorized</response>
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<CourseListVm>> GetAll()
         {
             var vm = await Mediator.Send(new GetCourseListQuery());

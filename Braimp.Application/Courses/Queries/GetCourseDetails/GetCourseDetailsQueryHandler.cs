@@ -26,7 +26,7 @@ namespace Braimp.Application.Courses.Queries.GetCourseDetails
                     .ThenInclude(ct => ct.Tag)
                 .FirstOrDefaultAsync(c => c.Id == request.Id, cancellationToken);
 
-            if (course == null || course.OwnerId != request.OwnerId)
+            if (course == null)
             {
                 throw new NotFoundException(nameof(Course), request.Id);
             }

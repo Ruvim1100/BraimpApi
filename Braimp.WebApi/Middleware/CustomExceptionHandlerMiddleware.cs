@@ -23,7 +23,7 @@ namespace Braimp.WebApi.Middleware
             catch (Exception exception)
             {
 
-                HandleExceptionAsync(context, exception);
+                await HandleExceptionAsync(context, exception);
             }
         }
 
@@ -41,15 +41,17 @@ namespace Braimp.WebApi.Middleware
                 case NotFoundException:
                     code = HttpStatusCode.NotFound;
                     break;
+                case UnauthorizedAccessException:
+                    code = HttpStatusCode.Unauthorized;
+                    result = JsonSerializer.Serialize(new { error = exception.Message });
+                    break;
+                default:
+                    result = JsonSerializer.Serialize(new { error = exception.Message });
+                    break;
             }
 
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)code;
-
-            if (result == string.Empty)
-            {
-                result = JsonSerializer.Serialize(new { error = exception.Message});
-            }
 
             return context.Response.WriteAsync(result);
         }

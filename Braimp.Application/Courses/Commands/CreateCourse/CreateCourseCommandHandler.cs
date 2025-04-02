@@ -1,6 +1,7 @@
 ﻿using Braimp.Application.Common.Exceptions;
 using Braimp.Application.Interfaces;
 using Braimp.Domain.Entities;
+using Braimp.Domain.Enums;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -30,7 +31,7 @@ namespace Braimp.Application.Courses.Commands.CreateCourse
                 OwnerId = request.OwnerId,
                 Title = request.Title,
                 Description = request.Description,
-                Status = Domain.Enums.CourseStatus.Pending,
+                Status = CourseStatus.Pending,
                 CreatedAt = DateTime.UtcNow,
                 CourseCategoryId = request.CourseCategoryId 
             };

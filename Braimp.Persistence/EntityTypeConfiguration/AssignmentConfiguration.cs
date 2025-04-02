@@ -28,7 +28,7 @@ namespace Braimp.Persistence.EntityTypeConfiguration
                 .IsRequired();
 
             builder.Property(a => a.Deadline)
-                .IsRequired();
+                .IsRequired(false);
 
             builder.HasOne(a => a.Course)
                 .WithMany(c => c.Assignments)

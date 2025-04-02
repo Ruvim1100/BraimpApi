@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Braimp.Persistence", "Braim
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Braimp.Domain", "Braimp.Domain\Braimp.Domain.csproj", "{E725733A-91B7-449B-BBBE-52F2BF633258}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Braimp.Tests", "Braimp.Tests\Braimp.Tests.csproj", "{14F9E74A-31F0-4B08-88CB-97EFB4FF2225}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,10 @@ Global
 		{E725733A-91B7-449B-BBBE-52F2BF633258}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E725733A-91B7-449B-BBBE-52F2BF633258}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E725733A-91B7-449B-BBBE-52F2BF633258}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14F9E74A-31F0-4B08-88CB-97EFB4FF2225}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14F9E74A-31F0-4B08-88CB-97EFB4FF2225}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14F9E74A-31F0-4B08-88CB-97EFB4FF2225}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14F9E74A-31F0-4B08-88CB-97EFB4FF2225}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -50,6 +56,7 @@ Global
 		{02E5ED04-7575-4136-B89A-87A2BAFE5582} = {77FD3D52-EB3A-45DA-BB4D-17FA7C72622E}
 		{E36F8685-349A-4694-9C3D-2324D61D675B} = {2AFC2179-FDE9-46B9-9345-4CF564EDCD0A}
 		{E725733A-91B7-449B-BBBE-52F2BF633258} = {E2AB3350-D28C-4703-904B-F1D96F5B7E3A}
+		{14F9E74A-31F0-4B08-88CB-97EFB4FF2225} = {65D939A5-B895-4DD8-9C40-1C84C1310E68}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A3EE3F45-7593-4FAE-A942-DBA387BAF9D5}

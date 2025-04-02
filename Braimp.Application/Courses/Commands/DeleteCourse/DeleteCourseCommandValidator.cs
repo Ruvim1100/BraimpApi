@@ -4,7 +4,7 @@ namespace Braimp.Application.Courses.Commands.DeleteCourse
 {
     public class DeleteCourseCommandValidator : AbstractValidator<DeleteCourseCommand>
     {
-        DeleteCourseCommandValidator() 
+        public DeleteCourseCommandValidator() 
         {
             RuleFor(deleteCourseCommand => deleteCourseCommand.Id)
                 .NotEqual(Guid.Empty);

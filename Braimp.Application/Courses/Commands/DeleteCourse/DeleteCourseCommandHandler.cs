@@ -19,9 +19,16 @@ namespace Braimp.Application.Courses.Commands.DeleteCourse
             var course = await _dbContext.Courses
                 .FindAsync(new object[] {request.Id}, cancellationToken);
 
-            if (course == null || request.OwnerId != course.OwnerId)
+            if (course == null)
             {
                 throw new NotFoundException(nameof(Course), request.Id);
+            }
+
+
+            if (request.OwnerId != course.OwnerId)
+            {
+                throw new UnauthorizedAccessException(
+                    $"User {request.OwnerId} is not the owner of the course {course.Id}.");
             }
 
             _dbContext.Courses.Remove(course);

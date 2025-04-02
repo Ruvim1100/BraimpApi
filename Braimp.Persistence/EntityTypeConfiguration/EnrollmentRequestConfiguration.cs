@@ -9,7 +9,7 @@ namespace Braimp.Persistence.EntityTypeConfiguration
     {
         public void Configure(EntityTypeBuilder<EnrollmentRequest> builder)
         {
-            builder.ToTable("EnrollmentRequest");
+            builder.ToTable("EnrollmentRequests");
 
             builder.HasKey(e => e.Id);
 
