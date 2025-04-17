@@ -1,5 +1,5 @@
 ﻿using Braimp.Application.Common.Exceptions;
-using Braimp.Application.Courses.Commands.UpdateCourse;
+using Braimp.Application.Features.Courses.Commands.UpdateCourse;
 using Braimp.Tests.Common;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,7 +11,7 @@ namespace Braimp.Tests.Courses.Commands
         public async Task UpdateCourseCommandHandler_Succes()
         {
             // Arrange
-            var handler = new UpdateCourseCommandHandler(context);
+            var handler = new UpdateCourseCommandHandler(context, context);
             var updatedTitle = "New Title";
 
             // Act
@@ -34,7 +34,7 @@ namespace Braimp.Tests.Courses.Commands
         public async Task UpdateCourseCommandHandler_FailOrWrongId()
         {
             // Arrange
-            var handler = new UpdateCourseCommandHandler(context);
+            var handler = new UpdateCourseCommandHandler(context, context);
 
             // Act
 
@@ -52,7 +52,7 @@ namespace Braimp.Tests.Courses.Commands
         public async Task UpdateCourseCommandHandler_FailOrWrongUserId()
         {
             // Arrange
-            var handler = new UpdateCourseCommandHandler(context);
+            var handler = new UpdateCourseCommandHandler(context, context);
 
             //Act
 

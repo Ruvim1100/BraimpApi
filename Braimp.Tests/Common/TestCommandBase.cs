@@ -1,4 +1,4 @@
-﻿using Braimp.Persistence;
+﻿using Braimp.Infrastructure;
 
 namespace Braimp.Tests.Common
 {

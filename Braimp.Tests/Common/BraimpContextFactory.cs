@@ -1,6 +1,6 @@
-﻿using Braimp.Domain.Entities;
-using Braimp.Domain.Enums;
-using Braimp.Persistence;
+﻿using Braimp.Domain.Entities.Courses;
+using Braimp.Domain.Entities.Courses.Enums;
+using Braimp.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
 namespace Braimp.Tests.Common
@@ -37,7 +37,7 @@ namespace Braimp.Tests.Common
                     Title = "Course1",
                     Description = "Description2",
                     Status = CourseStatus.Approved,
-                    CreatedAt = DateTime.UtcNow,
+                    CreatedAt = DateTimeOffset.UtcNow,
                     CourseCategoryId = CourseCategoryId
                 },
                 new Course
@@ -47,7 +47,7 @@ namespace Braimp.Tests.Common
                     Title = "Course2",
                     Description = "Description2",
                     Status = CourseStatus.Approved,
-                    CreatedAt = DateTime.UtcNow,
+                    CreatedAt = DateTimeOffset.UtcNow,
                     CourseCategoryId = CourseCategoryId
                 },
                 new Course
@@ -57,7 +57,7 @@ namespace Braimp.Tests.Common
                     Title = "Course3",
                     Description = "Description3",
                     Status = CourseStatus.Approved,
-                    CreatedAt = DateTime.UtcNow,
+                    CreatedAt = DateTimeOffset.UtcNow,
                     CourseCategoryId = CourseCategoryId
                 },
                 new Course
@@ -67,7 +67,7 @@ namespace Braimp.Tests.Common
                     Title = "Course4",
                     Description = "Description4",
                     Status = CourseStatus.Approved,
-                    CreatedAt = DateTime.UtcNow,
+                    CreatedAt = DateTimeOffset.UtcNow,
                     CourseCategoryId = CourseCategoryId
                 });
 

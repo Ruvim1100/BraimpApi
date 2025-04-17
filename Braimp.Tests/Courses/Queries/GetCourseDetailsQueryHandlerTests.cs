@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using Braimp.Application.Courses.Queries.GetCourseDetails;
-using Braimp.Persistence;
+using Braimp.Application.Features.Courses.Queries.GetCourseDetails;
+using Braimp.Infrastructure;
 using Braimp.Tests.Common;
 using Shouldly;
 

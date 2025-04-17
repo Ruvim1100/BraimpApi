@@ -1,11 +1,12 @@
-﻿
-namespace Braimp.Persistence
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace Braimp.Infrastructure
 {
     public class DbInitializer
     {
-        public static void Initialize(BraimpDbContext context)
+        public static async Task Initialize(BraimpDbContext context)
         {
-            context.Database.EnsureCreated();
+            await context.Database.MigrateAsync();
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using Braimp.Application.Courses.Commands.CreateCourse;
-using Braimp.Domain.Entities;
+﻿using Braimp.Application.Features.Courses.Commands.CreateCourse;
 using Braimp.Tests.Common;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,7 +10,7 @@ namespace Braimp.Tests.Courses.Commands
         public async Task CreateCourseCommandHandler_succes()
         {
             //Arrange
-            var handler = new CreateCourseCommandHandler(context);
+            var handler = new CreateCourseCommandHandler(context, context);
             var courseTitle = "Course Title";
             var courseDescription = "CourseDescription";
 

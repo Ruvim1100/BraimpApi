@@ -3,19 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35312.102
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{E2AB3350-D28C-4703-904B-F1D96F5B7E3A}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{2AFC2179-FDE9-46B9-9345-4CF564EDCD0A}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{77FD3D52-EB3A-45DA-BB4D-17FA7C72622E}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{65D939A5-B895-4DD8-9C40-1C84C1310E68}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Braimp.Application", "Braimp.Application\Braimp.Application.csproj", "{D8B2BD48-54B8-4654-8A11-C7F97BFCF434}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Braimp.WebApi", "Braimp.WebApi\Braimp.WebApi.csproj", "{02E5ED04-7575-4136-B89A-87A2BAFE5582}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Braimp.Persistence", "Braimp.Persistence\Braimp.Persistence.csproj", "{E36F8685-349A-4694-9C3D-2324D61D675B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Braimp.Infrastructure", "Braimp.Persistence\Braimp.Infrastructure.csproj", "{E36F8685-349A-4694-9C3D-2324D61D675B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Braimp.Domain", "Braimp.Domain\Braimp.Domain.csproj", "{E725733A-91B7-449B-BBBE-52F2BF633258}"
 EndProject
@@ -50,13 +42,6 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{D8B2BD48-54B8-4654-8A11-C7F97BFCF434} = {E2AB3350-D28C-4703-904B-F1D96F5B7E3A}
-		{02E5ED04-7575-4136-B89A-87A2BAFE5582} = {77FD3D52-EB3A-45DA-BB4D-17FA7C72622E}
-		{E36F8685-349A-4694-9C3D-2324D61D675B} = {2AFC2179-FDE9-46B9-9345-4CF564EDCD0A}
-		{E725733A-91B7-449B-BBBE-52F2BF633258} = {E2AB3350-D28C-4703-904B-F1D96F5B7E3A}
-		{14F9E74A-31F0-4B08-88CB-97EFB4FF2225} = {65D939A5-B895-4DD8-9C40-1C84C1310E68}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A3EE3F45-7593-4FAE-A942-DBA387BAF9D5}

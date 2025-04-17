@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using Braimp.Application.Courses.Queries.GetCourseList;
-using Braimp.Persistence;
+using Braimp.Application.Features.Courses.Queries.GetCourseList;
+using Braimp.Infrastructure;
 using Braimp.Tests.Common;
 using Shouldly;
 
@@ -17,6 +17,7 @@ namespace Braimp.Tests.Courses.Queries
             Context = fixture.Context;
             Mapper = fixture.Mapper;
         }
+
         [Fact]
         public async Task GetCourseListQueryHandler_Succes()
         {

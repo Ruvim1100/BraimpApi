@@ -1,18 +1,22 @@
-﻿using Braimp.Application.Interfaces;
-using Braimp.Domain.Entities;
-using Braimp.Persistence.EntityTypeConfiguration;
+﻿using Braimp.Application.Abstraction;
+using Braimp.Domain.Abstraction;
+using Braimp.Domain.Entities.Assignments;
+using Braimp.Domain.Entities.Courses;
+using Braimp.Domain.Entities.LearningContent;
+using Braimp.Domain.Entities.Notifications;
+using Braimp.Domain.Entities.Quizzes;
+using Braimp.Domain.Entities.Tags;
 using Microsoft.EntityFrameworkCore;
 
-namespace Braimp.Persistence
+namespace Braimp.Infrastructure
 {
-    public class BraimpDbContext : DbContext, IBraimpDbContext
+    public class BraimpDbContext : DbContext, IBraimpDbContext, IUnitOfWork
     {
         public DbSet<CourseCategory> CourseCategories { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<Course> Courses { get; set; }
         public DbSet<CourseTag> CourseTags { get; set; }
         public DbSet<CourseNews> CourseNews { get; set; }
-        public DbSet<CourseSettings> CourseSettings { get; set; }
         public DbSet<CourseParticipant> CourseParticipants { get; set; }
         public DbSet<EnrollmentRequest> EnrollmentRequests { get; set; }
         public DbSet<Module> Modules { get; set; }
@@ -32,27 +36,39 @@ namespace Braimp.Persistence
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfiguration(new CourseConfiguration());
-            modelBuilder.ApplyConfiguration(new CourseCategoryConfiguration());
-            modelBuilder.ApplyConfiguration(new TagConfiguration());
-            modelBuilder.ApplyConfiguration(new CourseTagConfiguration());
-            modelBuilder.ApplyConfiguration(new CourseNewsConfiguration());
-            modelBuilder.ApplyConfiguration(new CourseSettingsConfiguration());
-            modelBuilder.ApplyConfiguration(new CourseParticipantConfiguration());
-            modelBuilder.ApplyConfiguration(new EnrollmentRequestConfiguration());
-            modelBuilder.ApplyConfiguration(new ModuleConfiguration());
-            modelBuilder.ApplyConfiguration(new LessonConfiguration());
-            modelBuilder.ApplyConfiguration(new MaterialConfiguration());
-            modelBuilder.ApplyConfiguration(new NotificationConfiguration());
-            modelBuilder.ApplyConfiguration(new QuizConfiguration());
-            modelBuilder.ApplyConfiguration(new QuizQuestionConfiguration());
-            modelBuilder.ApplyConfiguration(new QuizOptionConfiguration());
-            modelBuilder.ApplyConfiguration(new QuizResultConfiguration());
-            modelBuilder.ApplyConfiguration(new AssignmentConfiguration());
-            modelBuilder.ApplyConfiguration(new SubmissionConfiguration());
-            modelBuilder.ApplyConfiguration(new SubmissionAttachmentConfiguration());
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(BraimpDbContext).Assembly);
 
             base.OnModelCreating(modelBuilder);
+        }
+
+        public void Insert<TEntity>(TEntity entity) where TEntity : class
+        {
+            Set<TEntity>().Add(entity);
+        }
+
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken)
+        {
+            Audit();
+            var result = await base.SaveChangesAsync(cancellationToken);
+            return result;
+        }
+
+        private void Audit()
+        {
+            var utcNow = DateTimeOffset.UtcNow;
+
+            foreach (var entry in ChangeTracker.Entries<IAuditable>())
+            {
+                switch (entry.State)
+                {
+                    case EntityState.Added:
+                        entry.Entity.CreatedAt = utcNow;
+                        break;
+                    case EntityState.Modified:
+                        entry.Entity.UpdatedAt = utcNow;
+                        break;
+                }
+            }
         }
     }
 }

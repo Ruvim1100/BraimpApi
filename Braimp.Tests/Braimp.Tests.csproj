@@ -18,7 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Braimp.Application\Braimp.Application.csproj" />
-    <ProjectReference Include="..\Braimp.Persistence\Braimp.Persistence.csproj" />
+    <ProjectReference Include="..\Braimp.Persistence\Braimp.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>

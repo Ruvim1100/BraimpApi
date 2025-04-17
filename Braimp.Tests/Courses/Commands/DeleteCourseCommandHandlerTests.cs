@@ -1,6 +1,6 @@
 ﻿using Braimp.Application.Common.Exceptions;
-using Braimp.Application.Courses.Commands.CreateCourse;
-using Braimp.Application.Courses.Commands.DeleteCourse;
+using Braimp.Application.Features.Courses.Commands.CreateCourse;
+using Braimp.Application.Features.Courses.Commands.DeleteCourse;
 using Braimp.Tests.Common;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,7 +12,7 @@ namespace Braimp.Tests.Courses.Commands
         public async Task DeleteCourseCommandHandler_succes()
         {
             // Arrange
-            var handler = new DeleteCourseCommandHandler(context);
+            var handler = new DeleteCourseCommandHandler(context, context);
 
             // Act
             await handler.Handle(new DeleteCourseCommand
@@ -31,7 +31,7 @@ namespace Braimp.Tests.Courses.Commands
         public async Task DeleteCourseCommandHandler_FailOrWrongId()
         {
             // Arrange
-            var handler = new DeleteCourseCommandHandler(context);
+            var handler = new DeleteCourseCommandHandler(context, context);
 
             // Act
 
@@ -50,8 +50,8 @@ namespace Braimp.Tests.Courses.Commands
         public async Task DeleteCourseCommandHandler_FailOrWrongUserId()
         {
             //Arrange
-            var deleteHandler = new DeleteCourseCommandHandler(context);
-            var createHandler = new CreateCourseCommandHandler(context);
+            var deleteHandler = new DeleteCourseCommandHandler(context, context);
+            var createHandler = new CreateCourseCommandHandler(context, context);
             var courseId = await createHandler.Handle(
                 new CreateCourseCommand
                 {

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Braimp.Application.Common.Mapping;
-using Braimp.Application.Courses.Commands.UpdateCourse;
+using Braimp.Application.Features.Courses.Commands.UpdateCourse;
 
 namespace Braimp.WebApi.Models
 {
