@@ -3,7 +3,6 @@ using Carter;
 using MediatR;
 
 namespace Braimp.WebApi.Endpoints.Courses.GetCourses;
-
 public class GetCoursesEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)

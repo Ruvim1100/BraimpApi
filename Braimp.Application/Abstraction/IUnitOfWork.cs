@@ -1,7 +1,5 @@
-﻿namespace Braimp.Application.Abstraction
+﻿namespace Braimp.Application.Abstraction;
+public interface IUnitOfWork
 {
-    public interface IUnitOfWork
-    {
-        Task<int> SaveChangesAsync(CancellationToken cancellationToken);
-    }
+    Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

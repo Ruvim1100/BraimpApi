@@ -3,50 +3,48 @@ using FluentValidation;
 using System.Net;
 using System.Text.Json;
 
-namespace Braimp.WebApi.Middleware
+namespace Braimp.WebApi.Middleware;
+public class CustomExceptionHandlerMiddleware(RequestDelegate _next)
 {
-    public class CustomExceptionHandlerMiddleware(RequestDelegate _next)
+    public async Task Invoke(HttpContext context)
     {
-        public async Task Invoke(HttpContext context)
+        try
         {
-            try
-            {
-                await _next(context);
-            }
-            catch (Exception exception)
-            {
+            await _next(context);
+        }
+        catch (Exception exception)
+        {
 
-                await HandleExceptionAsync(context, exception);
-            }
+            await HandleExceptionAsync(context, exception);
+        }
+    }
+
+    public Task HandleExceptionAsync(HttpContext context, Exception exception)
+    {
+        var code = HttpStatusCode.InternalServerError;
+        var result = string.Empty;
+
+        switch(exception)
+        {
+            case ValidationException validationException:
+                code = HttpStatusCode.BadRequest;
+                result = JsonSerializer.Serialize(validationException.Errors);
+                break;
+            case NotFoundException:
+                code = HttpStatusCode.NotFound;
+                break;
+            case UnauthorizedAccessException:
+                code = HttpStatusCode.Unauthorized;
+                result = JsonSerializer.Serialize(new { error = exception.Message });
+                break;
+            default:
+                result = JsonSerializer.Serialize(new { error = exception.Message });
+                break;
         }
 
-        public Task HandleExceptionAsync(HttpContext context, Exception exception)
-        {
-            var code = HttpStatusCode.InternalServerError;
-            var result = string.Empty;
+        context.Response.ContentType = "application/json";
+        context.Response.StatusCode = (int)code;
 
-            switch(exception)
-            {
-                case ValidationException validationException:
-                    code = HttpStatusCode.BadRequest;
-                    result = JsonSerializer.Serialize(validationException.Errors);
-                    break;
-                case NotFoundException:
-                    code = HttpStatusCode.NotFound;
-                    break;
-                case UnauthorizedAccessException:
-                    code = HttpStatusCode.Unauthorized;
-                    result = JsonSerializer.Serialize(new { error = exception.Message });
-                    break;
-                default:
-                    result = JsonSerializer.Serialize(new { error = exception.Message });
-                    break;
-            }
-
-            context.Response.ContentType = "application/json";
-            context.Response.StatusCode = (int)code;
-
-            return context.Response.WriteAsync(result);
-        }
+        return context.Response.WriteAsync(result);
     }
 }

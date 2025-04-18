@@ -1,7 +1,5 @@
-﻿namespace Braimp.Application.Features.Courses.Queries.GetCourseList
+﻿namespace Braimp.Application.Features.Courses.Queries.GetCourseList;
+public class CourseListVm 
 {
-    public class CourseListVm 
-    {
-        public IList<CourseLookupDto> Courses { get; set; } = new List<CourseLookupDto>();
-    }
+    public IList<CourseLookupDto> Courses { get; set; } = new List<CourseLookupDto>();
 }

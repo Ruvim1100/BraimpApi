@@ -1,9 +1,7 @@
-﻿namespace Braimp.Domain.Entities.Quizzes.Enums
+﻿namespace Braimp.Domain.Entities.Quizzes.Enums;
+public enum QuestionType
 {
-    public enum QuestionType
-    {
-        SingleChoice = 0,
-        MultipleChoice = 1,
-        Text = 2
-    }
+    SingleChoice = 0,
+    MultipleChoice = 1,
+    Text = 2
 }

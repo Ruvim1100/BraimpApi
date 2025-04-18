@@ -1,10 +1,8 @@
-﻿namespace Braimp.Domain.Entities.Courses.Enums
+﻿namespace Braimp.Domain.Entities.Courses.Enums;
+public enum CourseStatus
 {
-    public enum CourseStatus
-    {
-        Pending = 0,
-        Approved = 1,
-        Rejected = 2,
-        Archived = 3
-    }
+    Pending = 0,
+    Approved = 1,
+    Rejected = 2,
+    Archived = 3
 }

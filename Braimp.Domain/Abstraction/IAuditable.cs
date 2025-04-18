@@ -1,8 +1,6 @@
-﻿namespace Braimp.Domain.Abstraction
+﻿namespace Braimp.Domain.Abstraction;
+public interface IAuditable
 {
-    public interface IAuditable
-    {
-        DateTimeOffset CreatedAt { get; set; }
-        DateTimeOffset? UpdatedAt { get; set; }
-    }
+    DateTimeOffset CreatedAt { get; set; }
+    DateTimeOffset? UpdatedAt { get; set; }
 }

@@ -11,88 +11,72 @@ namespace Braimp.Infrastructure.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterColumn<string>(
-                name: "Status",
-                table: "Submissions",
+                name: "QuestionType",
+                table: "QuizQuestions",
                 type: "nvarchar(max)",
                 nullable: false,
-                defaultValue: "Pending",
                 oldClrType: typeof(int),
-                oldType: "int",
-                oldDefaultValue: 0);
+                oldType: "int");
 
             migrationBuilder.AlterColumn<string>(
-                name: "Status",
-                table: "EnrollmentRequests",
+                name: "Type",
+                table: "Notifications",
                 type: "nvarchar(max)",
                 nullable: false,
-                defaultValue: "Pending",
                 oldClrType: typeof(int),
-                oldType: "int",
-                oldDefaultValue: 0);
+                oldType: "int");
 
             migrationBuilder.AlterColumn<string>(
-                name: "Status",
-                table: "Courses",
+                name: "ResourceType",
+                table: "Materials",
                 type: "nvarchar(max)",
                 nullable: false,
-                defaultValue: "Pending",
                 oldClrType: typeof(int),
-                oldType: "int",
-                oldDefaultValue: 0);
+                oldType: "int");
 
             migrationBuilder.AlterColumn<string>(
-                name: "GradingSystem",
-                table: "Courses",
+                name: "Role",
+                table: "CourseParticipants",
                 type: "nvarchar(max)",
                 nullable: false,
-                defaultValue: "PointsOutOf10",
                 oldClrType: typeof(int),
-                oldType: "int",
-                oldDefaultValue: 0);
+                oldType: "int");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterColumn<int>(
-                name: "Status",
-                table: "Submissions",
+                name: "QuestionType",
+                table: "QuizQuestions",
                 type: "int",
                 nullable: false,
-                defaultValue: 0,
                 oldClrType: typeof(string),
-                oldType: "nvarchar(max)",
-                oldDefaultValue: "Pending");
+                oldType: "nvarchar(max)");
 
             migrationBuilder.AlterColumn<int>(
-                name: "Status",
-                table: "EnrollmentRequests",
+                name: "Type",
+                table: "Notifications",
                 type: "int",
                 nullable: false,
-                defaultValue: 0,
                 oldClrType: typeof(string),
-                oldType: "nvarchar(max)",
-                oldDefaultValue: "Pending");
+                oldType: "nvarchar(max)");
 
             migrationBuilder.AlterColumn<int>(
-                name: "Status",
-                table: "Courses",
+                name: "ResourceType",
+                table: "Materials",
                 type: "int",
                 nullable: false,
-                defaultValue: 0,
                 oldClrType: typeof(string),
-                oldType: "nvarchar(max)",
-                oldDefaultValue: "Pending");
+                oldType: "nvarchar(max)");
 
             migrationBuilder.AlterColumn<int>(
-                name: "GradingSystem",
-                table: "Courses",
+                name: "Role",
+                table: "CourseParticipants",
                 type: "int",
                 nullable: false,
-                defaultValue: 0,
                 oldClrType: typeof(string),
-                oldType: "nvarchar(max)",
-                oldDefaultValue: "PointsOutOf10");
+                oldType: "nvarchar(max)");
         }
     }
 }

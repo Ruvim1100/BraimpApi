@@ -1,7 +1,5 @@
-﻿namespace Braimp.Domain.Abstraction
+﻿namespace Braimp.Domain.Abstraction;
+public abstract class BaseEntity<TKey>
 {
-    public abstract class BaseEntity<TKey>
-    {
-        public required TKey Id { get; set; }
-    }
+    public required TKey Id { get; set; }
 }

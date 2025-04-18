@@ -5,24 +5,22 @@ using Carter;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Braimp.WebApi.Endpoints.Courses.UpdateCourse
+namespace Braimp.WebApi.Endpoints.Courses.UpdateCourse;
+public class UpdateCourseEndpoint : ICarterModule
 {
-    public class UpdateCourseEndpoint : ICarterModule
+    public void AddRoutes(IEndpointRouteBuilder app)
     {
-        public void AddRoutes(IEndpointRouteBuilder app)
-        {
-            app.MapPut(ApiRoutes.Courses.Update, Handler)
-                .Produces(StatusCodes.Status204NoContent)
-                .ProducesValidationProblem();
-        }
+        app.MapPut(ApiRoutes.Courses.Update, Handler)
+            .Produces(StatusCodes.Status204NoContent)
+            .ProducesValidationProblem();
+    }
 
-        private async Task<IResult> Handler([FromBody] UpdateCourseDto updateCourseDto, IMediator mediator, 
-            IMapper mapper, CancellationToken cancellationToken)
-        {
-            var command = mapper.Map<UpdateCourseCommand>(updateCourseDto);
-            command.OwnerId = UserFakeClaimsConstants.OwnerId;
-            await mediator.Send(command, cancellationToken);
-            return Results.NoContent();
-        }
+    private async Task<IResult> Handler([FromBody] UpdateCourseDto updateCourseDto, IMediator mediator, 
+        IMapper mapper, CancellationToken cancellationToken)
+    {
+        var command = mapper.Map<UpdateCourseCommand>(updateCourseDto);
+        command.OwnerId = UserFakeClaimsConstants.OwnerId;
+        await mediator.Send(command, cancellationToken);
+        return Results.NoContent();
     }
 }

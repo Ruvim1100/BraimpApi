@@ -1,8 +1,6 @@
-﻿namespace Braimp.Domain.Entities.Courses.Enums
+﻿namespace Braimp.Domain.Entities.Courses.Enums;
+public enum GradingSystem
 {
-    public enum GradingSystem
-    {
-        PointsOutOf10 = 0,
-        PointsOutOf100 = 1
-    }
+    PointsOutOf10 = 0,
+    PointsOutOf100 = 1
 }

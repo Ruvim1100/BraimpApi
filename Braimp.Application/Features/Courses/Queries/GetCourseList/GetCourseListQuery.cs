@@ -1,8 +1,6 @@
 ﻿using MediatR;
 
-namespace Braimp.Application.Features.Courses.Queries.GetCourseList
+namespace Braimp.Application.Features.Courses.Queries.GetCourseList;
+public class GetCourseListQuery : IRequest<CourseListVm>
 {
-    public class GetCourseListQuery : IRequest<CourseListVm>
-    {
-    }
 }
