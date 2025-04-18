@@ -1,12 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace Braimp.Infrastructure
+namespace Braimp.Infrastructure;
+public class DbInitializer
 {
-    public class DbInitializer
+    public static async Task Initialize(BraimpDbContext context)
     {
-        public static async Task Initialize(BraimpDbContext context)
-        {
-            await context.Database.MigrateAsync();
-        }
+        await context.Database.MigrateAsync();
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Braimp.Domain.Entities.Quizzes;
+using Braimp.Infrastructure.Constants;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -8,40 +9,18 @@ namespace Braimp.Infrastructure.EntityTypeConfiguration.Quizzes
     {
         public void Configure(EntityTypeBuilder<QuizResult> builder)
         {
-            builder.ToTable("QuizResults");
+            builder.ToTable(TableNames.QuizResults);
 
             builder.HasKey(quizResult => quizResult.Id);
 
-            builder.Property(quizResult => quizResult.StudentId)
-                .IsRequired();
-
             builder.Property(quizResult => quizResult.Score)
-                .HasPrecision(5, 2)
-                .IsRequired();
+                .HasPrecision(5, 2);
 
             builder.Property(quizResult => quizResult.Grade)
-                .HasPrecision(5, 2)
-                .IsRequired(false);
-
-            builder.Property(quizResult => quizResult.CorrectAnswerCount)
-                .IsRequired();
-
-            builder.Property(quizResult => quizResult.IncorrectAnswerCount)
-                .IsRequired();
-
-            builder.Property(quizResult => quizResult.CreatedAt)
-                .HasDefaultValueSql("GETUTCDATE()")
-                .IsRequired();
-
-            builder.Property(quizResult => quizResult.UpdatedAt)
-                .IsRequired(false);
+                .HasPrecision(5, 2);
 
             builder.Property(quizResult => quizResult.IsVisibleToStudent)
-                .HasDefaultValue(true)
-                .IsRequired();
-
-            builder.Property(quizResult => quizResult.AttemptNumber)
-                .IsRequired();
+                .HasDefaultValue(true);
 
             builder.HasOne(quizResult => quizResult.Quiz)
                 .WithMany(quiz => quiz.QuizResults)

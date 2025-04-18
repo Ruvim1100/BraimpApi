@@ -12,33 +12,41 @@ namespace Braimp.Application.Features.Courses.Commands.UpdateCourse
         public async Task<Unit> Handle(UpdateCourseCommand request, CancellationToken cancellationToken)
         {
             var course = await dbContext.Courses
-                .FirstOrDefaultAsync(course => course.Id == request.Id, cancellationToken);
+                .FirstOrDefaultAsync(course => course.Id == request.Id && course.OwnerId == request.OwnerId, cancellationToken);
 
-            if (course == null)
+            if (course is null)
                 throw new NotFoundException(nameof(Course), request.Id);
-
-            if (course.OwnerId != request.OwnerId)
-                throw new UnauthorizedAccessException(
-                    $"User {request.OwnerId} is not the owner of the course {course.Id}.");
-
-            course.Title = request.Title;
-            course.Description = request.Description;
 
             if (request.CourseCategoryId.HasValue)
             {
-                var categoryExists = await dbContext.CourseCategories
-                    .AnyAsync(courseCategory => courseCategory.Id == request.CourseCategoryId.Value, cancellationToken);
+                var exists = await dbContext.CourseCategories
+                    .AnyAsync(cat => cat.Id == request.CourseCategoryId.Value, cancellationToken);
 
-                if (!categoryExists)
-                {
+                if (!exists)
                     throw new NotFoundException(nameof(CourseCategory), request.CourseCategoryId);
-                }
 
                 course.CourseCategoryId = request.CourseCategoryId.Value;
             }
 
-            await unitOfWork.SaveChangesAsync(cancellationToken);
+            if (request.Title is not null)
+                course.Title = request.Title;
 
+            if (request.Description is not null)
+                course.Description = request.Description;
+
+            if (request.CoverImageUrl is not null)
+                course.CoverImageUrl = request.CoverImageUrl;
+
+            if (request.BackgroundColor is not null)
+                course.BackgroundColor = request.BackgroundColor;
+
+            if (request.LogoUrl is not null)
+                course.LogoUrl = request.LogoUrl;
+
+            if (request.GradingSystem.HasValue)
+                course.GradingSystem = request.GradingSystem.Value;
+
+            await unitOfWork.SaveChangesAsync(cancellationToken);
             return Unit.Value;
         }
     }

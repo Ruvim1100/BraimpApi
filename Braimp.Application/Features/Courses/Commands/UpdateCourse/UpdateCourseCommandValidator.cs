@@ -6,16 +6,42 @@ namespace Braimp.Application.Features.Courses.Commands.UpdateCourse
     {
         public UpdateCourseCommandValidator() 
         {
-            RuleFor(updateCourseCommand => updateCourseCommand.Id)
-                .NotEqual(Guid.Empty);
-            RuleFor(updateCourseCommand => updateCourseCommand.OwnerId)
-                .NotEqual(Guid.Empty);
-            RuleFor(updateCourseCommand => updateCourseCommand.Title)
-                .MaximumLength(100);
-            RuleFor(updateCourseCommand => updateCourseCommand.Description)
-                .MaximumLength(1000);
-            RuleFor(updateCourseCommand => updateCourseCommand.CourseCategoryId)
-                .Must(courseCategoryId => !courseCategoryId.HasValue || courseCategoryId.Value != Guid.Empty);
+            RuleFor(command => command.Id)
+                .NotEqual(Guid.Empty)
+                .WithMessage("Course ID must be provided.");
+
+            RuleFor(command => command.OwnerId)
+                .NotEqual(Guid.Empty)
+                .WithMessage("Owner ID must be provided.");
+
+            RuleFor(command => command.Title)
+                .MaximumLength(100)
+                .When(command => command.Title != null)
+                .WithMessage("Title must not exceed 100 characters.");
+
+            RuleFor(command => command.Description)
+                .MaximumLength(1000)
+                .When(command => command.Description != null)
+                .WithMessage("Description must not exceed 1000 characters.");
+
+            RuleFor(command => command.GradingSystem)
+                .IsInEnum()
+                .When(c => c.GradingSystem.HasValue)
+                .WithMessage("Invalid grading system specified.");
+
+            RuleFor(command => command.CoverImageUrl)
+                .Must(uri => uri == null || Uri.TryCreate(uri, UriKind.Absolute, out _))
+                .When(command => command.CoverImageUrl != null)
+                .WithMessage("Invalid URL format for Cover Image.");
+
+            RuleFor(command => command.LogoUrl)
+                .Must(uri => uri == null || Uri.TryCreate(uri, UriKind.Absolute, out _))
+                .When(command => command.LogoUrl != null)
+                .WithMessage("Invalid URL format for Logo.");
+
+            RuleFor(command => command.CourseCategoryId)
+                .Must(command => !command.HasValue || command.Value != Guid.Empty)
+                .WithMessage("Category ID must be a non-empty GUID if provided.");
         }
     }
 }

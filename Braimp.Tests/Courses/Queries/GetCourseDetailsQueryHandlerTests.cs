@@ -34,7 +34,7 @@ namespace Braimp.Tests.Courses.Queries
                 CancellationToken.None);
 
             // Assert
-            result.ShouldBeOfType<CourseDetailsVm>();
+            result.ShouldBeOfType<CourseDetailsResponse>();
             result.Title.ShouldBe("Course2");
         }
     }

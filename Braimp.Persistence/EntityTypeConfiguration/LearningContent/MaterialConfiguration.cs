@@ -1,4 +1,5 @@
 ﻿using Braimp.Domain.Entities.LearningContent;
+using Braimp.Infrastructure.Constants;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -8,31 +9,18 @@ namespace Braimp.Infrastructure.EntityTypeConfiguration
     {
         public void Configure(EntityTypeBuilder<Material> builder)
         {
-            builder.ToTable("Materials");
+            builder.ToTable(TableNames.Materials);
 
             builder.HasKey(material => material.Id);
 
             builder.Property(material => material.Title)
-                .HasMaxLength(100)
-                .IsRequired();
+                .HasMaxLength(100);
 
             builder.Property(material => material.Description)
-                .HasMaxLength(500)
-                .IsRequired(false);
-
-            builder.Property(material => material.ResourceType)
-                .IsRequired();
+                .HasMaxLength(500);
 
             builder.Property(material => material.ResourceUrl)
-                .HasMaxLength(2048)
-                .IsRequired();
-
-            builder.Property(material => material.CreatedAt)
-                .HasDefaultValueSql("GETUTCDATE()")
-                .IsRequired();
-
-            builder.Property(material => material.UpdatedAt)
-                .IsRequired(false);
+                .HasMaxLength(2048);
 
             builder.HasOne(material => material.Lesson)
                 .WithMany(lesson => lesson.Materials)

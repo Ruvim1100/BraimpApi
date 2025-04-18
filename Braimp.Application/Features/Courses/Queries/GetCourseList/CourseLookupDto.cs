@@ -6,6 +6,7 @@ namespace Braimp.Application.Features.Courses.Queries.GetCourseList
 {
     public class CourseLookupDto : IMapWith<Course>
     {
+        public Guid Id { get; set; }
         public string Title { get; set; } = string.Empty;
         public DateTimeOffset CreatedAt { get; set; }
         public string? Description { get; set; } 

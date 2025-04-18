@@ -1,4 +1,5 @@
 ﻿using Braimp.Domain.Entities.Quizzes;
+using Braimp.Infrastructure.Constants;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -8,20 +9,15 @@ namespace Braimp.Infrastructure.EntityTypeConfiguration.Quizzes
     {
         public void Configure(EntityTypeBuilder<QuizOption> builder)
         {
-            builder.ToTable("QuizOptions");
+            builder.ToTable(TableNames.QuizOptions);
 
             builder.HasKey(quizOption => quizOption.Id);
 
             builder.Property(quizOption => quizOption.Text)
-                .HasMaxLength(100)
-                .IsRequired();
+                .HasMaxLength(100);
 
             builder.Property(quizOption => quizOption.MediaUrl)
-                .HasMaxLength(2048)
-                .IsRequired(false);
-
-            builder.Property(quizOption => quizOption.IsCorrect)
-                .IsRequired();
+                .HasMaxLength(2048);
 
             builder.HasOne(quizOption => quizOption.QuizQuestion)
                 .WithMany(quizQuestion => quizQuestion.QuizOptions)

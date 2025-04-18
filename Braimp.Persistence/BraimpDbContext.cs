@@ -41,11 +41,6 @@ namespace Braimp.Infrastructure
             base.OnModelCreating(modelBuilder);
         }
 
-        public void Insert<TEntity>(TEntity entity) where TEntity : class
-        {
-            Set<TEntity>().Add(entity);
-        }
-
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken)
         {
             Audit();

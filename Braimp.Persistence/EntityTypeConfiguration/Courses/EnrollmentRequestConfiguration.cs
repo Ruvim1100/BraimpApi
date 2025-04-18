@@ -1,5 +1,6 @@
 ﻿using Braimp.Domain.Entities.Courses;
 using Braimp.Domain.Entities.Courses.Enums;
+using Braimp.Infrastructure.Constants;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -9,23 +10,13 @@ namespace Braimp.Infrastructure.EntityTypeConfiguration.Courses
     {
         public void Configure(EntityTypeBuilder<EnrollmentRequest> builder)
         {
-            builder.ToTable("EnrollmentRequests");
+            builder.ToTable(TableNames.EnrollmentRequests);
 
             builder.HasKey(enrollment => enrollment.Id);
 
-            builder.Property(enrollment =>enrollment.CreatedAt)
-                .HasDefaultValueSql("GETUTCDATE()")
-                .IsRequired();
-
-            builder.Property(enrollment => enrollment.UpdatedAt)
-                .IsRequired(false);
-
             builder.Property(enrollment => enrollment.Status)
-                .HasDefaultValue(EnrollmentStatus.Pending)
-                .IsRequired();
-
-            builder.Property(enrollment => enrollment.UserId)
-                .IsRequired();
+                .HasConversion<string>()
+                .HasDefaultValue(EnrollmentStatus.Pending);
 
             builder.HasOne(enrollment => enrollment.Course)
                 .WithMany(course => course.EnrollmentRequests)

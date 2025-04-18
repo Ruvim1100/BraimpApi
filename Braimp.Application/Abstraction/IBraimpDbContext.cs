@@ -28,7 +28,5 @@ namespace Braimp.Application.Abstraction
         DbSet<Assignment> Assignments { get; set; }
         DbSet<Submission> Submissions { get; set; }
         DbSet<SubmissionAttachment> SubmissionAttachments { get; set; }
-
-        void Insert<TEntity>(TEntity entity) where TEntity : class;
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Braimp.Domain.Entities.LearningContent;
+using Braimp.Infrastructure.Constants;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -8,31 +9,18 @@ namespace Braimp.Infrastructure.EntityTypeConfiguration.LearningContent
     {
         public void Configure(EntityTypeBuilder<Lesson> builder)
         {
-            builder.ToTable("Lessons");
+            builder.ToTable(TableNames.Lessons);
 
             builder.HasKey(lesson => lesson.Id);
 
             builder.Property(lesson => lesson.Title)
-                .HasMaxLength(100)
-                .IsRequired();
+                .HasMaxLength(100);
 
             builder.Property(lesson => lesson.Description)
-                .HasMaxLength(1000)
-                .IsRequired(false);
-
-            builder.Property(lesson => lesson.CreatedAt)
-                .HasDefaultValueSql("GETUTCDATE()")
-                .IsRequired();
-
-            builder.Property(lesson => lesson.UpdatedAt)
-                .IsRequired(false);
+                .HasMaxLength(1000);
 
             builder.Property(lesson => lesson.IsVisibleToStudent)
-                .HasDefaultValue(true)
-                .IsRequired();
-
-            builder.Property(lesson => lesson.SortIndex)
-                .IsRequired();
+                .HasDefaultValue(true);
 
             builder.HasOne(lesson => lesson.Module)
                 .WithMany(module => module.Lessons)

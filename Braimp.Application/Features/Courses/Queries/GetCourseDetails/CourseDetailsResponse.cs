@@ -4,7 +4,7 @@ using Braimp.Domain.Entities.Courses;
 
 namespace Braimp.Application.Features.Courses.Queries.GetCourseDetails
 {
-    public class CourseDetailsVm : IMapWith<Course>
+    public class CourseDetailsResponse : IMapWith<Course>
     {
         public Guid OwnerId { get; set; }
         public string Title { get; set; } = string.Empty;
@@ -16,15 +16,15 @@ namespace Braimp.Application.Features.Courses.Queries.GetCourseDetails
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<Course, CourseDetailsVm>()
-                .ForMember(courseVm => courseVm.Status,
-                opt => opt.MapFrom(course => course.Status.ToString()))
+            profile.CreateMap<Course, CourseDetailsResponse>()
+                .ForMember(destination => destination.Status,
+                opt => opt.MapFrom(source => source.Status.ToString()))
 
-                .ForMember(courseVm => courseVm.CourseCategory,
-                opt => opt.MapFrom(course => course.CourseCategory.Name))
+                .ForMember(destination => destination.CourseCategory,
+                opt => opt.MapFrom(source => source.CourseCategory.Name))
 
-                .ForMember(courseVm => courseVm.Tags,
-                opt => opt.MapFrom(course => course.Tags.Select(ct => ct.Tag.Name).ToList()));
+                .ForMember(destination => destination.Tags,
+                opt => opt.MapFrom(source => source.Tags.Select(ct => ct.Tag.Name).ToList()));
         }
     }
 }

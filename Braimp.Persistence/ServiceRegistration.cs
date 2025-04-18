@@ -15,9 +15,9 @@ namespace Braimp.Infrastructure
 
             services.AddDbContext<BraimpDbContext>(options => { options.UseSqlServer(connectionString); });
 
-            services.AddScoped<IBraimpDbContext>(provider => provider.GetService<BraimpDbContext>());
+            services.AddScoped<IBraimpDbContext>(provider => provider.GetService<BraimpDbContext>()!);
 
-            services.AddScoped<IUnitOfWork>(provider => provider.GetService<BraimpDbContext>());
+            services.AddScoped<IUnitOfWork>(provider => provider.GetService<BraimpDbContext>()!);
 
             return services;
         }

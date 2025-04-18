@@ -1,21 +1,19 @@
 using Braimp.Application;
-using Braimp.Application.Abstraction;
 using Braimp.Infrastructure;
+using Braimp.WebApi.Configuration;
 using Braimp.WebApi.Extensions;
-using Braimp.WebApi.Middleware;
 using Braimp.WebApi.Services;
 using Carter;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddBraimpMappings();
-builder.Services.AddApplication();
-builder.Services.AddInfrastructure(builder.Configuration);
-builder.Services.AddBraimpCors();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-builder.Services.AddCarter();
-
+builder.Services.AddBraimpMappings()
+    .AddApplication()
+    .AddInfrastructure(builder.Configuration)
+    .AddBraimpCors()
+    .AddEndpointsApiExplorer()
+    .AddSwaggerGen()
+    .AddCarter();
 
 var app = builder.Build();
 

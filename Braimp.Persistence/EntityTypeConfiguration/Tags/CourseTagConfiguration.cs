@@ -1,4 +1,5 @@
 ﻿using Braimp.Domain.Entities.Tags;
+using Braimp.Infrastructure.Constants;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -8,7 +9,7 @@ namespace Braimp.Infrastructure.EntityTypeConfiguration.Tags
     {
         public void Configure(EntityTypeBuilder<CourseTag> builder)
         {
-            builder.ToTable("CourseTags");
+            builder.ToTable(TableNames.CourseTags);
 
             builder.HasKey(courseTag => courseTag.Id);
 

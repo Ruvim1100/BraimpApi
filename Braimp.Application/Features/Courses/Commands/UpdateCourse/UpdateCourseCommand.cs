@@ -9,7 +9,7 @@ namespace Braimp.Application.Features.Courses.Commands.UpdateCourse
         public Guid OwnerId { get; set; }
         public string? Title { get; set; }
         public string? Description { get; set; }
-        public GradingSystem GradingSystem { get; set; }
+        public GradingSystem? GradingSystem { get; set; }
         public string? CoverImageUrl { get; set; }
         public string? BackgroundColor { get; set; }
         public string? LogoUrl { get; set; }

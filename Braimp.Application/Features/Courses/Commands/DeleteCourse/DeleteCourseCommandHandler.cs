@@ -16,7 +16,6 @@ namespace Braimp.Application.Features.Courses.Commands.DeleteCourse
             if (course == null)
                 throw new NotFoundException(nameof(Course), request.Id);
 
-
             if (request.OwnerId != course.OwnerId)
                 throw new UnauthorizedAccessException(
                     $"User {request.OwnerId} is not the owner of the course {course.Id}.");

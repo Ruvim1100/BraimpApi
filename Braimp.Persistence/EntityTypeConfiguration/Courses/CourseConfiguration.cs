@@ -1,5 +1,6 @@
 ﻿using Braimp.Domain.Entities.Courses;
 using Braimp.Domain.Entities.Courses.Enums;
+using Braimp.Infrastructure.Constants;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -9,44 +10,32 @@ namespace Braimp.Infrastructure.EntityTypeConfiguration.Courses
     {
         public void Configure(EntityTypeBuilder<Course> builder)
         {
-            builder.ToTable("Courses");
+            builder.ToTable(TableNames.Courses);
 
             builder.HasKey(course => course.Id);
 
             builder.Property(course => course.Title)
-                .HasMaxLength(100)
-                .IsRequired();
+                .HasMaxLength(100);
 
             builder.Property(course => course.Description)
-                .HasMaxLength(1000)
-                .IsRequired(false);
+                .HasMaxLength(1000);
 
             builder.Property(course => course.Status)
-                .IsRequired()
+                .HasConversion<string>()
                 .HasDefaultValue(CourseStatus.Pending);
 
             builder.Property(course => course.GradingSystem)
-                .IsRequired()
+                .HasConversion<string>()
                 .HasDefaultValue(GradingSystem.PointsOutOf10);
 
             builder.Property(course => course.CoverImageUrl)
-                .IsRequired(false);
+                .HasMaxLength(2048);
 
             builder.Property(course => course.BackgroundColor)
-                .IsRequired(false);
+                .HasMaxLength(50);
 
             builder.Property(course => course.LogoUrl)
-                .IsRequired(false);
-
-        builder.Property(course => course.CreatedAt)
-                .HasDefaultValueSql("GETUTCDATE()")
-                .IsRequired();
-
-            builder.Property(course => course.UpdatedAt)
-                .IsRequired(false);
-
-            builder.Property(course => course.OwnerId)
-                .IsRequired();
+                .HasMaxLength(2048);
 
             builder.HasOne(course => course.CourseCategory)
                 .WithMany(courseCategory => courseCategory.Courses)

@@ -1,4 +1,5 @@
 ﻿using Braimp.Domain.Entities.Assignments;
+using Braimp.Infrastructure.Constants;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -8,30 +9,15 @@ namespace Braimp.Infrastructure.EntityTypeConfiguration.Assignments
     {
         public void Configure(EntityTypeBuilder<Assignment> builder)
         {
-            builder.ToTable("Assignments");
+            builder.ToTable(TableNames.Assignments);
 
             builder.HasKey(assignment => assignment.Id);
 
             builder.Property(assignment => assignment.Title)
-                .HasMaxLength(100)
-                .IsRequired();
+                .HasMaxLength(100);
 
             builder.Property(assignment => assignment.Description)
-                .HasMaxLength(500)
-                .IsRequired(false);
-
-            builder.Property(assignment => assignment.AttachmentUrl)
-                .IsRequired(false);
-
-            builder.Property(assignment => assignment.CreatedAt)
-                .HasDefaultValueSql("GETUTCDATE()")
-                .IsRequired();
-
-            builder.Property(assignment => assignment.UpdatedAt)
-                .IsRequired(false);
-
-            builder.Property(assignment => assignment.Deadline)
-                .IsRequired(false);
+                .HasMaxLength(500);
 
             builder.HasOne(assignment => assignment.Course)
                 .WithMany(course => course.Assignments)

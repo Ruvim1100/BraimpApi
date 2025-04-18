@@ -8,16 +8,16 @@ using Microsoft.EntityFrameworkCore;
 namespace Braimp.Application.Features.Courses.Queries.GetCourseDetails
 {
     public class GetCourseDetailsQueryHandler(IBraimpDbContext dbContext, IMapper _mapper) 
-        : IRequestHandler<GetCourseDetailQuery, CourseDetailsVm>
+        : IRequestHandler<GetCourseDetailQuery, CourseDetailsResponse>
     {
 
-        public async Task<CourseDetailsVm> Handle(GetCourseDetailQuery request, CancellationToken cancellationToken)
+        public async Task<CourseDetailsResponse> Handle(GetCourseDetailQuery request, CancellationToken cancellationToken)
         {
             var course = await dbContext.Courses
                 .Include(course => course.CourseCategory)
                 .Include(course => course.Tags)
                     .ThenInclude(courseTag => courseTag.Tag)
-                .FirstOrDefaultAsync(course => course.Id == request.Id, cancellationToken);
+                .FirstOrDefaultAsync(item => item.Id == request.Id, cancellationToken);
 
             if (course == null)
             {
@@ -27,9 +27,9 @@ namespace Braimp.Application.Features.Courses.Queries.GetCourseDetails
             if (course.OwnerId != request.OwnerId)
             {
                 throw new UnauthorizedAccessException($"User {request.OwnerId} is not the owner of the course {course.Id}");
-            }
+            } // in 
 
-            return _mapper.Map<CourseDetailsVm>(course);
+            return _mapper.Map<CourseDetailsResponse>(course);
         }
     }
 }
