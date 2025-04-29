@@ -5,38 +5,33 @@ public class UpdateCourseCommandValidator : AbstractValidator<UpdateCourseComman
 {
     public UpdateCourseCommandValidator() 
     {
-        RuleFor(command => command.Id)
+        RuleFor(x => x.Id)
             .NotEqual(Guid.Empty)
             .WithMessage("Course ID must be provided.");
 
-        RuleFor(command => command.OwnerId)
-            .NotEqual(Guid.Empty)
-            .WithMessage("Owner ID must be provided.");
-
-        RuleFor(command => command.Title)
+        RuleFor(x => x.Title)
             .MaximumLength(100)
-            .When(command => command.Title != null)
             .WithMessage("Title must not exceed 100 characters.");
 
-        RuleFor(command => command.Description)
+        RuleFor(x => x.Description)
             .MaximumLength(1000)
-            .When(command => command.Description != null)
             .WithMessage("Description must not exceed 1000 characters.");
 
-        RuleFor(command => command.GradingSystem)
+        RuleFor(x => x.GradingSystem)
             .IsInEnum()
-            .When(c => c.GradingSystem.HasValue)
             .WithMessage("Invalid grading system specified.");
 
-        RuleFor(command => command.CoverImageUrl)
-            .Must(uri => uri == null || Uri.TryCreate(uri, UriKind.Absolute, out _))
-            .When(command => command.CoverImageUrl != null)
-            .WithMessage("Invalid URL format for Cover Image.");
+        RuleFor(x => x.CoverImageUrl)
+            .MaximumLength(2048)
+            .WithMessage("Cover image URL is too long.");
 
-        RuleFor(command => command.LogoUrl)
-            .Must(uri => uri == null || Uri.TryCreate(uri, UriKind.Absolute, out _))
-            .When(command => command.LogoUrl != null)
-            .WithMessage("Invalid URL format for Logo.");
+        RuleFor(x => x.LogoUrl)
+            .MaximumLength(2048)
+            .WithMessage("Logo URL is too long.");
+
+        RuleFor(x => x.BackgroundColor)
+            .MaximumLength(20)
+            .WithMessage("Background color format is too long.");
 
         RuleFor(command => command.CourseCategoryId)
             .Must(command => !command.HasValue || command.Value != Guid.Empty)

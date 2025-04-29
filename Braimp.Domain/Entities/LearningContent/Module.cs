@@ -14,5 +14,4 @@ public class Module : BaseEntity<Guid>, IAuditable
     public Course Course { get; set; } = null!;
     public ICollection<Lesson> Lessons { get; set; }
         = new List<Lesson>();
-
 }

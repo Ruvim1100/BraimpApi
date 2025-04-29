@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-using Braimp.Application.Features.Courses.Queries.GetCourseDetails;
-using Braimp.WebApi.Constants;
+﻿using Braimp.Application.Features.Courses.Queries.GetCourseDetails;
 using Carter;
 using MediatR;
 
@@ -16,11 +14,7 @@ public class GetCourseDetailsEndpoint : ICarterModule
 
     private async Task<IResult> Handler(Guid id, IMediator mediator, CancellationToken cancellationToken)
     {
-        var query = new GetCourseDetailQuery()
-        {
-            Id = id,
-            OwnerId = UserFakeClaimsConstants.OwnerId
-        };
+        var query = new GetCourseDetailQuery() { Id = id };
 
         var result = await mediator.Send(query, cancellationToken);
         return Results.Ok(result);

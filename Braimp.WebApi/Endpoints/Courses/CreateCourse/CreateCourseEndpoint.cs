@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Braimp.Application.Abstraction;
 using Braimp.Application.Features.Courses.Commands.CreateCourse;
 using Braimp.WebApi.Constants;
 using Carter;
@@ -16,10 +17,9 @@ public class CreateCourseEndpoint : ICarterModule
     }
 
     private async Task<IResult> Handler([FromBody] CreateCourseDto createCourseDto, 
-        IMediator mediator, IMapper mapper, CancellationToken cancellationToken)
+        IMediator mediator, IMapper mapper, ICurrentUserService currentUser, CancellationToken cancellationToken)
     {
         var command = mapper.Map<CreateCourseCommand>(createCourseDto);
-        command.OwnerId = UserFakeClaimsConstants.OwnerId;
         await mediator.Send(command, cancellationToken);
 
         return Results.Created();

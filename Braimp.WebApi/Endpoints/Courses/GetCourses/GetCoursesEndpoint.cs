@@ -8,13 +8,13 @@ public class GetCoursesEndpoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapGet(ApiRoutes.Courses.Get, Handler)
-            .Produces<CourseListVm>(StatusCodes.Status200OK)
+            .Produces<CourseListResponse>(StatusCodes.Status200OK)
             .ProducesValidationProblem();
     }
 
-    private async Task<IResult> Handler(IMediator mediator, CancellationToken cancellationToken)
+    private async Task<IResult> Handler([AsParameters] GetCourseListQuery query, IMediator mediator, CancellationToken cancellationToken)
     {
-        var result = await mediator.Send(new GetCourseListQuery(), cancellationToken);
+        var result = await mediator.Send(query, cancellationToken);
         return Results.Ok(result);
     }
 }

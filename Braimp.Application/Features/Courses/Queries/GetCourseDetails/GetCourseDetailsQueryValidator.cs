@@ -7,7 +7,5 @@ public class GetCourseDetailsQueryValidator : AbstractValidator<GetCourseDetailQ
     {
         RuleFor(getCourseDetailQuery => getCourseDetailQuery.Id)
             .NotEqual(Guid.Empty);
-        RuleFor(getCourseDetailQuery => getCourseDetailQuery.OwnerId)
-            .NotEqual(Guid.Empty);
     }
 }

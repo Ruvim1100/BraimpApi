@@ -5,8 +5,6 @@ public class CreateCourseCommandValidator : AbstractValidator<CreateCourseComman
 {
     public CreateCourseCommandValidator() 
     {
-        RuleFor(createCourseCommand => createCourseCommand.OwnerId)
-            .NotEqual(Guid.Empty);
         RuleFor(createCourseCommand => createCourseCommand.Title)
             .NotEmpty()
             .MaximumLength(100);

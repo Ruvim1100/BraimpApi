@@ -10,6 +10,7 @@ public class CourseDetailsResponse : IMapWith<Course>
     public string? Description { get; set; }
     public string Status { get; set; } = string.Empty;
     public DateTimeOffset CreatedAt { get; set; }
+    public DateTimeOffset? UpdatedAt { get; set; }
     public string CourseCategory { get; set; } = string.Empty;
     public List<string> Tags { get; set; } = new();
 

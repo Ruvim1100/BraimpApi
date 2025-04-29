@@ -7,7 +7,5 @@ public class DeleteCourseCommandValidator : AbstractValidator<DeleteCourseComman
     {
         RuleFor(deleteCourseCommand => deleteCourseCommand.Id)
             .NotEqual(Guid.Empty);
-        RuleFor(deleteCourseCommand => deleteCourseCommand.OwnerId)
-            .NotEqual(Guid.Empty);
     }
 }

@@ -9,6 +9,7 @@ public class DeleteCourseEndpoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapDelete(ApiRoutes.Courses.Delete, Handler)
+            .RequireAuthorization()
             .Produces(StatusCodes.Status204NoContent)
             .ProducesValidationProblem();
     }
@@ -17,8 +18,7 @@ public class DeleteCourseEndpoint : ICarterModule
     {
         var command = new DeleteCourseCommand
         {
-            Id = id,
-            OwnerId = UserFakeClaimsConstants.OwnerId
+            Id = id
         };
 
         await mediator.Send(command, cancellationToken);

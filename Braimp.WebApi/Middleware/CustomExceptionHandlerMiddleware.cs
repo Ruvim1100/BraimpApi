@@ -37,6 +37,10 @@ public class CustomExceptionHandlerMiddleware(RequestDelegate _next)
                 code = HttpStatusCode.Unauthorized;
                 result = JsonSerializer.Serialize(new { error = exception.Message });
                 break;
+            case ForbiddenAccessException:
+                code = HttpStatusCode.Forbidden;
+                result = JsonSerializer.Serialize(new { error = exception.Message});
+                break;
             default:
                 result = JsonSerializer.Serialize(new { error = exception.Message });
                 break;

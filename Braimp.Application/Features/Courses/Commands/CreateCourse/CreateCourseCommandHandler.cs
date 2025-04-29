@@ -6,7 +6,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace Braimp.Application.Features.Courses.Commands.CreateCourse;
-public class CreateCourseCommandHandler(IBraimpDbContext dbContext, IUnitOfWork unitOfWork) 
+public class CreateCourseCommandHandler(IBraimpDbContext dbContext, IUnitOfWork unitOfWork, ICurrentUserService currentUser) 
     : IRequestHandler<CreateCourseCommand, Guid>
 {
     public async Task<Guid> Handle(CreateCourseCommand request, CancellationToken cancellationToken)
@@ -15,14 +15,12 @@ public class CreateCourseCommandHandler(IBraimpDbContext dbContext, IUnitOfWork 
             .AnyAsync(course => course.Id == request.CourseCategoryId, cancellationToken);
 
         if (!categoryExists)
-        { 
             throw new NotFoundException(nameof(CourseCategory), request.CourseCategoryId);
-        }
 
         var course = new Course
         {
             Id = Guid.NewGuid(),
-            OwnerId = request.OwnerId,
+            OwnerId = currentUser.UserId,
             Title = request.Title,
             Description = request.Description,
             Status = CourseStatus.Pending,
@@ -31,6 +29,14 @@ public class CreateCourseCommandHandler(IBraimpDbContext dbContext, IUnitOfWork 
         };
 
         dbContext.Courses.Add(course);
+
+        course.Participants.Add(new CourseParticipant
+        {
+            Id = Guid.NewGuid(),
+            UserId = currentUser.UserId,
+            Role = CourseRole.Owner
+        });
+
         await unitOfWork.SaveChangesAsync(cancellationToken);
 
         return course.Id;

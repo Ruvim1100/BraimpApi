@@ -19,7 +19,6 @@ public class UpdateCourseEndpoint : ICarterModule
         IMapper mapper, CancellationToken cancellationToken)
     {
         var command = mapper.Map<UpdateCourseCommand>(updateCourseDto);
-        command.OwnerId = UserFakeClaimsConstants.OwnerId;
         await mediator.Send(command, cancellationToken);
         return Results.NoContent();
     }

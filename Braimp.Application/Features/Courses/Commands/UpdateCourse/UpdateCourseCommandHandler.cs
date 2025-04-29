@@ -1,17 +1,21 @@
 ﻿using Braimp.Application.Abstraction;
 using Braimp.Application.Common.Exceptions;
 using Braimp.Domain.Entities.Courses;
+using Braimp.Domain.Entities.Courses.Enums;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace Braimp.Application.Features.Courses.Commands.UpdateCourse;
-public class UpdateCourseCommandHandler(IBraimpDbContext dbContext, IUnitOfWork unitOfWork) 
+public class UpdateCourseCommandHandler(IBraimpDbContext dbContext, IUnitOfWork unitOfWork, 
+    ICurrentUserService currentUser, ICourseAuthorizationService courseAuthorizationService) 
     : IRequestHandler<UpdateCourseCommand, Unit>
 {
     public async Task<Unit> Handle(UpdateCourseCommand request, CancellationToken cancellationToken)
     {
-        var course = await dbContext.Courses
-            .FirstOrDefaultAsync(course => course.Id == request.Id && course.OwnerId == request.OwnerId, cancellationToken);
+        await courseAuthorizationService.EnsureUserHasRole(request.Id, currentUser.UserId, 
+            CourseRole.Owner, CourseRole.Assistant);
+
+        var course = await dbContext.Courses.FindAsync(request.Id, cancellationToken); ;
 
         if (course is null)
             throw new NotFoundException(nameof(Course), request.Id);
