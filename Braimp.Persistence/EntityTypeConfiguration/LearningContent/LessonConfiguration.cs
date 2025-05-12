@@ -18,7 +18,7 @@ public class LessonConfiguration : IEntityTypeConfiguration<Lesson>
         builder.Property(lesson => lesson.Description)
             .HasMaxLength(1000);
 
-        builder.Property(lesson => lesson.IsVisibleToStudent)
+        builder.Property(lesson => lesson.IsPublished)
             .HasDefaultValue(true);
 
         builder.HasOne(lesson => lesson.Module)

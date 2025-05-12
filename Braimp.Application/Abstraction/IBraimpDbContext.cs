@@ -9,22 +9,22 @@ using Microsoft.EntityFrameworkCore;
 namespace Braimp.Application.Abstraction;
 public interface IBraimpDbContext
 {
-    DbSet<CourseCategory> CourseCategories { get; set; }
-    DbSet<Tag> Tags { get; set; }
-    DbSet<Course> Courses { get; set; }
-    DbSet<CourseTag> CourseTags { get; set; }
-    DbSet<CourseNews> CourseNews { get; set; }
-    DbSet<CourseParticipant> CourseParticipants { get; set; }
-    DbSet<EnrollmentRequest> EnrollmentRequests { get; set; }
-    DbSet<Module> Modules { get; set; }
-    DbSet<Lesson> Lessons { get; set; }
-    DbSet<Material> Materials { get; set; }
-    DbSet<Notification> Notifications { get; set; }
-    DbSet<Quiz> Quizzes { get; set; }
-    DbSet<QuizQuestion> QuizQuestions { get; set; }
-    DbSet<QuizOption> QuizOptions { get; set; }
-    DbSet<QuizResult> QuizResults { get; set; }
-    DbSet<Assignment> Assignments { get; set; }
-    DbSet<Submission> Submissions { get; set; }
-    DbSet<SubmissionAttachment> SubmissionAttachments { get; set; }
+    DbSet<CourseCategory> CourseCategories { get; }
+    DbSet<Tag> Tags { get; }
+    DbSet<Course> Courses { get; }
+    DbSet<CourseTag> CourseTags { get; }
+    DbSet<CourseNews> CourseNews { get; }
+    DbSet<CourseParticipant> CourseParticipants { get; }
+    DbSet<EnrollmentRequest> EnrollmentRequests { get; }
+    DbSet<Module> Modules { get; }
+    DbSet<Lesson> Lessons { get; }
+    DbSet<Material> Materials { get; }
+    DbSet<Notification> Notifications { get; }
+    DbSet<Quiz> Quizzes { get; }
+    DbSet<QuizQuestion> QuizQuestions { get; }
+    DbSet<QuizOption> QuizOptions { get; }
+    DbSet<QuizResult> QuizResults { get; }
+    DbSet<Assignment> Assignments { get; }
+    DbSet<Submission> Submissions { get; }
+    DbSet<SubmissionAttachment> SubmissionAttachments { get; }
 }

@@ -7,7 +7,7 @@ public class Lesson : BaseEntity<Guid>, IAuditable
     public string? Description { get; set; }
     public DateTimeOffset CreatedAt { get; set; }
     public DateTimeOffset? UpdatedAt { get; set; }
-    public bool IsVisibleToStudent { get; set; }
+    public bool IsPublished { get; set; }
     public int SortIndex { get; set; }
     public Guid ModuleId { get; set; }
     public Module Module { get; set; } = null!;

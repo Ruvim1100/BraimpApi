@@ -1,84 +1,22 @@
+using Braimp.Ai;
 using Braimp.Application;
-using Braimp.Application.Abstraction;
 using Braimp.Infrastructure;
-using Braimp.Infrastructure.Identity;
+using Braimp.Identity;
 using Braimp.WebApi.Configuration;
 using Braimp.WebApi.Extensions;
-using Braimp.WebApi.Services;
 using Carter;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Identity.Web;
-using Microsoft.OpenApi.Models;
-using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddBraimpMappings()
     .AddApplication()
+    .AddIdentity(builder.Configuration)
     .AddInfrastructure(builder.Configuration)
+    .AddAi(builder.Configuration)
     .AddBraimpCors()
     .AddEndpointsApiExplorer()
-    .AddCarter();
-
-builder.Services.AddSwaggerGen(c =>
-{
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
-
-    c.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
-    {
-        Type = SecuritySchemeType.OAuth2,
-        Flows = new OpenApiOAuthFlows
-        {
-            AuthorizationCode = new OpenApiOAuthFlow
-            {
-                AuthorizationUrl = new Uri("https://login.microsoftonline.com/cefef5ae-55dc-4048-a12a-955716d722e5/oauth2/v2.0/authorize"),
-                TokenUrl = new Uri("https://login.microsoftonline.com/cefef5ae-55dc-4048-a12a-955716d722e5/oauth2/v2.0/token"),
-                Scopes = new Dictionary<string, string>
-                {
-                    { "api://053d3b2f-b061-462c-8d14-7a158f0dcc27/access_as_user", "Access API" }
-                }
-            }
-        }
-    });
-
-    c.AddSecurityRequirement(new OpenApiSecurityRequirement
-    {
-        {
-            new OpenApiSecurityScheme
-            {
-                Reference = new OpenApiReference
-                {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "oauth2"
-                }
-            },
-            new[] { "api://053d3b2f-b061-462c-8d14-7a158f0dcc27/access_as_user" }
-        }
-    });
-});
-
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddMicrosoftIdentityWebApi(
-        builder.Configuration.GetSection("AzureAd"),
-        jwtBearerScheme: JwtBearerDefaults.AuthenticationScheme,
-        subscribeToJwtBearerMiddlewareDiagnosticsEvents: false
-    );
-
-builder.Services.Configure<JwtBearerOptions>(
-    JwtBearerDefaults.AuthenticationScheme, options =>
-    {
-        options.TokenValidationParameters.RoleClaimType = ClaimTypes.Role;
-    });
-
-builder.Services.AddAuthorization(options =>
-{
-    options.AddPolicy("User", p => p.RequireRole("User", "Admin"));
-    options.AddPolicy("Admin", p => p.RequireRole("Admin"));
-});
-
-
-builder.Services.AddHttpContextAccessor();
-builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
+    .AddCarter(configurator: c => c.WithValidatorLifetime(ServiceLifetime.Scoped))
+    .AddBraimpSwagger(builder.Configuration);
 
 var app = builder.Build();
 

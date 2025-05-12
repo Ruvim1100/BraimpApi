@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Braimp.Domain", "Braimp.Dom
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Braimp.Tests", "Braimp.Tests\Braimp.Tests.csproj", "{14F9E74A-31F0-4B08-88CB-97EFB4FF2225}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Braimp.Ai", "Braimp.Ai\Braimp.Ai.csproj", "{86BFCDA1-D940-4185-A8EC-4DD7CFAE8943}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Braimp.Identity", "Braimp.Identity\Braimp.Identity.csproj", "{C9C06F36-8046-4D15-B128-5F7080C2E40E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,14 @@ Global
 		{14F9E74A-31F0-4B08-88CB-97EFB4FF2225}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{14F9E74A-31F0-4B08-88CB-97EFB4FF2225}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{14F9E74A-31F0-4B08-88CB-97EFB4FF2225}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86BFCDA1-D940-4185-A8EC-4DD7CFAE8943}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86BFCDA1-D940-4185-A8EC-4DD7CFAE8943}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86BFCDA1-D940-4185-A8EC-4DD7CFAE8943}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86BFCDA1-D940-4185-A8EC-4DD7CFAE8943}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9C06F36-8046-4D15-B128-5F7080C2E40E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9C06F36-8046-4D15-B128-5F7080C2E40E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9C06F36-8046-4D15-B128-5F7080C2E40E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9C06F36-8046-4D15-B128-5F7080C2E40E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

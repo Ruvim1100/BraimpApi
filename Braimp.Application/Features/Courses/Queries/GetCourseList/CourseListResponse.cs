@@ -1,27 +1,31 @@
-﻿using Braimp.Application.Common.Pagination;
+﻿using AutoMapper;
+using Braimp.Application.Mapping;
+using Braimp.Application.Pagination;
+using Braimp.Domain.Entities.Courses;
 
 namespace Braimp.Application.Features.Courses.Queries.GetCourseList;
-public class CourseListResponse
+public class CourseListResponse : PaginationResult<CourseListResponse.Item>
 {
-
-    public IList<CourseLookupDto> Courses { get; init; }
-    public int Page { get; init; }
-    public int PageSize { get; init; }
-    public int TotalCount { get; init; }
-    public int TotalPages { get; init; }
-    public bool HasPreviousPage { get; init; }
-    public bool HasNextPage { get; init; }
-
-    public CourseListResponse(PagedList<CourseLookupDto> pagedList)
+    public CourseListResponse(List<Item> items, int page, int pageSize, int totalCount) : base(items, page, pageSize, totalCount)
     {
-        if (pagedList == null) throw new ArgumentNullException(nameof(pagedList));
+    }
 
-        Courses = pagedList.Items;
-        Page = pagedList.Page;
-        PageSize = pagedList.PageSize;
-        TotalCount = pagedList.TotalCount;
-        TotalPages = pagedList.TotalPages;
-        HasPreviousPage = pagedList.HasPreviousPage;
-        HasNextPage = pagedList.HasNextPage;
+    public class Item : IMapWith<Course>
+    {
+        public Guid Id { get; set; }
+        public string Title { get; set; } = string.Empty;
+        public DateTimeOffset CreatedAt { get; set; }
+        public string? Description { get; set; }
+        public string CourseCategory { get; set; } = string.Empty;
+        public string Status { get; set; } = string.Empty;
+
+        public void Mapping(Profile profile)
+        {
+            profile.CreateMap<Course, Item>()
+                .ForMember(d => d.CourseCategory,
+                           opt => opt.MapFrom(s => s.CourseCategory.Name))
+                .ForMember(d => d.Status,
+                           opt => opt.MapFrom(s => s.Status.ToString()));
+        }
     }
 }

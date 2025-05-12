@@ -1,5 +1,5 @@
 ﻿using Braimp.Application.Abstraction;
-using Braimp.Application.Common.Exceptions;
+using Braimp.Application.Exceptions;
 using Braimp.Domain.Entities.Courses.Enums;
 using Braimp.Domain.Entities.LearningContent;
 using MediatR;
@@ -23,7 +23,7 @@ public class UpdateModuleCommandHandler(IBraimpDbContext dbContext, IUnitOfWork 
 
         module.Title = request.Title ?? module.Title;
         module.Description = request.Description ?? module.Description;
-        module.IsVisibleToStudent = request.IsVisibleToStudent ?? module.IsVisibleToStudent;
+        module.IsPublished = request.IsPublished ?? module.IsPublished;
         module.SortIndex = request.SortIndex ?? module.SortIndex;
 
         await unitOfWork.SaveChangesAsync(cancellationToken);

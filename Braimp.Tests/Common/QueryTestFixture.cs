@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Braimp.Application.Abstraction;
-using Braimp.Application.Common.Mapping;
+using Braimp.Application.Mapping;
 using Braimp.Infrastructure;
 
 namespace Braimp.Tests.Common

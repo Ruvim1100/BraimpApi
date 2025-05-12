@@ -1,14 +1,14 @@
-﻿using Braimp.Application.Common.Dtos;
-using Braimp.Application.Abstraction;
+﻿using Braimp.Application.Abstraction;
 using MediatR;
+using Braimp.Application.Modules;
 
 namespace Braimp.Application.Features.AI.GenerateTest;
 
-public class GenerateTestCommandHandler(IAiService aiService) : IRequestHandler<GenerateTestCommand, GenerateTestResponse>
+public class GenerateTestCommandHandler(IAiService aiService) : IRequestHandler<GenerateTestCommand, AiMessage>
 {
-    public async Task<GenerateTestResponse> Handle(GenerateTestCommand request, CancellationToken cancellationToken)
+    public async Task<AiMessage> Handle(GenerateTestCommand request, CancellationToken cancellationToken)
     {
-        var generateTestRequest = new GenerateTestRequest(request.Content);
-        return await aiService.GenerateTestAsync(generateTestRequest, cancellationToken);
+        var AiMessage = new AiMessage(request.Content);
+        return await aiService.GenerateTestAsync(AiMessage, cancellationToken);
     }
 }

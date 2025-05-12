@@ -1,8 +1,8 @@
-﻿using Braimp.Application.Common.Dtos;
+﻿using Braimp.Application.Modules;
 
 namespace Braimp.Application.Abstraction;
 public interface IAiService
 {
-    Task<SummarizeLessonResponse> SummarizeLessonAsync(SummarizeLessonRequest request, CancellationToken cancellationToken = default);
-    Task<GenerateTestResponse> GenerateTestAsync(GenerateTestRequest request, CancellationToken cancellationToken = default);
+    Task<AiMessage> SummarizeLessonAsync(AiMessage request, CancellationToken cancellationToken = default);
+    Task<AiMessage> GenerateTestAsync(AiMessage request, CancellationToken cancellationToken = default);
 }

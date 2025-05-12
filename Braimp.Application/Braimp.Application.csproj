@@ -18,4 +18,9 @@
     <ProjectReference Include="..\Braimp.Domain\Braimp.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Features\Lessons\Queries\GetLessonDetails\" />
+    <Folder Include="Features\Lessons\Queries\GetLessonList\" />
+  </ItemGroup>
+
 </Project>

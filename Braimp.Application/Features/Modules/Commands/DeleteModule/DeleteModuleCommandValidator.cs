@@ -1,12 +1,24 @@
-﻿using FluentValidation;
+﻿using Braimp.Application.Abstraction;
+using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 
 namespace Braimp.Application.Features.Modules.Commands.DeleteModule;
 public class DeleteModuleCommandValidator : AbstractValidator<DeleteModuleCommand>
 {
-    public DeleteModuleCommandValidator()
+    private readonly IBraimpDbContext _dbContext;
+    public DeleteModuleCommandValidator(IBraimpDbContext dbContext)
     {
-        RuleFor(deleteModuleCommand => deleteModuleCommand.Id)
+        _dbContext = dbContext;
+
+        RuleFor(command => command.Id)
             .NotEmpty().WithMessage("Module id is required.")
             .NotEqual(Guid.Empty).WithMessage("Module id must be a valid non-empty GUID.");
+
+        RuleFor(command => command)
+            .MustAsync(ModuleExists).WithMessage("");
     }
+
+    private Task<bool> ModuleExists(DeleteModuleCommand command, CancellationToken cancellationToken) =>
+        _dbContext.Modules.AnyAsync(module => module.Id == command.Id 
+        && module.CourseId == command.CourseId);
 }

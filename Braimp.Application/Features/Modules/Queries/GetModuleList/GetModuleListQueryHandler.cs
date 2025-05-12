@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Braimp.Application.Abstraction;
-using Braimp.Application.Common.Exceptions;
+using Braimp.Application.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -25,8 +25,8 @@ public class GetModuleListQueryHandler(IBraimpDbContext dbContext, IMapper mappe
             );
         }
 
-        if (request.IsVisibleToStudent.HasValue)
-            query = query.Where(m => m.IsVisibleToStudent == request.IsVisibleToStudent);
+        if (request.IsPublished.HasValue)
+            query = query.Where(m => m.IsPublished == request.IsPublished);
 
         var modules = await query.OrderBy(module => module.SortIndex)
             .ProjectTo<ModuleLookupDto>(mapper.ConfigurationProvider)

@@ -5,5 +5,5 @@ public class GetModuleListQuery : IRequest<ModuleListResponse>
 {
     public Guid CourseId { get; set; }
     public string? SearchTerm { get; set; }
-    public bool? IsVisibleToStudent { get; set; }
+    public bool? IsPublished { get; set; }
 }

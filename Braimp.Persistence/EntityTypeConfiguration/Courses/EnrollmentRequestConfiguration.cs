@@ -17,9 +17,6 @@ public class EnrollmentRequestConfiguration : IEntityTypeConfiguration<Enrollmen
             .HasConversion<string>()
             .HasDefaultValue(EnrollmentStatus.Pending);
 
-        builder.Property(enrollment => enrollment.Status)
-            .HasConversion<string>();
-
         builder.HasOne(enrollment => enrollment.Course)
             .WithMany(course => course.EnrollmentRequests)
             .HasForeignKey(enrollment =>enrollment.CourseId)

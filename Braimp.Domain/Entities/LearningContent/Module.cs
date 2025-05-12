@@ -6,7 +6,7 @@ public class Module : BaseEntity<Guid>, IAuditable
 {
     public string Title { get; set; } = string.Empty;
     public string? Description { get; set; }
-    public bool IsVisibleToStudent { get; set; }
+    public bool IsPublished { get; set; }
     public int SortIndex { get; set; }
     public DateTimeOffset CreatedAt { get; set; }
     public DateTimeOffset? UpdatedAt { get; set; }

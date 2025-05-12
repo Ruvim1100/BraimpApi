@@ -18,7 +18,7 @@ internal class QuizResultConfiguration : IEntityTypeConfiguration<QuizResult>
         builder.Property(quizResult => quizResult.Grade)
             .HasPrecision(5, 2);
 
-        builder.Property(quizResult => quizResult.IsVisibleToStudent)
+        builder.Property(quizResult => quizResult.IsPublished)
             .HasDefaultValue(true);
 
         builder.HasOne(quizResult => quizResult.Quiz)

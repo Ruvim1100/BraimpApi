@@ -6,9 +6,8 @@ public class UpdateModuleCommandValidator : AbstractValidator<UpdateModuleComman
     public UpdateModuleCommandValidator()
     {
         RuleFor(updateModuleCommand => updateModuleCommand.Id)
-            .NotEmpty()
-            .NotEqual(Guid.Empty)
-            .WithMessage("Module id is required.");
+            .NotEmpty().WithMessage("Module id is required.")
+            .NotEqual(Guid.Empty).WithMessage("Module cannot be empty.");
 
         RuleFor(updateModuleCommand => updateModuleCommand.Title)
             .MaximumLength(100).WithMessage("Module title must not exceed 100 characters.");

@@ -6,30 +6,29 @@ using Braimp.Domain.Entities.LearningContent;
 using Braimp.Domain.Entities.Notifications;
 using Braimp.Domain.Entities.Quizzes;
 using Braimp.Domain.Entities.Tags;
-using Braimp.Infrastructure.Constants;
 using Microsoft.EntityFrameworkCore;
 
 namespace Braimp.Infrastructure;
 public class BraimpDbContext : DbContext, IBraimpDbContext, IUnitOfWork
 {
-    public DbSet<CourseCategory> CourseCategories { get; set; }
-    public DbSet<Tag> Tags { get; set; }
-    public DbSet<Course> Courses { get; set; }
-    public DbSet<CourseTag> CourseTags { get; set; }
-    public DbSet<CourseNews> CourseNews { get; set; }
-    public DbSet<CourseParticipant> CourseParticipants { get; set; }
-    public DbSet<EnrollmentRequest> EnrollmentRequests { get; set; }
-    public DbSet<Module> Modules { get; set; }
-    public DbSet<Lesson> Lessons { get; set; }
-    public DbSet<Material> Materials { get; set; }
-    public DbSet<Notification> Notifications { get; set; }
-    public DbSet<Quiz> Quizzes { get; set; }
-    public DbSet<QuizQuestion> QuizQuestions { get; set; }
-    public DbSet<QuizOption> QuizOptions { get; set; }
-    public DbSet<QuizResult> QuizResults { get; set; }
-    public DbSet<Assignment> Assignments { get; set; }
-    public DbSet<Submission> Submissions { get; set; }
-    public DbSet<SubmissionAttachment> SubmissionAttachments { get; set; }
+    public DbSet<CourseCategory> CourseCategories => Set<CourseCategory>();
+    public DbSet<Tag> Tags => Set<Tag>();
+    public DbSet<Course> Courses => Set<Course>();
+    public DbSet<CourseTag> CourseTags => Set<CourseTag>();
+    public DbSet<CourseNews> CourseNews => Set<CourseNews>();
+    public DbSet<CourseParticipant> CourseParticipants => Set<CourseParticipant>();
+    public DbSet<EnrollmentRequest> EnrollmentRequests => Set<EnrollmentRequest>();
+    public DbSet<Module> Modules => Set<Module>();
+    public DbSet<Lesson> Lessons => Set<Lesson>();
+    public DbSet<Material> Materials => Set<Material>();
+    public DbSet<Notification> Notifications => Set<Notification>();
+    public DbSet<Quiz> Quizzes => Set<Quiz>();
+    public DbSet<QuizQuestion> QuizQuestions => Set<QuizQuestion>();
+    public DbSet<QuizOption> QuizOptions => Set<QuizOption>();
+    public DbSet<QuizResult> QuizResults => Set<QuizResult>();
+    public DbSet<Assignment> Assignments => Set<Assignment>();
+    public DbSet<Submission> Submissions => Set<Submission>();
+    public DbSet<SubmissionAttachment> SubmissionAttachments => Set<SubmissionAttachment>();
 
     public BraimpDbContext(DbContextOptions<BraimpDbContext> options)
         : base(options) { }

@@ -7,7 +7,7 @@ public class Quiz : BaseEntity<Guid>, IAuditable
     public string Title { get; set; } = string.Empty;
     public string? Description { get; set; }
     public int? TimeLimitMinutes { get; set; }
-    public bool IsVisibleToStudent { get; set; }
+    public bool IsPublished { get; set; }
     public int MaxAttempts { get; set; }
     public bool IsRandomized { get; set; }
     public DateTimeOffset? StartTime { get; set; }

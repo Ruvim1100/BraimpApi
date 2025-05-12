@@ -10,7 +10,7 @@ public class QuizResult : BaseEntity<Guid>, IAuditable
     public int IncorrectAnswerCount { get; set; }
     public DateTimeOffset CreatedAt { get; set; }
     public DateTimeOffset? UpdatedAt { get; set; }
-    public bool IsVisibleToStudent { get; set; }
+    public bool IsPublished { get; set; }
     public int AttemptNumber { get; set; }
     public Guid QuizId { get; set; }
     public Quiz Quiz { get; set; } = null!;

@@ -22,6 +22,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Braimp.Ai\Braimp.Ai.csproj" />
+    <ProjectReference Include="..\Braimp.Identity\Braimp.Identity.csproj" />
     <ProjectReference Include="..\Braimp.Persistence\Braimp.Infrastructure.csproj" />
   </ItemGroup>
 

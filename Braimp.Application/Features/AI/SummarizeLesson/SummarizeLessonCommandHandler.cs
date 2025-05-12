@@ -1,13 +1,13 @@
-﻿using Braimp.Application.Common.Dtos;
-using Braimp.Application.Abstraction;
+﻿using Braimp.Application.Abstraction;
 using MediatR;
+using Braimp.Application.Modules;
 
 namespace Braimp.Application.Features.AI.SummarizeLesson;
-public class SummarizeLessonCommandHandler(IAiService aiService) : IRequestHandler<SummarizeLessonCommand, SummarizeLessonResponse>
+public class SummarizeLessonCommandHandler(IAiService aiService) : IRequestHandler<SummarizeLessonCommand, AiMessage>
 {
-    public async Task<SummarizeLessonResponse> Handle(SummarizeLessonCommand request, CancellationToken cancellationToken)
+    public async Task<AiMessage> Handle(SummarizeLessonCommand request, CancellationToken cancellationToken)
     {
-        var summarizeLessonResponse = new SummarizeLessonRequest(request.Content);
+        var summarizeLessonResponse = new AiMessage(request.Content);
         return await aiService.SummarizeLessonAsync(summarizeLessonResponse, cancellationToken);
     }
 }

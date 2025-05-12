@@ -1,4 +1,4 @@
-﻿using Braimp.Application.Common.Exceptions;
+﻿using Braimp.Application.Exceptions;
 using FluentValidation;
 using System.Net;
 using System.Text.Json;

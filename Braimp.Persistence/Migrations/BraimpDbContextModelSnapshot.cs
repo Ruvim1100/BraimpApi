@@ -309,7 +309,7 @@ namespace Braimp.Infrastructure.Migrations
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
 
-                    b.Property<bool>("IsVisibleToStudent")
+                    b.Property<bool>("IsPublished")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
                         .HasDefaultValue(true);
@@ -391,7 +391,7 @@ namespace Braimp.Infrastructure.Migrations
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
 
-                    b.Property<bool>("IsVisibleToStudent")
+                    b.Property<bool>("IsPublished")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
                         .HasDefaultValue(true);
@@ -474,15 +474,15 @@ namespace Braimp.Infrastructure.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
+                    b.Property<bool>("IsPublished")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
+
                     b.Property<bool>("IsRandomized")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
                         .HasDefaultValue(false);
-
-                    b.Property<bool>("IsVisibleToStudent")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(true);
 
                     b.Property<int>("MaxAttempts")
                         .HasColumnType("int");
@@ -592,7 +592,7 @@ namespace Braimp.Infrastructure.Migrations
                     b.Property<int>("IncorrectAnswerCount")
                         .HasColumnType("int");
 
-                    b.Property<bool>("IsVisibleToStudent")
+                    b.Property<bool>("IsPublished")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
                         .HasDefaultValue(true);
@@ -692,7 +692,7 @@ namespace Braimp.Infrastructure.Migrations
                     b.HasOne("Braimp.Domain.Entities.Courses.CourseCategory", "CourseCategory")
                         .WithMany("Courses")
                         .HasForeignKey("CourseCategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("CourseCategory");

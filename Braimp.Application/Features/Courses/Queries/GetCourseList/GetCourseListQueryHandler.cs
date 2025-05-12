@@ -1,16 +1,17 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Braimp.Application.Abstraction;
-using Braimp.Application.Common.Pagination;
+using Braimp.Application.Extensions;
+using Braimp.Application.Pagination;
 using Braimp.Domain.Entities.Courses.Enums;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace Braimp.Application.Features.Courses.Queries.GetCourseList;
 public class GetCourseListQueryHandler(IBraimpDbContext dbContext, IMapper mapper) 
-    : IRequestHandler<GetCourseListQuery, CourseListResponse>
+    : IRequestHandler<GetCourseListQuery, PaginationResult<CourseListResponse.Item>>
 {
-    public async Task<CourseListResponse> Handle(GetCourseListQuery request,  CancellationToken cancellationToken)
+    public async Task<PaginationResult<CourseListResponse.Item>> Handle(GetCourseListQuery request,  CancellationToken cancellationToken)
     {
         var query = dbContext.Courses
             .AsNoTracking();
@@ -43,10 +44,10 @@ public class GetCourseListQueryHandler(IBraimpDbContext dbContext, IMapper mappe
             _ => query.OrderByDescending(c => c.CreatedAt)
         };
 
-        var projected = query.ProjectTo<CourseLookupDto>(mapper.ConfigurationProvider);
-        var pagedList = await PagedList<CourseLookupDto>
-            .CreateAsync(projected, request.Page, request.PageSize, cancellationToken);
+        var result = await query
+            .ProjectTo<CourseListResponse.Item>(mapper.ConfigurationProvider)
+            .ToPagedListAsync(request, cancellationToken);
 
-        return new CourseListResponse(pagedList);
+        return result;
     }
 }

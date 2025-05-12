@@ -18,7 +18,7 @@ public class QuizConfiguration : IEntityTypeConfiguration<Quiz>
         builder.Property(quiz => quiz.Description)
             .HasMaxLength(500);
 
-        builder.Property(quiz => quiz.IsVisibleToStudent)
+        builder.Property(quiz => quiz.IsPublished)
             .HasDefaultValue(true);
 
         builder.Property(quiz => quiz.IsRandomized)

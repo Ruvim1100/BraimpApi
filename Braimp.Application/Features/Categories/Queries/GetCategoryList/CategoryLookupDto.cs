@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Braimp.Application.Common.Mapping;
+using Braimp.Application.Mapping;
 using Braimp.Domain.Entities.Courses;
 
 namespace Braimp.Application.Features.Categories.Queries.GetCategoryList;

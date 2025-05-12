@@ -1,5 +1,5 @@
 ﻿using Braimp.Application.Abstraction;
-using Braimp.Application.Common.Exceptions;
+using Braimp.Application.Exceptions;
 using Braimp.Domain.Entities.Courses.Enums;
 using Braimp.Domain.Entities.LearningContent;
 using MediatR;

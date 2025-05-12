@@ -18,7 +18,7 @@ public class ModuleConfiguration : IEntityTypeConfiguration<Module>
         builder.Property(module => module.Description)
             .HasMaxLength(1000);
 
-        builder.Property(module => module.IsVisibleToStudent)
+        builder.Property(module => module.IsPublished)
             .HasDefaultValue(true);
 
         builder.HasOne(module => module.Course)
