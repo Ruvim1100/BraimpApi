@@ -9,9 +9,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Braimp.Application.Features.Courses.Queries.GetCourseList;
 public class GetCourseListQueryHandler(IBraimpDbContext dbContext, IMapper mapper) 
-    : IRequestHandler<GetCourseListQuery, PaginationResult<CourseListResponse.Item>>
+    : IRequestHandler<GetCourseListQuery, PaginationResult<CourseLookupModel>>
 {
-    public async Task<PaginationResult<CourseListResponse.Item>> Handle(GetCourseListQuery request,  CancellationToken cancellationToken)
+    public async Task<PaginationResult<CourseLookupModel>> Handle(GetCourseListQuery request,  CancellationToken cancellationToken)
     {
         var query = dbContext.Courses
             .AsNoTracking();
@@ -45,7 +45,7 @@ public class GetCourseListQueryHandler(IBraimpDbContext dbContext, IMapper mappe
         };
 
         var result = await query
-            .ProjectTo<CourseListResponse.Item>(mapper.ConfigurationProvider)
+            .ProjectTo<CourseLookupModel>(mapper.ConfigurationProvider)
             .ToPagedListAsync(request, cancellationToken);
 
         return result;

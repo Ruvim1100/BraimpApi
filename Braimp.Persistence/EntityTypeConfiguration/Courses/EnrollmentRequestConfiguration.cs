@@ -15,7 +15,8 @@ public class EnrollmentRequestConfiguration : IEntityTypeConfiguration<Enrollmen
 
         builder.Property(enrollment => enrollment.Status)
             .HasConversion<string>()
-            .HasDefaultValue(EnrollmentStatus.Pending);
+            .HasDefaultValue(EnrollmentStatus.Pending)
+            .HasMaxLength(50);
 
         builder.HasOne(enrollment => enrollment.Course)
             .WithMany(course => course.EnrollmentRequests)

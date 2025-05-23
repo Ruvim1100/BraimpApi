@@ -22,7 +22,8 @@ public class QuizQuestionConfiguration : IEntityTypeConfiguration<QuizQuestion>
             .HasDefaultValue(1);
 
         builder.Property(quizQuestion => quizQuestion.QuestionType)
-            .HasConversion<string>();
+            .HasConversion<string>()
+            .HasMaxLength(50);
 
         builder.HasOne(quizQuestion => quizQuestion.Quiz)
             .WithMany(quiz => quiz.Questions)

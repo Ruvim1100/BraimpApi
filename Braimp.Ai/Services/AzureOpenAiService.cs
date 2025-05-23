@@ -5,7 +5,7 @@ using Braimp.Application.Modules;
 using Braimp.Ai.Option;
 using Microsoft.Extensions.Options;
 
-namespace Braimp.Infrastructure.Ai.Services;
+namespace Braimp.Ai.Services;
 public class AzureOpenAiService : IAiService
 {
     private readonly SummarizeSkill _summarize;

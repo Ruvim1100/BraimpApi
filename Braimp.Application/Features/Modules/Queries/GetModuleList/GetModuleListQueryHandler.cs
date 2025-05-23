@@ -1,19 +1,15 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Braimp.Application.Abstraction;
-using Braimp.Application.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace Braimp.Application.Features.Modules.Queries.GetModuleList;
-public class GetModuleListQueryHandler(IBraimpDbContext dbContext, IMapper mapper,
-    ICurrentUserService currentUser, ICourseAuthorizationService courseAuthorizationService) 
+public class GetModuleListQueryHandler(IBraimpDbContext dbContext, IMapper mapper) 
     : IRequestHandler<GetModuleListQuery, ModuleListResponse>
 {
     public async Task<ModuleListResponse> Handle(GetModuleListQuery request, CancellationToken cancellationToken)
     {
-        await courseAuthorizationService.EnsureUserIsCourseParticipant(request.CourseId, currentUser.UserId);
-
         var query = dbContext.Modules
             .Where(module => module.CourseId == request.CourseId);
 
@@ -29,7 +25,7 @@ public class GetModuleListQueryHandler(IBraimpDbContext dbContext, IMapper mappe
             query = query.Where(m => m.IsPublished == request.IsPublished);
 
         var modules = await query.OrderBy(module => module.SortIndex)
-            .ProjectTo<ModuleLookupDto>(mapper.ConfigurationProvider)
+            .ProjectTo<ModuleLookupModel>(mapper.ConfigurationProvider)
             .ToListAsync(cancellationToken);
 
         return new ModuleListResponse { Modules = modules};

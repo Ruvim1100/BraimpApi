@@ -8,9 +8,13 @@ public class UpdateLessonCommandHandler(IBraimpDbContext dbContext, IUnitOfWork 
     {
         var lesson = await dbContext.Lessons.FindAsync(request.Id, cancellationToken);
 
-        lesson.Title = request.Title ?? lesson.Title.Trim();
-        lesson.Description = request.Description ?? lesson.Description;
-        lesson.IsPublished = request.IsPublished ?? lesson.IsPublished;
+        if (request.Title != null)
+            lesson!.Title = request.Title.Trim();
+
+        if (request.Description != null)
+            lesson!.Description = request.Description.Trim();
+
+        lesson!.IsPublished = request.IsPublished ?? lesson.IsPublished;
         lesson.SortIndex = request.SortIndex ?? lesson.SortIndex;
 
         await unitOfWork.SaveChangesAsync(cancellationToken);

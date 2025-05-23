@@ -5,14 +5,14 @@ public class CreateCourseCommandValidator : AbstractValidator<CreateCourseComman
 {
     public CreateCourseCommandValidator() 
     {
-        RuleFor(createCourseCommand => createCourseCommand.Title)
+        RuleFor(command => command.Title)
             .NotEmpty()
             .MaximumLength(100);
-        RuleFor(createCourseCommand => createCourseCommand.Description)
+        RuleFor(command => command.Description)
             .MaximumLength(1000);
-        RuleFor(createCourseCommand => createCourseCommand.GradingSystem)
+        RuleFor(command => command.GradingSystem)
             .NotEmpty();
-        RuleFor(createCourseCommand => createCourseCommand.CourseCategoryId)
+        RuleFor(command => command.CourseCategoryId)
             .NotEqual(Guid.Empty);
     }
 }

@@ -28,16 +28,13 @@ namespace Braimp.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("AttachmentUrl")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<Guid>("CourseId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<DateTimeOffset?>("Deadline")
+                    b.Property<DateTimeOffset>("Deadline")
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Description")
@@ -59,6 +56,25 @@ namespace Braimp.Infrastructure.Migrations
                     b.ToTable("Assignments", (string)null);
                 });
 
+            modelBuilder.Entity("Braimp.Domain.Entities.Assignments.AssignmentFile", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AssignmentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ResourceId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AssignmentId");
+
+                    b.ToTable("AssignmentAttachments", (string)null);
+                });
+
             modelBuilder.Entity("Braimp.Domain.Entities.Assignments.Submission", b =>
                 {
                     b.Property<Guid>("Id")
@@ -68,6 +84,9 @@ namespace Braimp.Infrastructure.Migrations
                     b.Property<Guid>("AssignmentId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<bool>("CanEdit")
+                        .HasColumnType("bit");
+
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("datetimeoffset");
 
@@ -76,8 +95,8 @@ namespace Braimp.Infrastructure.Migrations
                         .HasColumnType("decimal(5,2)");
 
                     b.Property<string>("ReviewComment")
-                        .HasMaxLength(300)
-                        .HasColumnType("nvarchar(300)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<DateTimeOffset?>("ReviewedAt")
                         .HasColumnType("datetimeoffset");
@@ -85,18 +104,12 @@ namespace Braimp.Infrastructure.Migrations
                     b.Property<Guid?>("ReviewerId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(max)")
-                        .HasDefaultValue("Pending");
-
                     b.Property<Guid>("StudentId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Text")
-                        .HasMaxLength(300)
-                        .HasColumnType("nvarchar(300)");
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
 
                     b.Property<DateTimeOffset?>("UpdatedAt")
                         .HasColumnType("datetimeoffset");
@@ -108,16 +121,14 @@ namespace Braimp.Infrastructure.Migrations
                     b.ToTable("Submissions", (string)null);
                 });
 
-            modelBuilder.Entity("Braimp.Domain.Entities.Assignments.SubmissionAttachment", b =>
+            modelBuilder.Entity("Braimp.Domain.Entities.Assignments.SubmissionFile", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("FileUrl")
-                        .IsRequired()
-                        .HasMaxLength(2048)
-                        .HasColumnType("nvarchar(2048)");
+                    b.Property<Guid>("ResourceId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("SubmissionId")
                         .HasColumnType("uniqueidentifier");
@@ -156,7 +167,8 @@ namespace Braimp.Infrastructure.Migrations
                     b.Property<string>("GradingSystem")
                         .IsRequired()
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(max)")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
                         .HasDefaultValue("PointsOutOf10");
 
                     b.Property<string>("LogoUrl")
@@ -169,7 +181,8 @@ namespace Braimp.Infrastructure.Migrations
                     b.Property<string>("Status")
                         .IsRequired()
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(max)")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
                         .HasDefaultValue("Pending");
 
                     b.Property<string>("Title")
@@ -253,7 +266,8 @@ namespace Braimp.Infrastructure.Migrations
 
                     b.Property<string>("Role")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
@@ -280,7 +294,8 @@ namespace Braimp.Infrastructure.Migrations
                     b.Property<string>("Status")
                         .IsRequired()
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(max)")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
                         .HasDefaultValue("Pending");
 
                     b.Property<DateTimeOffset?>("UpdatedAt")
@@ -335,44 +350,23 @@ namespace Braimp.Infrastructure.Migrations
                     b.ToTable("Lessons", (string)null);
                 });
 
-            modelBuilder.Entity("Braimp.Domain.Entities.LearningContent.Material", b =>
+            modelBuilder.Entity("Braimp.Domain.Entities.LearningContent.LessonFile", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTimeOffset>("CreatedAt")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
                     b.Property<Guid>("LessonId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("ResourceType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ResourceUrl")
-                        .IsRequired()
-                        .HasMaxLength(2048)
-                        .HasColumnType("nvarchar(2048)");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<DateTimeOffset?>("UpdatedAt")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<Guid>("ResourceId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
                     b.HasIndex("LessonId");
 
-                    b.ToTable("Materials", (string)null);
+                    b.ToTable("LessonFiles", (string)null);
                 });
 
             modelBuilder.Entity("Braimp.Domain.Entities.LearningContent.Module", b =>
@@ -443,7 +437,8 @@ namespace Braimp.Infrastructure.Migrations
 
                     b.Property<string>("Type")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<DateTimeOffset?>("UpdatedAt")
                         .HasColumnType("datetimeoffset");
@@ -548,7 +543,8 @@ namespace Braimp.Infrastructure.Migrations
 
                     b.Property<string>("QuestionType")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<Guid>("QuizId")
                         .HasColumnType("uniqueidentifier");
@@ -617,6 +613,27 @@ namespace Braimp.Infrastructure.Migrations
                     b.ToTable("QuizResults", (string)null);
                 });
 
+            modelBuilder.Entity("Braimp.Domain.Entities.Resource", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasMaxLength(2048)
+                        .HasColumnType("nvarchar(2048)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Resources", (string)null);
+                });
+
             modelBuilder.Entity("Braimp.Domain.Entities.Tags.CourseTag", b =>
                 {
                     b.Property<Guid>("Id")
@@ -665,6 +682,17 @@ namespace Braimp.Infrastructure.Migrations
                     b.Navigation("Course");
                 });
 
+            modelBuilder.Entity("Braimp.Domain.Entities.Assignments.AssignmentFile", b =>
+                {
+                    b.HasOne("Braimp.Domain.Entities.Assignments.Assignment", "Assignment")
+                        .WithMany("AssignmentFiles")
+                        .HasForeignKey("AssignmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Assignment");
+                });
+
             modelBuilder.Entity("Braimp.Domain.Entities.Assignments.Submission", b =>
                 {
                     b.HasOne("Braimp.Domain.Entities.Assignments.Assignment", "Assignment")
@@ -676,10 +704,10 @@ namespace Braimp.Infrastructure.Migrations
                     b.Navigation("Assignment");
                 });
 
-            modelBuilder.Entity("Braimp.Domain.Entities.Assignments.SubmissionAttachment", b =>
+            modelBuilder.Entity("Braimp.Domain.Entities.Assignments.SubmissionFile", b =>
                 {
                     b.HasOne("Braimp.Domain.Entities.Assignments.Submission", "Submission")
-                        .WithMany("SubmissionAttachments")
+                        .WithMany("SubmissionFiles")
                         .HasForeignKey("SubmissionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -742,10 +770,10 @@ namespace Braimp.Infrastructure.Migrations
                     b.Navigation("Module");
                 });
 
-            modelBuilder.Entity("Braimp.Domain.Entities.LearningContent.Material", b =>
+            modelBuilder.Entity("Braimp.Domain.Entities.LearningContent.LessonFile", b =>
                 {
                     b.HasOne("Braimp.Domain.Entities.LearningContent.Lesson", "Lesson")
-                        .WithMany("Materials")
+                        .WithMany("LessonFiles")
                         .HasForeignKey("LessonId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -840,12 +868,14 @@ namespace Braimp.Infrastructure.Migrations
 
             modelBuilder.Entity("Braimp.Domain.Entities.Assignments.Assignment", b =>
                 {
+                    b.Navigation("AssignmentFiles");
+
                     b.Navigation("Submissions");
                 });
 
             modelBuilder.Entity("Braimp.Domain.Entities.Assignments.Submission", b =>
                 {
-                    b.Navigation("SubmissionAttachments");
+                    b.Navigation("SubmissionFiles");
                 });
 
             modelBuilder.Entity("Braimp.Domain.Entities.Courses.Course", b =>
@@ -874,7 +904,7 @@ namespace Braimp.Infrastructure.Migrations
 
             modelBuilder.Entity("Braimp.Domain.Entities.LearningContent.Lesson", b =>
                 {
-                    b.Navigation("Materials");
+                    b.Navigation("LessonFiles");
                 });
 
             modelBuilder.Entity("Braimp.Domain.Entities.LearningContent.Module", b =>

@@ -22,7 +22,8 @@ public class NotificationConfiguration : IEntityTypeConfiguration<Notification>
             .HasDefaultValue(false);
 
         builder.Property(notification => notification.Type)
-            .HasConversion<string>();
+            .HasConversion<string>()
+            .HasMaxLength(50);
 
         builder.HasOne(notification => notification.Course)
             .WithMany(course => course.Notifications)

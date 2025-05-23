@@ -26,7 +26,6 @@ public static class ConfigureAuthentication
             options.AddPolicy("User", p => p.RequireRole("User", "Admin"));
             options.AddPolicy("Admin", p => p.RequireRole("Admin"));
         });
-
         return services;
     }
 }

@@ -15,7 +15,7 @@ public class DeleteModuleCommandValidator : AbstractValidator<DeleteModuleComman
             .NotEqual(Guid.Empty).WithMessage("Module id must be a valid non-empty GUID.");
 
         RuleFor(command => command)
-            .MustAsync(ModuleExists).WithMessage("");
+            .MustAsync(ModuleExists).WithMessage("Module doesn't exist");
     }
 
     private Task<bool> ModuleExists(DeleteModuleCommand command, CancellationToken cancellationToken) =>

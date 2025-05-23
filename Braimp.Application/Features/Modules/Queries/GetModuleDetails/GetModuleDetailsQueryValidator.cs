@@ -1,11 +1,23 @@
-﻿using FluentValidation;
+﻿using Braimp.Application.Abstraction;
+using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 
 namespace Braimp.Application.Features.Modules.Queries.GetModuleDetails;
 public class GetModuleDetailsQueryValidator : AbstractValidator<GetModuleDetailsQuery>
 {
-    public GetModuleDetailsQueryValidator()
+    private readonly IBraimpDbContext _dbContext;
+    public GetModuleDetailsQueryValidator(IBraimpDbContext dbContext)
     {
-        RuleFor(x => x.Id)
-            .NotEmpty().WithMessage("Module id is required.");
+        _dbContext = dbContext;
+
+        RuleFor(query => query.Id)
+            .NotEmpty().WithMessage("ModuleId is required.")
+            .NotEqual(Guid.Empty).WithMessage("ModuleId cannot be empty");
+
+        RuleFor(query => query)
+            .MustAsync(ModuleExists).WithMessage("Module doesn't exist");
     }
+
+    public Task<bool> ModuleExists(GetModuleDetailsQuery query, CancellationToken cancellationToken) =>
+        _dbContext.Modules.AnyAsync(module => module.Id == query.Id && module.CourseId == query.CourseId);
 }

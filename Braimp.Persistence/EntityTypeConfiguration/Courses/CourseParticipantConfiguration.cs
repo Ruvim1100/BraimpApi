@@ -12,7 +12,8 @@ public class CourseParticipantConfiguration : IEntityTypeConfiguration<CoursePar
 
         builder.HasKey(courseParticipant => courseParticipant.Id);
         builder.Property(courseParticipant => courseParticipant.Role)
-            .HasConversion<string>();
+            .HasConversion<string>()
+            .HasMaxLength(50);
 
         builder.HasOne(courseParticipant => courseParticipant.Course)
             .WithMany(course => course.Participants)

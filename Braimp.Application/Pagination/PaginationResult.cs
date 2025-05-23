@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-namespace Braimp.Application.Pagination;
+﻿namespace Braimp.Application.Pagination;
 public class PaginationResult<T>
 {
     public List<T> Items { get; }

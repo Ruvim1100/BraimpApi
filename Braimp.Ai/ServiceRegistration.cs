@@ -1,8 +1,8 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Braimp.Ai.Option;
+using Braimp.Ai.Services;
 using Braimp.Application.Abstraction;
-using Braimp.Infrastructure.Ai.Services;
 using Microsoft.Extensions.Configuration;
-using Braimp.Ai.Option;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Braimp.Ai;
 public static class ServiceRegistration

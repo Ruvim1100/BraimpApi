@@ -1,10 +1,15 @@
-﻿using FluentValidation;
+﻿using Braimp.Application.Abstraction;
+using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 
 namespace Braimp.Application.Features.Courses.Commands.UpdateCourse;
 public class UpdateCourseCommandValidator : AbstractValidator<UpdateCourseCommand>
 {
-    public UpdateCourseCommandValidator() 
+    private readonly IBraimpDbContext _dbContext;
+    public UpdateCourseCommandValidator(IBraimpDbContext dbContext) 
     {
+        _dbContext = dbContext;
+
         RuleFor(x => x.Id)
             .NotEqual(Guid.Empty)
             .WithMessage("Course ID must be provided.");
@@ -36,5 +41,22 @@ public class UpdateCourseCommandValidator : AbstractValidator<UpdateCourseComman
         RuleFor(command => command.CourseCategoryId)
             .Must(command => !command.HasValue || command.Value != Guid.Empty)
             .WithMessage("Category ID must be a non-empty GUID if provided.");
+        
+        RuleFor(command => command)
+            .MustAsync(CourseExists).WithMessage("Course was not found.");
+
+        RuleFor(command => command)
+            .MustAsync(CategoryExists).WithMessage("Category was not found.");
+    }
+    private async Task<bool> CourseExists(UpdateCourseCommand command, CancellationToken cancellationToken) =>
+       await _dbContext.Courses.AnyAsync(course => course.Id == command.Id);
+
+    private async Task<bool> CategoryExists(UpdateCourseCommand command, CancellationToken cancellationToken)
+    {
+        if (!command.CourseCategoryId.HasValue)
+            return true;
+
+        return await _dbContext.CourseCategories
+            .AnyAsync(category => category.Id == command.CourseCategoryId.Value, cancellationToken);
     }
 }

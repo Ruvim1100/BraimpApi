@@ -11,6 +11,6 @@ public class Lesson : BaseEntity<Guid>, IAuditable
     public int SortIndex { get; set; }
     public Guid ModuleId { get; set; }
     public Module Module { get; set; } = null!;
-    public ICollection<Material> Materials { get; set; }
-        = new List<Material>();
+    public ICollection<LessonFile> LessonFiles { get; set; }
+        = new List<LessonFile>();
 }

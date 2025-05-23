@@ -1,6 +1,4 @@
 ﻿using Braimp.Application.Abstraction;
-using Braimp.Application.Exceptions;
-using Braimp.Domain.Entities.Courses;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,10 +10,7 @@ public class UpdateCategoryCommandHandler(IBraimpDbContext dbContext, IUnitOfWor
         var category = await dbContext.CourseCategories
             .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
-        if (category is null)
-            throw new NotFoundException(nameof(CourseCategory), request.Id);
-
-        if (category.Name != request.Name)
+        if (category!.Name != request.Name)
             category.Name = request.Name;
 
         await unitOfWork.SaveChangesAsync(cancellationToken);

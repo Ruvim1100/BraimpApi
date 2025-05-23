@@ -19,8 +19,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Lessons\Queries\GetLessonDetails\" />
-    <Folder Include="Features\Lessons\Queries\GetLessonList\" />
+    <Folder Include="Features\AssignmentFiles\Queries\" />
+    <Folder Include="Features\QuizOptions\Commands\" />
+    <Folder Include="Features\QuizOptions\Queries\" />
+    <Folder Include="Features\QuizQuestions\Commands\" />
+    <Folder Include="Features\QuizQuestions\Queries\" />
+    <Folder Include="Features\Quizzes\Commands\" />
+    <Folder Include="Features\Quizzes\Queries\" />
   </ItemGroup>
 
 </Project>

@@ -9,7 +9,8 @@ internal static class TableNames
     public const string Notifications = "Notifications";
     public const string Assignments = "Assignments";
     public const string Submissions = "Submissions";
-    public const string SubmissionAttachments = "SubmissionAttachments";
+    public const string SubmissionFiles = "SubmissionAttachments";
+    public const string AssignmentFiles = "AssignmentAttachments";
     public const string Lessons = "Lessons";
     public const string Modules = "Modules";
     public const string Materials = "Materials";
@@ -19,4 +20,6 @@ internal static class TableNames
     public const string QuizResults = "QuizResults";
     public const string Tags = "Tags";
     public const string CourseTags = "CourseTags";
+    public const string LessonFiles = "LessonFiles";
+    public const string Resources = "Resources";
 }

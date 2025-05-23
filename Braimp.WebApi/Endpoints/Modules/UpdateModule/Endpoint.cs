@@ -16,10 +16,12 @@ public class Endpoint : ICarterModule
             .WithTags(EndpointTags.Modules);
     }
 
-    private async Task<IResult> Handler([FromBody] Request updateModuleDto, IMediator mediator, 
-        IMapper mapper, CancellationToken cancellationToken)
+    private async Task<IResult> Handler([FromRoute] Guid courseId, [FromRoute] Guid id, [FromBody] Request request, 
+        IMediator mediator,  IMapper mapper, CancellationToken cancellationToken)
     {
-        var command = mapper.Map<UpdateModuleCommand>(updateModuleDto);
+        var command = mapper.Map<UpdateModuleCommand>(request);
+        command.CourseId = courseId;
+        command.Id = id;
         await mediator.Send(command, cancellationToken);
 
         return Results.NoContent();

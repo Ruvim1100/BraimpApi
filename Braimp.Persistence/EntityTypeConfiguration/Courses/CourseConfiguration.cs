@@ -21,11 +21,13 @@ public class CourseConfiguration : IEntityTypeConfiguration<Course>
 
         builder.Property(course => course.Status)
             .HasConversion<string>()
-            .HasDefaultValue(CourseStatus.Pending);
+            .HasDefaultValue(CourseStatus.Pending)
+            .HasMaxLength(50);
 
         builder.Property(course => course.GradingSystem)
             .HasConversion<string>()
-            .HasDefaultValue(GradingSystem.PointsOutOf10);
+            .HasDefaultValue(GradingSystem.PointsOutOf10)
+            .HasMaxLength(50);
 
         builder.Property(course => course.CoverImageUrl)
             .HasMaxLength(2048);

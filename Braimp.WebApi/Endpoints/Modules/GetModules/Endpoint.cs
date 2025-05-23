@@ -14,7 +14,8 @@ public class Endpoint : ICarterModule
             .WithTags(EndpointTags.Modules);
     }
 
-    private async Task<IResult> Handler([AsParameters] GetModuleListQuery query, IMediator mediator, CancellationToken cancellationToken)
+    private async Task<IResult> Handler([AsParameters] GetModuleListQuery query, IMediator mediator, 
+        CancellationToken cancellationToken)
     {
         var result = await mediator.Send(query, cancellationToken);
 

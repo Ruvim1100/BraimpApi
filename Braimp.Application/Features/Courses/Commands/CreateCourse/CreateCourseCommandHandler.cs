@@ -1,9 +1,7 @@
 ﻿using Braimp.Application.Abstraction;
-using Braimp.Application.Exceptions;
 using Braimp.Domain.Entities.Courses;
 using Braimp.Domain.Entities.Courses.Enums;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace Braimp.Application.Features.Courses.Commands.CreateCourse;
 public class CreateCourseCommandHandler(IBraimpDbContext dbContext, IUnitOfWork unitOfWork, ICurrentUserService currentUser) 
@@ -11,12 +9,6 @@ public class CreateCourseCommandHandler(IBraimpDbContext dbContext, IUnitOfWork 
 {
     public async Task<Guid> Handle(CreateCourseCommand request, CancellationToken cancellationToken)
     {
-        var categoryExists = await dbContext.CourseCategories
-            .AnyAsync(course => course.Id == request.CourseCategoryId, cancellationToken);
-
-        if (!categoryExists)
-            throw new NotFoundException(nameof(CourseCategory), request.CourseCategoryId);
-
         var course = new Course
         {
             Id = Guid.NewGuid(),

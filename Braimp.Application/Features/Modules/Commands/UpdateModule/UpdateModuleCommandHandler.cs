@@ -1,27 +1,17 @@
 ﻿using Braimp.Application.Abstraction;
-using Braimp.Application.Exceptions;
-using Braimp.Domain.Entities.Courses.Enums;
-using Braimp.Domain.Entities.LearningContent;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace Braimp.Application.Features.Modules.Commands.UpdateModule;
-public class UpdateModuleCommandHandler(IBraimpDbContext dbContext, IUnitOfWork unitOfWork, 
-    ICurrentUserService currentUser, ICourseAuthorizationService courseAuthorizationService) 
+public class UpdateModuleCommandHandler(IBraimpDbContext dbContext, IUnitOfWork unitOfWork) 
     : IRequestHandler<UpdateModuleCommand, Unit>
 {
     public async Task<Unit> Handle(UpdateModuleCommand request, CancellationToken cancellationToken)
     {
         var module = await dbContext.Modules
-            .FirstOrDefaultAsync(module => module.Id == request.Id, cancellationToken);
+            .FirstAsync(module => module.Id == request.Id, cancellationToken);
 
-        if (module is null)
-            throw new NotFoundException(nameof(Module), request.Id);
-
-        await courseAuthorizationService.EnsureUserHasRole(module.CourseId, currentUser.UserId, 
-            CourseRole.Owner,CourseRole.Assistant);
-
-        module.Title = request.Title ?? module.Title;
+        module!.Title = request.Title ?? module.Title;
         module.Description = request.Description ?? module.Description;
         module.IsPublished = request.IsPublished ?? module.IsPublished;
         module.SortIndex = request.SortIndex ?? module.SortIndex;
