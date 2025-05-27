@@ -1,6 +1,4 @@
-﻿using System.IO;
-
-namespace Braimp.Application.Constants;
+﻿namespace Braimp.Application.Constants;
 public static class PromptTemplates
 {
     public const string Summarize =

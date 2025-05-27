@@ -72,7 +72,7 @@ namespace Braimp.Infrastructure.Migrations
 
                     b.HasIndex("AssignmentId");
 
-                    b.ToTable("AssignmentAttachments", (string)null);
+                    b.ToTable("AssignmentFiles", (string)null);
                 });
 
             modelBuilder.Entity("Braimp.Domain.Entities.Assignments.Submission", b =>
@@ -137,7 +137,7 @@ namespace Braimp.Infrastructure.Migrations
 
                     b.HasIndex("SubmissionId");
 
-                    b.ToTable("SubmissionAttachments", (string)null);
+                    b.ToTable("SubmissionFiles", (string)null);
                 });
 
             modelBuilder.Entity("Braimp.Domain.Entities.Courses.Course", b =>

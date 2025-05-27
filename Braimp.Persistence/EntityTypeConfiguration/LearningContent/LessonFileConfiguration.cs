@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Braimp.Infrastructure.EntityTypeConfiguration.LearningContent;
-public class LessonFileTypeConfiguration : IEntityTypeConfiguration<LessonFile>
+public class LessonFileConfiguration : IEntityTypeConfiguration<LessonFile>
 {
     public void Configure(EntityTypeBuilder<LessonFile> builder)
     {

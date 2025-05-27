@@ -19,7 +19,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\AssignmentFiles\Queries\" />
+    <Folder Include="Features\Notifications\Commands\CreateNotification\" />
+    <Folder Include="Features\Notifications\Commands\DeleteNotification\" />
+    <Folder Include="Features\Notifications\Commands\UpdateNotification\" />
+    <Folder Include="Features\Notifications\Queries\GetNotificationDetails\" />
+    <Folder Include="Features\Notifications\Queries\GetNotifications\" />
     <Folder Include="Features\QuizOptions\Commands\" />
     <Folder Include="Features\QuizOptions\Queries\" />
     <Folder Include="Features\QuizQuestions\Commands\" />

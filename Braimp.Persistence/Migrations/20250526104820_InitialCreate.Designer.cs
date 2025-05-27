@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Braimp.Infrastructure.Migrations
 {
     [DbContext(typeof(BraimpDbContext))]
-    [Migration("20250522171703_InitialCreate")]
+    [Migration("20250526104820_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -75,7 +75,7 @@ namespace Braimp.Infrastructure.Migrations
 
                     b.HasIndex("AssignmentId");
 
-                    b.ToTable("AssignmentAttachments", (string)null);
+                    b.ToTable("AssignmentFiles", (string)null);
                 });
 
             modelBuilder.Entity("Braimp.Domain.Entities.Assignments.Submission", b =>
@@ -140,7 +140,7 @@ namespace Braimp.Infrastructure.Migrations
 
                     b.HasIndex("SubmissionId");
 
-                    b.ToTable("SubmissionAttachments", (string)null);
+                    b.ToTable("SubmissionFiles", (string)null);
                 });
 
             modelBuilder.Entity("Braimp.Domain.Entities.Courses.Course", b =>

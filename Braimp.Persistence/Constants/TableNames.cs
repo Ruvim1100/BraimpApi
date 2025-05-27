@@ -9,8 +9,8 @@ internal static class TableNames
     public const string Notifications = "Notifications";
     public const string Assignments = "Assignments";
     public const string Submissions = "Submissions";
-    public const string SubmissionFiles = "SubmissionAttachments";
-    public const string AssignmentFiles = "AssignmentAttachments";
+    public const string SubmissionFiles = "SubmissionFiles";
+    public const string AssignmentFiles = "AssignmentFiles";
     public const string Lessons = "Lessons";
     public const string Modules = "Modules";
     public const string Materials = "Materials";

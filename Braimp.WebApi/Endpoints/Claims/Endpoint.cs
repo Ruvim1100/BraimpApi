@@ -8,7 +8,7 @@ public class Endpoint : ICarterModule
         app.MapPost(ApiRoutes.Claims.AddClaims, Handler);
     }
 
-    private async Task<IResult> Handler(HttpContext context)
+    private Task<IResult> Handler(HttpContext context)
     {
         throw new NotImplementedException();
     }

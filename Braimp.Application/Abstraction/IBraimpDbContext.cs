@@ -1,4 +1,5 @@
-﻿using Braimp.Domain.Entities.Assignments;
+﻿using Braimp.Domain.Entities;
+using Braimp.Domain.Entities.Assignments;
 using Braimp.Domain.Entities.Courses;
 using Braimp.Domain.Entities.LearningContent;
 using Braimp.Domain.Entities.Notifications;
@@ -26,6 +27,8 @@ public interface IBraimpDbContext
     DbSet<QuizResult> QuizResults { get; }
     DbSet<Assignment> Assignments { get; }
     DbSet<Submission> Submissions { get; }
-    DbSet<SubmissionFile> SubmissionAttachments { get; }
-    DbSet<AssignmentFile> AssignmentAttachments { get; }
+    DbSet<SubmissionFile> SubmissionFiles { get; }
+    DbSet<AssignmentFile> AssignmentFiles { get; }
+    DbSet<Resource> Resources { get; }
+    DbSet<LessonFile> LessonFiles { get; }
 }

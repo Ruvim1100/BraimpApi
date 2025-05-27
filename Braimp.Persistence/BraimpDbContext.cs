@@ -1,5 +1,6 @@
 ﻿using Braimp.Application.Abstraction;
 using Braimp.Domain.Abstraction;
+using Braimp.Domain.Entities;
 using Braimp.Domain.Entities.Assignments;
 using Braimp.Domain.Entities.Courses;
 using Braimp.Domain.Entities.LearningContent;
@@ -28,8 +29,10 @@ public class BraimpDbContext : DbContext, IBraimpDbContext, IUnitOfWork
     public DbSet<QuizResult> QuizResults => Set<QuizResult>();
     public DbSet<Assignment> Assignments => Set<Assignment>();
     public DbSet<Submission> Submissions => Set<Submission>();
-    public DbSet<SubmissionFile> SubmissionAttachments => Set<SubmissionFile>();
-    public DbSet<AssignmentFile> AssignmentAttachments => Set<AssignmentFile>();
+    public DbSet<SubmissionFile> SubmissionFiles => Set<SubmissionFile>();
+    public DbSet<AssignmentFile> AssignmentFiles => Set<AssignmentFile>();
+    public DbSet<Resource> Resources => Set<Resource>();
+    public DbSet<LessonFile> LessonFiles => Set<LessonFile>();
 
     public BraimpDbContext(DbContextOptions<BraimpDbContext> options)
         : base(options) { }

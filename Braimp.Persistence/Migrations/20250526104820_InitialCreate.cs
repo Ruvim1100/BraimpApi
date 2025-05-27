@@ -266,7 +266,7 @@ namespace Braimp.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AssignmentAttachments",
+                name: "AssignmentFiles",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -275,9 +275,9 @@ namespace Braimp.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AssignmentAttachments", x => x.Id);
+                    table.PrimaryKey("PK_AssignmentFiles", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AssignmentAttachments_Assignments_AssignmentId",
+                        name: "FK_AssignmentFiles_Assignments_AssignmentId",
                         column: x => x.AssignmentId,
                         principalTable: "Assignments",
                         principalColumn: "Id",
@@ -385,7 +385,7 @@ namespace Braimp.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "SubmissionAttachments",
+                name: "SubmissionFiles",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -394,9 +394,9 @@ namespace Braimp.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SubmissionAttachments", x => x.Id);
+                    table.PrimaryKey("PK_SubmissionFiles", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_SubmissionAttachments_Submissions_SubmissionId",
+                        name: "FK_SubmissionFiles_Submissions_SubmissionId",
                         column: x => x.SubmissionId,
                         principalTable: "Submissions",
                         principalColumn: "Id",
@@ -444,8 +444,8 @@ namespace Braimp.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_AssignmentAttachments_AssignmentId",
-                table: "AssignmentAttachments",
+                name: "IX_AssignmentFiles_AssignmentId",
+                table: "AssignmentFiles",
                 column: "AssignmentId");
 
             migrationBuilder.CreateIndex(
@@ -524,8 +524,8 @@ namespace Braimp.Infrastructure.Migrations
                 column: "CourseId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SubmissionAttachments_SubmissionId",
-                table: "SubmissionAttachments",
+                name: "IX_SubmissionFiles_SubmissionId",
+                table: "SubmissionFiles",
                 column: "SubmissionId");
 
             migrationBuilder.CreateIndex(
@@ -538,7 +538,7 @@ namespace Braimp.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "AssignmentAttachments");
+                name: "AssignmentFiles");
 
             migrationBuilder.DropTable(
                 name: "CourseNews");
@@ -568,7 +568,7 @@ namespace Braimp.Infrastructure.Migrations
                 name: "Resources");
 
             migrationBuilder.DropTable(
-                name: "SubmissionAttachments");
+                name: "SubmissionFiles");
 
             migrationBuilder.DropTable(
                 name: "Tags");

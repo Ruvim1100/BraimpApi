@@ -2,6 +2,7 @@
 using Braimp.WebApi.Constants;
 using Carter;
 using MediatR;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Braimp.WebApi.Endpoints.Modules.DeleteModule;
 public class Endpoint : ICarterModule
@@ -14,11 +15,13 @@ public class Endpoint : ICarterModule
             .WithTags(EndpointTags.Modules);
     }
 
-    private async Task<IResult> Handler(Guid id, IMediator mediator, CancellationToken cancellationToken)
+    private async Task<IResult> Handler([FromRoute] Guid id, [FromRoute] Guid courseId, 
+        IMediator mediator, CancellationToken cancellationToken)
     {
         var command = new DeleteModuleCommand()
         {
-            Id = id
+            Id = id,
+            CourseId = courseId
         };
 
         await mediator.Send(command, cancellationToken);
