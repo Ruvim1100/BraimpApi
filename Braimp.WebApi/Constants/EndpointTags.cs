@@ -10,4 +10,6 @@ internal class EndpointTags
     public const string AssignmentFiles = "AssignmentFiles";
     public const string Submissions = "Submissions";
     public const string SubmissionFiles = "SubmissionFiles";
+    public const string Quizzes = "Quizzes";
+    public const string QuizQuestions = "QuizQuestions";
 }

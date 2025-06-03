@@ -15,17 +15,22 @@ public class CreateModuleCommandValidator : AbstractValidator<CreateModuleComman
             .MaximumLength(100).WithMessage("Module title must not exceed 100 characters.");
 
         RuleFor(createModuleCommand => createModuleCommand.Description)
-            .MaximumLength(1000).WithMessage("Module description must not exceed 1000 characters.");
+            .MaximumLength(1000)
+            .WithMessage("Module description must not exceed 1000 characters.");
 
         RuleFor(createModuleCommand => createModuleCommand.CourseId)
-            .NotEmpty().WithMessage("CourseId is required.")
-            .NotEqual(Guid.Empty).WithMessage("CourseId must be a valid non-empty GUID.")
-            .MustAsync(CourseExists).WithMessage("Course doesn't exist");
+            .NotEmpty()
+            .WithMessage("CourseId is required.");
+
+        RuleFor(command => command)
+            .MustAsync(CourseExists)
+            .WithMessage("Course doesn't exist");
 
         RuleFor(createModuleCommand => createModuleCommand.SortIndex)
-            .GreaterThanOrEqualTo(0).WithMessage("SortIndex must be greater than or equal to zero.");
+            .GreaterThanOrEqualTo(0)
+            .WithMessage("SortIndex must be greater than or equal to zero.");
     }
 
-    private Task<bool> CourseExists(Guid courseId, CancellationToken cancellationToken) =>
-                 _dbContext.Courses.AnyAsync(course => course.Id == courseId, cancellationToken);
+    private Task<bool> CourseExists(CreateModuleCommand command, CancellationToken cancellationToken) =>
+                 _dbContext.Courses.AnyAsync(course => course.Id == command.CourseId, cancellationToken);
 }

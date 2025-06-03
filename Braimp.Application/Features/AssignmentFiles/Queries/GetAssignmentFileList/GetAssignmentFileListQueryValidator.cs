@@ -11,15 +11,16 @@ public class GetAssignmentFileListQueryValidator : AbstractValidator<GetAssignme
         _dbContext = dbContext;
 
         RuleFor(query => query.AssignmentId)
-            .NotEmpty().WithMessage("AssignmentId is required")
-            .NotEqual(Guid.Empty).WithMessage("AssignmentId cannot be empty");
+            .NotEmpty()
+            .WithMessage("AssignmentId is required");
 
         RuleFor(query => query.CourseId)
-            .NotEmpty().WithMessage("CourseId is required")
-            .NotEqual(Guid.Empty).WithMessage("CourseId cannot be empty");
+            .NotEmpty()
+            .WithMessage("CourseId is required");
 
         RuleFor(query => query)
-            .MustAsync(AssignmentExists).WithMessage("Assignment was not found");
+            .MustAsync(AssignmentExists)
+            .WithMessage("Assignment was not found");
     }
 
     private async Task<bool> AssignmentExists(GetAssignmentFileListQuery query, CancellationToken cancellationToken) =>

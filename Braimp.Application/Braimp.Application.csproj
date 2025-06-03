@@ -19,17 +19,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Notifications\Commands\CreateNotification\" />
-    <Folder Include="Features\Notifications\Commands\DeleteNotification\" />
-    <Folder Include="Features\Notifications\Commands\UpdateNotification\" />
-    <Folder Include="Features\Notifications\Queries\GetNotificationDetails\" />
-    <Folder Include="Features\Notifications\Queries\GetNotifications\" />
-    <Folder Include="Features\QuizOptions\Commands\" />
-    <Folder Include="Features\QuizOptions\Queries\" />
-    <Folder Include="Features\QuizQuestions\Commands\" />
-    <Folder Include="Features\QuizQuestions\Queries\" />
-    <Folder Include="Features\Quizzes\Commands\" />
-    <Folder Include="Features\Quizzes\Queries\" />
+    <Folder Include="Features\QuizQuestions\Commands\DeleteQuizQuestion\" />
+    <Folder Include="Features\QuizQuestions\Commands\UpdateQuizQuestion\" />
+    <Folder Include="Features\QuizQuestions\Queries\GetQuizQuestionDetails\" />
+    <Folder Include="Features\QuizQuestions\Queries\GetQuizQuestionList\" />
   </ItemGroup>
 
 </Project>

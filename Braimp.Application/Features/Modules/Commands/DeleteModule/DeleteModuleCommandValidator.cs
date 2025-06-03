@@ -11,11 +11,12 @@ public class DeleteModuleCommandValidator : AbstractValidator<DeleteModuleComman
         _dbContext = dbContext;
 
         RuleFor(command => command.Id)
-            .NotEmpty().WithMessage("Module id is required.")
-            .NotEqual(Guid.Empty).WithMessage("Module id must be a valid non-empty GUID.");
+            .NotEmpty()
+            .WithMessage("Module id is required.");
 
         RuleFor(command => command)
-            .MustAsync(ModuleExists).WithMessage("Module doesn't exist");
+            .MustAsync(ModuleExists)
+            .WithMessage("Module doesn't exist");
     }
 
     private Task<bool> ModuleExists(DeleteModuleCommand command, CancellationToken cancellationToken) =>

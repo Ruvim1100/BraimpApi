@@ -10,15 +10,13 @@ public class DeleteAssignmentFileCommandValidator : AbstractValidator<DeleteAssi
     {
         _dbContext = dbContext;
 
-
         RuleFor(command => command.Id)
-            .NotEmpty().WithMessage("AssignmentFileId is required")
-            .NotEqual(Guid.Empty).WithMessage("AssignmentFileId cannot be empty");
+            .NotEmpty()
+            .WithMessage("AssignmentFileId is required");
 
         RuleFor(command => command)
-            .MustAsync(AssignmentFileExists).WithMessage("Assignment file not found");
-
-
+            .MustAsync(AssignmentFileExists)
+            .WithMessage("Assignment file not found");
     }
 
     private async Task<bool> AssignmentFileExists(DeleteAssignmentFileCommand command, CancellationToken cancellationToken) =>

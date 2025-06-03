@@ -1,0 +1,15 @@
+﻿using MediatR;
+
+namespace Braimp.Application.Features.Quizzes.Commands.UpdateQuiz;
+public class UpdateQuizCommand : IRequest<Guid>
+{
+    public Guid Id { get; set; }
+    public string? Title { get; set; } = string.Empty;
+    public string? Description { get; set; }
+    public int? TimeLimitMinutes { get; set; }
+    public bool? IsPublished { get; set; }
+    public int? MaxAttempts { get; set; }
+    public bool? IsRandomized { get; set; }
+    public DateTimeOffset? StartTime { get; set; }
+    public Guid CourseId { get; set; }
+}

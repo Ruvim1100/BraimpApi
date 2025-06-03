@@ -15,9 +15,6 @@ public class QuizQuestionConfiguration : IEntityTypeConfiguration<QuizQuestion>
         builder.Property(quizQuestion => quizQuestion.Text)
             .HasMaxLength(300);
 
-        builder.Property(quizQuestion => quizQuestion.MediaUrl)
-            .HasMaxLength(2048);
-
         builder.Property(quizQuestion => quizQuestion.Weight)
             .HasDefaultValue(1);
 

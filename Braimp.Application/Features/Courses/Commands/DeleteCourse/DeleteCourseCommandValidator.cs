@@ -11,9 +11,12 @@ public class DeleteCourseCommandValidator : AbstractValidator<DeleteCourseComman
         _dbContext = dbContext;
 
         RuleFor(command => command.Id)
-            .NotEqual(Guid.Empty);
+            .NotEmpty()
+            .WithMessage("Course Id is required");
+
         RuleFor(command => command)
-            .MustAsync(CourseExists).WithMessage("Course was not found.");
+            .MustAsync(CourseExists)
+            .WithMessage("Course was not found.");
     }
     private async Task<bool> CourseExists(DeleteCourseCommand command, CancellationToken cancellationToken) =>
        await _dbContext.Courses.AnyAsync(course => course.Id == command.Id);

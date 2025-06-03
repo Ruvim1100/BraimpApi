@@ -22,4 +22,5 @@ internal static class TableNames
     public const string CourseTags = "CourseTags";
     public const string LessonFiles = "LessonFiles";
     public const string Resources = "Resources";
+    public const string QuizQuestionFiles = "QuizQuestionFiles";
 }

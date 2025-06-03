@@ -11,11 +11,12 @@ public class GetModuleDetailsQueryValidator : AbstractValidator<GetModuleDetails
         _dbContext = dbContext;
 
         RuleFor(query => query.Id)
-            .NotEmpty().WithMessage("ModuleId is required.")
-            .NotEqual(Guid.Empty).WithMessage("ModuleId cannot be empty");
+            .NotEmpty()
+            .WithMessage("ModuleId is required.");
 
         RuleFor(query => query)
-            .MustAsync(ModuleExists).WithMessage("Module doesn't exist");
+            .MustAsync(ModuleExists)
+            .WithMessage("Module doesn't exist");
     }
 
     public Task<bool> ModuleExists(GetModuleDetailsQuery query, CancellationToken cancellationToken) =>

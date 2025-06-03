@@ -15,7 +15,7 @@ internal class DeleteAssignmentFileCommandHandler(IBraimpDbContext dbContext, IU
         var resource = await dbContext.Resources
             .FirstAsync(resource => resource.Id == assignmentFile.ResourceId, cancellationToken);
 
-        await blobStorageService.DeleteAsync(BlobContainers.Assignments, resource.Url);
+        await blobStorageService.DeleteAsync(BlobContainers.Assignments, resource.Url, cancellationToken);
 
         dbContext.AssignmentFiles.Remove(assignmentFile);
         dbContext.Resources.Remove(resource);

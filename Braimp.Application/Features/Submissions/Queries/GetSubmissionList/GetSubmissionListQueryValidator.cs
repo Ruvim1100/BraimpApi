@@ -11,15 +11,16 @@ public class GetSubmissionListQueryValidator: AbstractValidator<GetSubmissionLis
         _dbContext = dbContext;
 
         RuleFor(command => command.AssignmentId)
-            .NotEmpty().WithMessage("Assignment ID is required")
-            .NotEqual(Guid.Empty).WithMessage("Assignment ID cannot be empty");
+            .NotEmpty()
+            .WithMessage("Assignment ID is required");
 
         RuleFor(command => command.CourseId)
-            .NotEmpty().WithMessage("Course ID is required")
-            .NotEqual(Guid.Empty).WithMessage("Course ID cannot be empty");
+            .NotEmpty()
+            .WithMessage("Course ID is required");
 
         RuleFor(command => command)
-            .MustAsync(AssignmentExists).WithMessage("Assignment doesn't exist");
+            .MustAsync(AssignmentExists)
+            .WithMessage("Assignment doesn't exist");
     }
     private async Task<bool> AssignmentExists(GetSubmissionListQuery command, CancellationToken cancellationToken) =>
         await _dbContext.Assignments.AnyAsync(assignment => assignment.Id == command.AssignmentId &&

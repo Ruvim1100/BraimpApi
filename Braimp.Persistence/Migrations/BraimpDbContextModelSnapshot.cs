@@ -512,10 +512,6 @@ namespace Braimp.Infrastructure.Migrations
                     b.Property<bool>("IsCorrect")
                         .HasColumnType("bit");
 
-                    b.Property<string>("MediaUrl")
-                        .HasMaxLength(2048)
-                        .HasColumnType("nvarchar(2048)");
-
                     b.Property<Guid>("QuizQuestionId")
                         .HasColumnType("uniqueidentifier");
 
@@ -536,10 +532,6 @@ namespace Braimp.Infrastructure.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("MediaUrl")
-                        .HasMaxLength(2048)
-                        .HasColumnType("nvarchar(2048)");
 
                     b.Property<string>("QuestionType")
                         .IsRequired()
@@ -564,6 +556,26 @@ namespace Braimp.Infrastructure.Migrations
                     b.HasIndex("QuizId");
 
                     b.ToTable("QuizQuestions", (string)null);
+                });
+
+            modelBuilder.Entity("Braimp.Domain.Entities.Quizzes.QuizQuestionFile", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("QuizQuestionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ResourceId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("QuizQuestionId")
+                        .IsUnique();
+
+                    b.ToTable("QuizQuestionFiles", (string)null);
                 });
 
             modelBuilder.Entity("Braimp.Domain.Entities.Quizzes.QuizResult", b =>
@@ -836,6 +848,17 @@ namespace Braimp.Infrastructure.Migrations
                     b.Navigation("Quiz");
                 });
 
+            modelBuilder.Entity("Braimp.Domain.Entities.Quizzes.QuizQuestionFile", b =>
+                {
+                    b.HasOne("Braimp.Domain.Entities.Quizzes.QuizQuestion", "QuizQuestion")
+                        .WithOne("QuizQuestionFile")
+                        .HasForeignKey("Braimp.Domain.Entities.Quizzes.QuizQuestionFile", "QuizQuestionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("QuizQuestion");
+                });
+
             modelBuilder.Entity("Braimp.Domain.Entities.Quizzes.QuizResult", b =>
                 {
                     b.HasOne("Braimp.Domain.Entities.Quizzes.Quiz", "Quiz")
@@ -922,6 +945,8 @@ namespace Braimp.Infrastructure.Migrations
             modelBuilder.Entity("Braimp.Domain.Entities.Quizzes.QuizQuestion", b =>
                 {
                     b.Navigation("QuizOptions");
+
+                    b.Navigation("QuizQuestionFile");
                 });
 
             modelBuilder.Entity("Braimp.Domain.Entities.Tags.Tag", b =>

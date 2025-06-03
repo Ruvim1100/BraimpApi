@@ -15,9 +15,6 @@ public class QuizOptionConfiguration : IEntityTypeConfiguration<QuizOption>
         builder.Property(quizOption => quizOption.Text)
             .HasMaxLength(100);
 
-        builder.Property(quizOption => quizOption.MediaUrl)
-            .HasMaxLength(2048);
-
         builder.HasOne(quizOption => quizOption.QuizQuestion)
             .WithMany(quizQuestion => quizQuestion.QuizOptions)
             .HasForeignKey(quizOption => quizOption.QuizQuestionId)

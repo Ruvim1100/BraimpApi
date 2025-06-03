@@ -11,11 +11,12 @@ public class GetLessonListQueryValidator : AbstractValidator<GetLessonListQuery>
         _dbContext = dbContext;
 
         RuleFor(query => query.ModuleId)
-            .NotEmpty().WithMessage("ModuleId Field must be initialized")
-            .NotEqual(Guid.Empty).WithMessage("ModuleId cannot be empty");
+            .NotEmpty()
+            .WithMessage("ModuleId Field must be initialized");
 
         RuleFor(query => query)
-            .MustAsync(ModuleExists).WithMessage("Module doesn't exist");
+            .MustAsync(ModuleExists)
+            .WithMessage("Module doesn't exist");
     }
 
     private Task<bool> ModuleExists(GetLessonListQuery query, CancellationToken cancellationToken) =>

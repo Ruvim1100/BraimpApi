@@ -11,15 +11,16 @@ public class UpdateAssignmentFileCommandValidator : AbstractValidator<UpdateAssi
         _dbContext = dbContext;
 
         RuleFor(command => command.Id)
-            .NotEmpty().WithMessage("AssignmentFileId is required")
-            .NotEqual(Guid.Empty).WithMessage("AssignmentFileId cannot be empty");
+            .NotEmpty()
+            .WithMessage("AssignmentFileId is required");
 
         RuleFor(command => command.AssignmentId)
-            .NotEmpty().WithMessage("AssignmentId is required")
-            .NotEqual(Guid.Empty).WithMessage("AssignmentId cannot be empty");
+            .NotEmpty()
+            .WithMessage("AssignmentId is required");
 
         RuleFor(command => command)
-            .MustAsync(AssignmentFileExists).WithMessage("Assignment File doesn't exist");
+            .MustAsync(AssignmentFileExists)
+            .WithMessage("Assignment File doesn't exist");
     }
 
     private async Task<bool> AssignmentFileExists(UpdateAssignmentFileCommand command, CancellationToken cancellationToken) =>

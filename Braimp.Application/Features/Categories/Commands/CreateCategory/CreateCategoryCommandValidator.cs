@@ -13,8 +13,10 @@ public class CreateCategoryCommandValidator : AbstractValidator<CreateCategoryCo
         RuleFor(command => command.Name)
             .NotEmpty()
             .MaximumLength(100);
+
         RuleFor(command => command)
-            .MustAsync(CategoryExists).WithMessage("This Category already exists");
+            .MustAsync(CategoryExists)
+            .WithMessage("This Category already exists");
     }
 
     private async Task<bool> CategoryExists(CreateCategoryCommand command, CancellationToken cancellationToken) =>

@@ -17,7 +17,8 @@ public class CreateSubmissionFileCommandHandler(IBraimpDbContext dbContext, IUni
             stream: request.FileStream,
             containerName: BlobContainers.Submissions,
             blobName: uniqeBlobName,
-            encoding: request.Encoding);
+            encoding: request.Encoding,
+            cancellationToken);
 
         var resource = new Resource
         {

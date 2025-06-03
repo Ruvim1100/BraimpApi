@@ -11,12 +11,10 @@ public class CreateAssignmentFileCommandValidator : AbstractValidator<CreateAssi
         _dbContext = dbContext;
 
         RuleFor(command => command.AssignmentId)
-            .NotEmpty().WithMessage("AssignmentId is required")
-            .NotEqual(Guid.Empty).WithMessage("AssignmentId cannot be empty");
+            .NotEmpty().WithMessage("AssignmentId is required");
 
         RuleFor(command => command.CourseId)
-            .NotEmpty().WithMessage("CourseId is required")
-            .NotEqual(Guid.Empty).WithMessage("CourseId cannot be empty");
+            .NotEmpty().WithMessage("CourseId is required");
 
         RuleFor(command => command.DisplayName)
             .NotEmpty().WithMessage("Display name is required")

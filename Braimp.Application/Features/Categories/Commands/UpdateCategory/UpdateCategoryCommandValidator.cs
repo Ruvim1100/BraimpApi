@@ -11,14 +11,12 @@ public class UpdateCategoryCommandValidator : AbstractValidator<UpdateCategoryCo
         _dbContext = dbContext;
 
         RuleFor(command => command.Id)
-            .NotEqual(Guid.Empty)
+            .NotEmpty()
             .WithMessage("Category ID must be provided.");
 
         RuleFor(command => command.Name)
-            .NotEmpty()
-            .WithMessage("Category name is required.")
-            .MaximumLength(100)
-            .WithMessage("Title must not exceed 100 characters.");
+            .NotEmpty().WithMessage("Category name is required.")
+            .MaximumLength(100).WithMessage("Title must not exceed 100 characters.");
 
         RuleFor(command => command)
             .MustAsync(CategoryExists)

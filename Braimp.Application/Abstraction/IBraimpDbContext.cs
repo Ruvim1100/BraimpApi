@@ -31,4 +31,5 @@ public interface IBraimpDbContext
     DbSet<AssignmentFile> AssignmentFiles { get; }
     DbSet<Resource> Resources { get; }
     DbSet<LessonFile> LessonFiles { get; }
+    DbSet<QuizQuestionFile> QuizQuestionFiles{ get; }
 }

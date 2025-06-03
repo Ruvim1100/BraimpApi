@@ -11,14 +11,16 @@ public class UpdateModuleCommandValidator : AbstractValidator<UpdateModuleComman
         _dbContext = dbContext;
 
         RuleFor(updateModuleCommand => updateModuleCommand.Id)
-            .NotEmpty().WithMessage("Module ID is required.")
-            .NotEqual(Guid.Empty).WithMessage("Module ID must be a valid non-empty GUID.");
+            .NotEmpty()
+            .WithMessage("Module ID is required.");
 
         RuleFor(updateModuleCommand => updateModuleCommand.Title)
-            .MaximumLength(100).WithMessage("Module title must not exceed 100 characters.");
+            .MaximumLength(100)
+            .WithMessage("Module title must not exceed 100 characters.");
 
         RuleFor(updateModuleCommand => updateModuleCommand.Description)
-            .MaximumLength(1000).WithMessage("Module description must not exceed 1000 characters.");
+            .MaximumLength(1000)
+            .WithMessage("Module description must not exceed 1000 characters.");
 
         RuleFor(updateModuleCommand => updateModuleCommand.SortIndex)
             .GreaterThanOrEqualTo(0)
@@ -26,7 +28,8 @@ public class UpdateModuleCommandValidator : AbstractValidator<UpdateModuleComman
             .WithMessage("SortIndex must be greater than or equal to zero.");
 
         RuleFor(command => command)
-            .MustAsync(ModuleExists).WithMessage("Module doesn't exists");
+            .MustAsync(ModuleExists)
+            .WithMessage("Module doesn't exists");
     }
     private Task<bool> ModuleExists(UpdateModuleCommand command, CancellationToken cancellationToken) =>
         _dbContext.Modules.AnyAsync(module => module.Id == command.Id

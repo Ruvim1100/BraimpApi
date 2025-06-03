@@ -11,24 +11,25 @@ public class CreateSubmissionCommandValidator : AbstractValidator<CreateSubmissi
     {
         _dbContext = dbContext;
 
-
         RuleFor(command => command.AssignmentId)
-            .NotEmpty().WithMessage("AssignmentId is required")
-            .NotEqual(Guid.Empty).WithMessage("AssignmentId cannot be empty");
+            .NotEmpty()
+            .WithMessage("AssignmentId is required");
 
         RuleFor(command => command)
-            .MustAsync(AssignmentExists).WithMessage("Assignment doesn't exist");
+            .MustAsync(AssignmentExists)
+            .WithMessage("Assignment doesn't exist");
 
         RuleFor(command => command.StudentId)
-            .NotEmpty().WithMessage("StudentId is required")
-            .NotEqual(Guid.Empty).WithMessage("StudentId cannot be null");
+            .NotEmpty()
+            .WithMessage("StudentId is required");
 
         RuleFor(command => command.Text)
-            .MaximumLength(500).WithMessage("The text cannot be more than 500 characters.");
+            .MaximumLength(500)
+            .WithMessage("The text cannot be more than 500 characters.");
 
         RuleFor(command => command.CourseId)
-            .NotEmpty().WithMessage("CourseId is required")
-            .NotEqual(Guid.Empty).WithMessage("CourseId cannot be empty");
+            .NotEmpty()
+            .WithMessage("CourseId is required");
 
         //RuleFor(command => command)
         //    .MustAsync(NotPastDeadline).WithMessage("Cannot submit after assignment deadline");

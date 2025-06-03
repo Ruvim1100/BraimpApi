@@ -11,15 +11,16 @@ public class GetAssignmentDetalisQueryValidator : AbstractValidator<GetAssignmen
         _dbContext = dbContext;
 
         RuleFor(command => command.Id)
-            .NotEmpty().WithMessage("AssignmentId is required")
-            .NotEqual(Guid.Empty).WithMessage("AssignmentId cannot be null");
+            .NotEmpty()
+            .WithMessage("AssignmentId is required");
 
         RuleFor(command => command.CourseId)
-            .NotEmpty().WithMessage("CourseId is required")
-            .NotEqual(Guid.Empty).WithMessage("CourseId cannot be null");
+            .NotEmpty()
+            .WithMessage("CourseId is required");
 
         RuleFor(command => command)
-            .MustAsync(AssignmentExists).WithMessage("Specified assignment in the given course does not exist");
+            .MustAsync(AssignmentExists)
+            .WithMessage("Specified assignment in the given course does not exist");
     }
     private async Task<bool> AssignmentExists(GetAssignmentDetailsQuery query, CancellationToken cancellationToken) =>
         await _dbContext.Assignments.AnyAsync(assignment => assignment.Id == query.Id &&

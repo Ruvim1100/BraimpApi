@@ -15,17 +15,20 @@ public class CreateLessonCommandValidator : AbstractValidator<CreateLessonComman
             .MaximumLength(100).WithMessage("Lesson title must not exceed 100 characters.");
 
         RuleFor(command => command.Description)
-            .MaximumLength(1000).WithMessage("Lesson Description must not exceed 1000 characters.");
+            .MaximumLength(1000)
+            .WithMessage("Lesson Description must not exceed 1000 characters.");
 
         RuleFor(command => command.SortIndex)
-            .GreaterThanOrEqualTo(0).WithMessage("Sort index must Greater Than Or EqualTo 0");
+            .GreaterThanOrEqualTo(0)
+            .WithMessage("Sort index must Greater Than Or EqualTo 0");
 
         RuleFor(command => command.ModuleId)
-            .NotEmpty().WithMessage("ModuleId is required")
-            .NotEqual(Guid.Empty).WithMessage("ModuleId must be a valid non-empty GUID.");
+            .NotEmpty()
+            .WithMessage("ModuleId is required");
 
         RuleFor(command => command)
-            .MustAsync(ModuleExists).WithMessage("Module doesn't  exist.");
+            .MustAsync(ModuleExists)
+            .WithMessage("Module doesn't  exist.");
     }
 
     private Task<bool> ModuleExists(CreateLessonCommand command, CancellationToken cancellationToken) =>

@@ -12,12 +12,12 @@ public class GetSubmissionFileListQueryValidator : AbstractValidator<GetSubmissi
         _dbContext = dbContext;
 
         RuleFor(command => command.SubmissionId)
-            .NotEmpty().WithMessage("SubmissionId is required")
-            .NotEqual(Guid.Empty).WithMessage("SubmissionId cannot be empty");
+            .NotEmpty()
+            .WithMessage("SubmissionId is required");
 
         RuleFor(command => command.AssignmentId)
-            .NotEmpty().WithMessage("AssignmentId is required")
-            .NotEqual(Guid.Empty).WithMessage("AssignmentId cannot be empty");
+            .NotEmpty()
+            .WithMessage("AssignmentId is required");
 
         RuleFor(query => query)
             .MustAsync(SubmissionExists)

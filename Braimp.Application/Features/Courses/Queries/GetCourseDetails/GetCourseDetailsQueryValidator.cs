@@ -6,6 +6,7 @@ public class GetCourseDetailsQueryValidator : AbstractValidator<GetCourseDetailQ
     public GetCourseDetailsQueryValidator()
     {
         RuleFor(getCourseDetailQuery => getCourseDetailQuery.Id)
-            .NotEqual(Guid.Empty);
+            .NotEmpty()
+            .WithMessage("Course Id is requred");
     }
 }

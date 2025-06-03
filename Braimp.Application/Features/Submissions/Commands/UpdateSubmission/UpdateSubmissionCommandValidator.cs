@@ -11,16 +11,16 @@ public class UpdateSubmissionCommandValidator : AbstractValidator<UpdateSubmissi
         _dbContext = dbContext;
 
         RuleFor(command => command.Id)
-            .NotEmpty().WithMessage("Submission ID is required")
-            .NotEqual(Guid.Empty).WithMessage("Submission ID cannot be empty");
+            .NotEmpty()
+            .WithMessage("Submission ID is required");
 
         RuleFor(command => command.AssignmentId)
-            .NotEmpty().WithMessage("Assignment ID is required")
-            .NotEqual(Guid.Empty).WithMessage("Assignment ID cannot be empty");
+            .NotEmpty()
+            .WithMessage("Assignment ID is required");
 
         RuleFor(command => command.CourseId)
-            .NotEmpty().WithMessage("Course ID is required")
-            .NotEqual(Guid.Empty).WithMessage("Course ID cannot be empty");
+            .NotEmpty()
+            .WithMessage("Course ID is required");
 
         RuleFor(x => x.Text)
             .MaximumLength(500)
@@ -28,7 +28,8 @@ public class UpdateSubmissionCommandValidator : AbstractValidator<UpdateSubmissi
             .WithMessage("Text is too long");
 
         RuleFor(command => command)
-            .MustAsync(SubmissionExists).WithMessage("Submission doesn't exist");
+            .MustAsync(SubmissionExists)
+            .WithMessage("Submission doesn't exist");
     }
     private async Task<bool> SubmissionExists(UpdateSubmissionCommand command, CancellationToken cancellationToken) =>
         await _dbContext.Submissions

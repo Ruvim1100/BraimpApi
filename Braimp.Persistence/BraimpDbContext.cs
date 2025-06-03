@@ -33,6 +33,7 @@ public class BraimpDbContext : DbContext, IBraimpDbContext, IUnitOfWork
     public DbSet<AssignmentFile> AssignmentFiles => Set<AssignmentFile>();
     public DbSet<Resource> Resources => Set<Resource>();
     public DbSet<LessonFile> LessonFiles => Set<LessonFile>();
+    public DbSet<QuizQuestionFile> QuizQuestionFiles => Set<QuizQuestionFile>();
 
     public BraimpDbContext(DbContextOptions<BraimpDbContext> options)
         : base(options) { }

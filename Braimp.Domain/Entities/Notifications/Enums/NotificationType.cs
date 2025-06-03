@@ -3,6 +3,9 @@ public enum NotificationType
 {
     News = 0,
     Reminder = 1,
-    AssignmentFeedback = 2,
-    QuizResult = 3
+    NewAssignment = 2,
+    AssignmentFeedback = 3,
+    QuizResult = 4,
+    NewModule = 5,
+    NewLecture = 6
 }

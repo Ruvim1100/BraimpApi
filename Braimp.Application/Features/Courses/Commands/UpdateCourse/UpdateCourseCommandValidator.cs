@@ -11,7 +11,7 @@ public class UpdateCourseCommandValidator : AbstractValidator<UpdateCourseComman
         _dbContext = dbContext;
 
         RuleFor(x => x.Id)
-            .NotEqual(Guid.Empty)
+            .NotEmpty()
             .WithMessage("Course ID must be provided.");
 
         RuleFor(x => x.Title)
@@ -43,10 +43,12 @@ public class UpdateCourseCommandValidator : AbstractValidator<UpdateCourseComman
             .WithMessage("Category ID must be a non-empty GUID if provided.");
         
         RuleFor(command => command)
-            .MustAsync(CourseExists).WithMessage("Course was not found.");
+            .MustAsync(CourseExists)
+            .WithMessage("Course was not found.");
 
         RuleFor(command => command)
-            .MustAsync(CategoryExists).WithMessage("Category was not found.");
+            .MustAsync(CategoryExists)
+            .WithMessage("Category was not found.");
     }
     private async Task<bool> CourseExists(UpdateCourseCommand command, CancellationToken cancellationToken) =>
        await _dbContext.Courses.AnyAsync(course => course.Id == command.Id);

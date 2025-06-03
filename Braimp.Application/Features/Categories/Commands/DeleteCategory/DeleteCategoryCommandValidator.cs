@@ -11,7 +11,7 @@ public class DeleteCategoryCommandValidator : AbstractValidator<DeleteCategoryCo
         _dbContext = dbContext;
 
         RuleFor(command => command.Id)
-            .NotEqual(Guid.Empty)
+            .NotEmpty()
             .WithMessage("Category ID must not be empty.");
 
         RuleFor(command => command)

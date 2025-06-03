@@ -6,13 +6,19 @@ public class CreateCourseCommandValidator : AbstractValidator<CreateCourseComman
     public CreateCourseCommandValidator() 
     {
         RuleFor(command => command.Title)
-            .NotEmpty()
-            .MaximumLength(100);
+            .NotEmpty().WithMessage("Title cannot be empty")
+            .MaximumLength(100).WithMessage("Title cannot exceed 100 characters.");
+
         RuleFor(command => command.Description)
-            .MaximumLength(1000);
+            .MaximumLength(1000)
+            .WithMessage("Description cannot exceed 1000 characters.");
+
         RuleFor(command => command.GradingSystem)
-            .NotEmpty();
+            .NotEmpty()
+            .WithMessage("Grading system is required.");
+
         RuleFor(command => command.CourseCategoryId)
-            .NotEqual(Guid.Empty);
+            .NotEmpty()
+            .WithMessage("Category is required.");
     }
 }

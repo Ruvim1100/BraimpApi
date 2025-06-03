@@ -11,26 +11,28 @@ public class GradeSubmissionCommandValidator : AbstractValidator<GradeSubmission
         _dbContext = dbContext;
 
         RuleFor(command => command.Id)
-            .NotEmpty().WithMessage("Submission ID is required")
-            .NotEqual(Guid.Empty).WithMessage("Submission ID cannot be empty");
+            .NotEmpty()
+            .WithMessage("Submission ID is required");
 
         RuleFor(command => command.AssignmentId)
-            .NotEmpty().WithMessage("Assignment ID is required")
-            .NotEqual(Guid.Empty).WithMessage("Assignment ID cannot be empty");
+            .NotEmpty()
+            .WithMessage("Assignment ID is required");
 
         RuleFor(command => command.ReviewerId)
-            .NotEmpty().WithMessage("Reviewer ID is required")
-            .NotEqual(Guid.Empty).WithMessage("Reviewer ID cannot be empty");
+            .NotEmpty()
+            .WithMessage("Reviewer ID is required");
 
         RuleFor(command => command.CourseId)
-            .NotEmpty().WithMessage("Course ID is required")
-            .NotEqual(Guid.Empty).WithMessage("Course ID cannot be empty");
+            .NotEmpty()
+            .WithMessage("Course ID is required");
 
         RuleFor(command => command.ReviewComment)
-            .MaximumLength(500).WithMessage("Comment cannot be more than 500 characters");
+            .MaximumLength(500)
+            .WithMessage("Comment cannot be more than 500 characters");
 
         RuleFor(command => command)
-            .MustAsync(SubmissionExists).WithMessage("Submission doesn't exist");
+            .MustAsync(SubmissionExists)
+            .WithMessage("Submission doesn't exist");
 
     }
     private async Task<bool> SubmissionExists(GradeSubmissionCommand command, CancellationToken cancellationToken) =>

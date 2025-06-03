@@ -11,11 +11,12 @@ public class CreateSubmissionFileCommandValidator : AbstractValidator<CreateSubm
         _dbContext = dbContext;
 
         RuleFor(command => command.SubmissionId)
-            .NotEmpty().WithMessage("SubmissionId is required")
-            .NotEqual(Guid.Empty).WithMessage("SubmissionId cannot be empty");
+            .NotEmpty()
+            .WithMessage("SubmissionId is required");
 
         RuleFor(command => command)
-            .MustAsync(SubmissionExists).WithMessage("Submission doesn't exist");
+            .MustAsync(SubmissionExists)
+            .WithMessage("Submission doesn't exist");
     }
 
     private async Task<bool> SubmissionExists(CreateSubmissionFileCommand command, CancellationToken cancellationToken) =>

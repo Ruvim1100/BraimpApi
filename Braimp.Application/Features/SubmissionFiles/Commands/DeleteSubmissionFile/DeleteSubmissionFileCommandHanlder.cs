@@ -15,7 +15,7 @@ public class DeleteSubmissionFileCommandHanlder(IBraimpDbContext dbContext, IUni
         var resource = await dbContext.Resources
             .FirstAsync(resource => resource.Id == submissionFile.ResourceId, cancellationToken);
 
-        await blobStorageService.DeleteAsync(BlobContainers.Submissions, resource.Url);
+        await blobStorageService.DeleteAsync(BlobContainers.Submissions, resource.Url, cancellationToken);
 
         dbContext.Resources.Remove(resource);
         dbContext.SubmissionFiles.Remove(submissionFile);

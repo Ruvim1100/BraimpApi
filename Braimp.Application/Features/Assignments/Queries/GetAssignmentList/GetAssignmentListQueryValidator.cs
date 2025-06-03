@@ -11,11 +11,12 @@ public class GetAssignmentListQueryValidator : AbstractValidator<GetAssignmentLi
         _dbContext = dbContext;
 
         RuleFor(query => query.CourseId)
-            .NotEmpty().WithMessage("CourseId is required")
-            .NotEqual(Guid.Empty).WithMessage("CourseId cannot be null");
+            .NotEmpty()
+            .WithMessage("CourseId is required");
 
         RuleFor(query => query)
-            .MustAsync(CourseExists);
+            .MustAsync(CourseExists)
+            .WithMessage("Course doesn't exist");
     }
 
     private async Task<bool> CourseExists(GetAssignmentListQuery query, CancellationToken cancellationToken) =>

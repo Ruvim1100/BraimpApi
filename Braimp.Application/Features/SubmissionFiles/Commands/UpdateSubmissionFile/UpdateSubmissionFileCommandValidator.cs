@@ -11,12 +11,12 @@ public class UpdateSubmissionFileCommandValidator : AbstractValidator<UpdateSubm
         _dbContext = dbContext;
 
         RuleFor(command => command.Id)
-            .NotEmpty().WithMessage("SubmissionFileId is required")
-            .NotEqual(Guid.Empty).WithMessage("SubmissionFileId cannot be empty");
+            .NotEmpty()
+            .WithMessage("SubmissionFileId is required");
 
         RuleFor(command => command.SubmissionId)
-            .NotEmpty().WithMessage("SubmissionId is required")
-            .NotEqual(Guid.Empty).WithMessage("SubmissionId cannot be empty");
+            .NotEmpty()
+            .WithMessage("SubmissionId is required");
 
         RuleFor(command => command)
             .MustAsync(SubmissionFileExists)

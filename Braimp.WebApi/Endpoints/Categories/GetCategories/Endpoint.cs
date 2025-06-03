@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Braimp.Application.Features.Categories.Queries.GetCategoryList;
+﻿using Braimp.Application.Features.Categories.Queries.GetCategoryList;
 using Braimp.WebApi.Constants;
 using Carter;
 using MediatR;
@@ -11,7 +10,6 @@ public class Endpoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapGet(ApiRoutes.Categories.Get, Handler)
-            .RequireAuthorization("User")
             .Produces<CategoryListResponse>(StatusCodes.Status200OK)
             .ProducesValidationProblem()
             .WithTags(EndpointTags.Categories);

@@ -17,7 +17,8 @@ public class CreateAssignmentFileCommandHandler(IBraimpDbContext dbContext, IUni
             request.FileStream,
             containerName: BlobContainers.Assignments,
             blobName: uniqueBlobName,
-            encoding: request.Encoding);
+            encoding: request.Encoding,
+            cancellationToken);
 
         var resource = new Resource
         {

@@ -342,7 +342,6 @@ namespace Braimp.Infrastructure.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Text = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false),
                     QuestionType = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    MediaUrl = table.Column<string>(type: "nvarchar(2048)", maxLength: 2048, nullable: true),
                     Weight = table.Column<int>(type: "int", nullable: false, defaultValue: 1),
                     QuizId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
@@ -428,7 +427,6 @@ namespace Braimp.Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Text = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    MediaUrl = table.Column<string>(type: "nvarchar(2048)", maxLength: 2048, nullable: true),
                     IsCorrect = table.Column<bool>(type: "bit", nullable: false),
                     QuizQuestionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
@@ -437,6 +435,25 @@ namespace Braimp.Infrastructure.Migrations
                     table.PrimaryKey("PK_QuizOptions", x => x.Id);
                     table.ForeignKey(
                         name: "FK_QuizOptions_QuizQuestions_QuizQuestionId",
+                        column: x => x.QuizQuestionId,
+                        principalTable: "QuizQuestions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "QuizQuestionFiles",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ResourceId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    QuizQuestionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_QuizQuestionFiles", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_QuizQuestionFiles_QuizQuestions_QuizQuestionId",
                         column: x => x.QuizQuestionId,
                         principalTable: "QuizQuestions",
                         principalColumn: "Id",
@@ -509,6 +526,12 @@ namespace Braimp.Infrastructure.Migrations
                 column: "QuizQuestionId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_QuizQuestionFiles_QuizQuestionId",
+                table: "QuizQuestionFiles",
+                column: "QuizQuestionId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_QuizQuestions_QuizId",
                 table: "QuizQuestions",
                 column: "QuizId");
@@ -560,6 +583,9 @@ namespace Braimp.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "QuizOptions");
+
+            migrationBuilder.DropTable(
+                name: "QuizQuestionFiles");
 
             migrationBuilder.DropTable(
                 name: "QuizResults");

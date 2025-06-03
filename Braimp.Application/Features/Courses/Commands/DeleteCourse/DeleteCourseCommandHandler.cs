@@ -9,9 +9,9 @@ public class DeleteCourseCommandHandler(IBraimpDbContext dbContext, IUnitOfWork 
     public async Task<Unit> Handle(DeleteCourseCommand request, CancellationToken cancellationToken)
     {
         var course = await dbContext.Courses
-            .FirstOrDefaultAsync(course => course.Id == request.Id, cancellationToken);
+            .FirstAsync(course => course.Id == request.Id, cancellationToken);
 
-        dbContext.Courses.Remove(course!);
+        dbContext.Courses.Remove(course);
         await unitOfWork.SaveChangesAsync(cancellationToken);
 
         return Unit.Value;

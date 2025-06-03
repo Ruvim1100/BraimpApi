@@ -21,9 +21,10 @@ public class GetSubmissionFileListQueryHandler(IBraimpDbContext dbContext, IBlob
 
         foreach (var file in files)
         {
-            var sasUrl = await blobStorageService.GenerateSasUriAsync(
+            var sasUrl = blobStorageService.GetDownloadTokens(
                 containerName: BlobContainers.Submissions,
                 blobName: file.Resource.Url,
+                fileName: file.Resource.Name,
                 expiry: TimeSpan.FromMinutes(10));
 
             submissionFiles.Add(

@@ -11,25 +11,28 @@ public class UpdateLessonCommandValidator : AbstractValidator<UpdateLessonComman
         _dbContext = dbContext;
 
         RuleFor(command => command.Id)
-            .NotEmpty().WithMessage("LessonId is required.")
-            .NotEqual(Guid.Empty).WithMessage("LessonId cannot be empty.");
+            .NotEmpty()
+            .WithMessage("LessonId is required.");
 
         RuleFor(command => command.ModuleId)
-            .NotEmpty().WithMessage("ModuleId is required.")
-            .NotEqual(Guid.Empty).WithMessage("ModuleId cannot be empty.");
+            .NotEmpty()
+            .WithMessage("ModuleId is required.");
 
         RuleFor(command => command.CourseId)
-            .NotEmpty().WithMessage("CourseId is required.")
-            .NotEqual(Guid.Empty).WithMessage("CourseId cannot be empty.");
+            .NotEmpty()
+            .WithMessage("CourseId is required.");
         
         RuleFor(command => command.Title)
-            .MaximumLength(100).WithMessage("Lesson title must be at most 100 characters.");
+            .MaximumLength(100)
+            .WithMessage("Lesson title must be at most 100 characters.");
 
         RuleFor(command => command.Description)
-            .MaximumLength(1000).WithMessage("Lesson Description must be at most 1000 characters.");
+            .MaximumLength(1000)
+            .WithMessage("Lesson Description must be at most 1000 characters.");
 
         RuleFor(command => command.SortIndex)
-            .GreaterThanOrEqualTo(0).WithMessage("Lesson Index must be Greater Than Or Equal To 0");
+            .GreaterThanOrEqualTo(0)
+            .WithMessage("Lesson Index must be Greater Than Or Equal To 0");
 
         RuleFor(command => command)
             .MustAsync(LessonExists)

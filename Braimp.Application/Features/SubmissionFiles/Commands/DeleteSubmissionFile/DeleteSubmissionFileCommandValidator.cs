@@ -11,15 +11,16 @@ public class DeleteSubmissionFileCommandValidator : AbstractValidator<DeleteSubm
         _dbContext = dbContext;
 
         RuleFor(command => command.Id)
-            .NotEmpty().WithMessage("SubmissionFileId is required")
-            .NotEqual(Guid.Empty).WithMessage("SubmissionFileId cannot be empty");
+            .NotEmpty()
+            .WithMessage("SubmissionFileId is required");
 
         RuleFor(command => command.SubmissionId)
-            .NotEmpty().WithMessage("SubmissionId is required")
-            .NotEqual(Guid.Empty).WithMessage("SubmissionId cannot be empty");
+            .NotEmpty()
+            .WithMessage("SubmissionId is required");
             
         RuleFor(command => command)
-            .MustAsync(SubmissionExists).WithMessage("SubmissionFile doesn't exist");
+            .MustAsync(SubmissionExists)
+            .WithMessage("SubmissionFile doesn't exist");
     }
 
     private async Task<bool> SubmissionExists(DeleteSubmissionFileCommand command, CancellationToken cancellationToken) =>

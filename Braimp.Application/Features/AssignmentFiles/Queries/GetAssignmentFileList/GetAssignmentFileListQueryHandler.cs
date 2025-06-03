@@ -21,9 +21,10 @@ public class GetAssignmentFileListQueryHandler(IBraimpDbContext dbContext, IBlob
 
         foreach (var file in files)
         {
-            var sasUrl = await blobStorageService.GenerateSasUriAsync(
+            var sasUrl = blobStorageService.GetDownloadTokens(
                 containerName: BlobContainers.Assignments,
                 blobName: file.Resource.Url,
+                fileName: file.Resource.Name + Path.GetExtension(file.Resource.Url),
                 expiry: TimeSpan.FromMinutes(10));
 
             assignmentFiles.Add(
@@ -31,7 +32,8 @@ public class GetAssignmentFileListQueryHandler(IBraimpDbContext dbContext, IBlob
                 {
                     AssignmentFileId = file.AssignmentFile.Id,
                     Name = file.Resource.Name,
-                    DownloadUrl = sasUrl.ToString()
+                    DownloadUrl = sasUrl.DownloadToken,
+                    PreviewUrl = sasUrl.PreviewToken
                 }
             );
         }

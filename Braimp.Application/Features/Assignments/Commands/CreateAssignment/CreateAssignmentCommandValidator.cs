@@ -16,17 +16,20 @@ public class CreateAssignmentCommandValidator : AbstractValidator<CreateAssignme
             .MaximumLength(100).WithMessage("Title must not exceed 100 characters");
 
         RuleFor(assignment => assignment.Description)
-            .MaximumLength(1000).WithMessage("Description must not exceed 1000 characters");
+            .MaximumLength(1000)
+            .WithMessage("Description must not exceed 1000 characters");
 
         RuleFor(assignment => assignment.Deadline)
-            .Must(BeAFutureDate).WithMessage("Deadline must be a future date");
+            .Must(BeAFutureDate)
+            .WithMessage("Deadline must be a future date");
 
         RuleFor(assignment => assignment.CourseId)
-            .NotEmpty().WithMessage("CourseId is required")
-            .NotEqual(Guid.Empty).WithMessage("CourseId cannot be empty");
+            .NotEmpty()
+            .WithMessage("CourseId is required");
 
         RuleFor(assignment => assignment)
-            .MustAsync(CourseExists).WithMessage("Specified course does not exist");
+            .MustAsync(CourseExists)
+            .WithMessage("Specified course does not exist");
     }
 
     private bool BeAFutureDate(DateTimeOffset deadline)
