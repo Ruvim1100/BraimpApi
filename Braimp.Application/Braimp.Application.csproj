@@ -19,6 +19,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Features\News\Queries\GetCourseNewsList\" />
+    <Folder Include="Features\News\Queries\GetNewsDetails\" />
     <Folder Include="Features\QuizQuestions\Commands\DeleteQuizQuestion\" />
     <Folder Include="Features\QuizQuestions\Commands\UpdateQuizQuestion\" />
     <Folder Include="Features\QuizQuestions\Queries\GetQuizQuestionDetails\" />
