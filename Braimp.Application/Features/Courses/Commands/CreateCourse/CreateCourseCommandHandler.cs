@@ -2,13 +2,20 @@
 using Braimp.Domain.Entities.Courses;
 using Braimp.Domain.Entities.Courses.Enums;
 using MediatR;
+using Microsoft.Extensions.Logging;
 
 namespace Braimp.Application.Features.Courses.Commands.CreateCourse;
-public class CreateCourseCommandHandler(IBraimpDbContext dbContext, IUnitOfWork unitOfWork, ICurrentUserService currentUser) 
-    : IRequestHandler<CreateCourseCommand, Guid>
+public class CreateCourseCommandHandler(IBraimpDbContext dbContext, IUnitOfWork unitOfWork, ICurrentUserService currentUser,
+    ILogger<CreateCourseCommandHandler> logger) : IRequestHandler<CreateCourseCommand, Guid>
 {
     public async Task<Guid> Handle(CreateCourseCommand request, CancellationToken cancellationToken)
     {
+        logger.LogInformation(
+            "Starting CreateCourseCommand handling: Title={Title}, CategoryId={CategoryId}, UserId={UserId}",
+            request.Title,
+            request.CourseCategoryId,
+            currentUser.UserId);
+
         var course = new Course
         {
             Id = Guid.NewGuid(),
@@ -29,7 +36,16 @@ public class CreateCourseCommandHandler(IBraimpDbContext dbContext, IUnitOfWork 
             Role = CourseRole.Owner
         });
 
+        logger.LogDebug(
+            "Adding CourseParticipant for UserId={UserId} in CourseId={CourseId}",
+            currentUser.UserId,
+            course.Id);
+
         await unitOfWork.SaveChangesAsync(cancellationToken);
+
+        logger.LogInformation(
+            "CreateCourseCommand completed successfully: course created with Id={CourseId}",
+            course.Id);
 
         return course.Id;
     }

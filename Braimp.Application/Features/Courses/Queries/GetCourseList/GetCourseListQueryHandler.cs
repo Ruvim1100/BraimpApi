@@ -6,13 +6,21 @@ using Braimp.Application.Pagination;
 using Braimp.Domain.Entities.Courses.Enums;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace Braimp.Application.Features.Courses.Queries.GetCourseList;
-public class GetCourseListQueryHandler(IBraimpDbContext dbContext, IMapper mapper) 
+public class GetCourseListQueryHandler(IBraimpDbContext dbContext, IMapper mapper, ILogger<GetCourseListQueryHandler> logger) 
     : IRequestHandler<GetCourseListQuery, PaginationResult<CourseLookupModel>>
 {
     public async Task<PaginationResult<CourseLookupModel>> Handle(GetCourseListQuery request,  CancellationToken cancellationToken)
     {
+        logger.LogInformation(
+            "Starting GetCourseListQuery handling: SearchTerm={SearchTerm}, Category={Category}, Status={Status}, SortBy={SortBy}, Descending={Descending}",
+            request.SearchTerm,
+            request.Category,
+            request.Status,
+            request.SortBy,
+            request.Descending);
         var query = dbContext.Courses
             .AsNoTracking();
 
@@ -48,6 +56,11 @@ public class GetCourseListQueryHandler(IBraimpDbContext dbContext, IMapper mappe
             .ProjectTo<CourseLookupModel>(mapper.ConfigurationProvider)
             .ToPagedListAsync(request, cancellationToken);
 
+        logger.LogInformation(
+            "GetCourseListQuery completed successfully: returned {Count} items, Page={Page}, PageSize={PageSize}",
+            result.Items.Count,
+            request.Page,
+            request.PageSize);
         return result;
     }
 }

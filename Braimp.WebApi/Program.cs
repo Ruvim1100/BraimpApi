@@ -28,6 +28,7 @@ app.UseSwaggerUI(c =>
     c.OAuthClientId("b4f7e9d9-93d9-488b-ba6e-c4f34d5abf47");
     c.OAuthUsePkce();
 });
+app.UseTimig();
 app.UseCustomExceptionHandler();
 app.UseHttpsRedirection();
 app.UseRouting();

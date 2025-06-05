@@ -12,7 +12,7 @@ public class DeleteLessonCommandValidator : AbstractValidator<DeleteLessonComman
 
         RuleFor(command => command.Id)
             .NotEmpty()
-            .WithMessage("LessonId is required.")\;
+            .WithMessage("LessonId is required.");
 
         RuleFor(command => command.ModuleId)
             .NotEmpty()

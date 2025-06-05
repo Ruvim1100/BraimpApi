@@ -3,32 +3,30 @@ using Braimp.Application.Abstraction;
 using Braimp.Application.Mapping;
 using Braimp.Infrastructure;
 
-namespace Braimp.Tests.Common
+namespace Braimp.Tests.Common;
+public class QueryTestFixture : IDisposable
 {
-    public class QueryTestFixture : IDisposable
+    public BraimpDbContext Context;
+    public IUnitOfWork UnitOfWork;
+    public IMapper Mapper;
+
+    public QueryTestFixture()
     {
-        public BraimpDbContext Context;
-        public IUnitOfWork UnitOfWork;
-        public IMapper Mapper;
-
-        public QueryTestFixture()
+        Context = BraimpContextFactory.Create();
+        UnitOfWork = Context;
+        var configurationProvider = new MapperConfiguration(cfg =>
         {
-            Context = BraimpContextFactory.Create();
-            UnitOfWork = Context;
-            var configurationProvider = new MapperConfiguration(cfg =>
-            {
-                cfg.AddProfile(new AssemblyMappingProfile(
-                    typeof(IBraimpDbContext).Assembly));
-            });
-            Mapper = configurationProvider.CreateMapper();
-        }
-
-        public void Dispose()
-        {
-            BraimpContextFactory.Destroy(Context);
-        }
+            cfg.AddProfile(new AssemblyMappingProfile(
+                typeof(IBraimpDbContext).Assembly));
+        });
+        Mapper = configurationProvider.CreateMapper();
     }
 
-    [CollectionDefinition("QueryCollection")]
-    public class QueryCollection : ICollectionFixture<QueryTestFixture> { }
+    public void Dispose()
+    {
+        BraimpContextFactory.Destroy(Context);
+    }
 }
+
+[CollectionDefinition("QueryCollection")]
+public class QueryCollection : ICollectionFixture<QueryTestFixture> { }
