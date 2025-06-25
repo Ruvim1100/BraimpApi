@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Braimp.Infrastructure.EntityTypeConfiguration.Quizzes;
-public class QuizOptionConfiguration : IEntityTypeConfiguration<QuizOption>
+public class QuestionOptionConfiguration : IEntityTypeConfiguration<QuestionOption>
 {
-    public void Configure(EntityTypeBuilder<QuizOption> builder)
+    public void Configure(EntityTypeBuilder<QuestionOption> builder)
     {
-        builder.ToTable(TableNames.QuizOptions);
+        builder.ToTable(TableNames.QestionOptions);
 
         builder.HasKey(quizOption => quizOption.Id);
 
@@ -16,7 +16,7 @@ public class QuizOptionConfiguration : IEntityTypeConfiguration<QuizOption>
             .HasMaxLength(100);
 
         builder.HasOne(quizOption => quizOption.QuizQuestion)
-            .WithMany(quizQuestion => quizQuestion.QuizOptions)
+            .WithMany(quizQuestion => quizQuestion.QuestionOptions)
             .HasForeignKey(quizOption => quizOption.QuizQuestionId)
             .OnDelete(DeleteBehavior.Cascade);
     }

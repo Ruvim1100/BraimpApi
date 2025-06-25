@@ -11,7 +11,7 @@ public static class ConfigureAuthentication
     {
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddMicrosoftIdentityWebApi(
-            configuration.GetSection("AzureAd"),
+            configuration.GetSection("AzureAdApi"),
             jwtBearerScheme: JwtBearerDefaults.AuthenticationScheme,
             subscribeToJwtBearerMiddlewareDiagnosticsEvents: false );
 
@@ -19,12 +19,13 @@ public static class ConfigureAuthentication
             JwtBearerDefaults.AuthenticationScheme, options =>
             {
                 options.TokenValidationParameters.RoleClaimType = ClaimTypes.Role;
+                var audience = configuration["AzureAdApi:Audience"];
             });
 
         services.AddAuthorization(options =>
         {
-            options.AddPolicy("User", p => p.RequireRole("User", "Admin"));
-            options.AddPolicy("Admin", p => p.RequireRole("Admin"));
+            options.AddPolicy("User", p => p.RequireRole("User"));
+            options.AddPolicy("Admin", p => p.RequireRole("Admin", "User"));
         });
         return services;
     }

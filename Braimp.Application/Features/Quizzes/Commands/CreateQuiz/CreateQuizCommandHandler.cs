@@ -17,7 +17,7 @@ public class CreateQuizCommandHandler(IBraimpDbContext dbContext, IUnitOfWork un
             IsPublished = request.IsPublished,
             MaxAttempts = request.MaxAttempts,
             IsRandomized = request.IsRandomized,
-            StartTime = request.StartTime,
+            AvailableFrom = request.StartTime,
             CourseId = request.CourseId
         };
 

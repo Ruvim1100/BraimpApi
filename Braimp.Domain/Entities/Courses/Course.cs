@@ -15,10 +15,8 @@ public class Course : BaseEntity<Guid>, IAuditable
     public CourseStatus Status { get; set; } = CourseStatus.Pending;
     public DateTimeOffset CreatedAt { get; set; }
     public DateTimeOffset? UpdatedAt { get; set; }
-    public GradingSystem GradingSystem { get; set; } = GradingSystem.PointsOutOf10;
-    public string? CoverImageUrl { get; set; }
-    public string? BackgroundColor { get; set; }
-    public string? LogoUrl { get; set; }
+    public GradingSystem GradingSystem { get; set; } = GradingSystem.TenPoint;
+    public CourseImage? Image { get; set; }
     public Guid CourseCategoryId { get; set; }
     public CourseCategory CourseCategory { get; set; } = null!;
     public ICollection<EnrollmentRequest> EnrollmentRequests { get; set; }

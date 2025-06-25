@@ -10,6 +10,7 @@ public class Endpoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapGet(ApiRoutes.SubmissionFiles.Get, Handler)
+            .RequireAuthorization("User")
             .Produces<SubmissionFileListResponse>(StatusCodes.Status200OK)
             .ProducesValidationProblem()
             .WithTags(EndpointTags.SubmissionFiles);

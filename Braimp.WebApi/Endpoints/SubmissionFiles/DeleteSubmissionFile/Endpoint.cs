@@ -10,6 +10,7 @@ public class Endpoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapDelete(ApiRoutes.SubmissionFiles.Delete, Handler)
+            .RequireAuthorization("User")
             .Produces(StatusCodes.Status204NoContent)
             .ProducesValidationProblem()
             .WithTags(EndpointTags.SubmissionFiles);

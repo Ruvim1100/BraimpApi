@@ -48,6 +48,23 @@ namespace Braimp.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    Surname = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    GivenName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    Country = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Courses",
                 columns: table => new
                 {
@@ -58,10 +75,7 @@ namespace Braimp.Infrastructure.Migrations
                     Status = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false, defaultValue: "Pending"),
                     CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    GradingSystem = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false, defaultValue: "PointsOutOf10"),
-                    CoverImageUrl = table.Column<string>(type: "nvarchar(2048)", maxLength: 2048, nullable: true),
-                    BackgroundColor = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    LogoUrl = table.Column<string>(type: "nvarchar(2048)", maxLength: 2048, nullable: true),
+                    GradingSystem = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false, defaultValue: "TenPoint"),
                     CourseCategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
@@ -92,6 +106,25 @@ namespace Braimp.Infrastructure.Migrations
                     table.PrimaryKey("PK_Assignments", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Assignments_Courses_CourseId",
+                        column: x => x.CourseId,
+                        principalTable: "Courses",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CourseImages",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ResourceId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CourseId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CourseImages", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CourseImages_Courses_CourseId",
                         column: x => x.CourseId,
                         principalTable: "Courses",
                         principalColumn: "Id",
@@ -249,7 +282,8 @@ namespace Braimp.Infrastructure.Migrations
                     IsPublished = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
                     MaxAttempts = table.Column<int>(type: "int", nullable: false),
                     IsRandomized = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
-                    StartTime = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    AvailableFrom = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    AvailableUntil = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     CourseId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
@@ -336,6 +370,34 @@ namespace Braimp.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "QuizAttempts",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    StudentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Score = table.Column<decimal>(type: "decimal(5,2)", precision: 5, scale: 2, nullable: false),
+                    Grade = table.Column<decimal>(type: "decimal(5,2)", precision: 5, scale: 2, nullable: true),
+                    CorrectAnswerCount = table.Column<int>(type: "int", nullable: false),
+                    IncorrectAnswerCount = table.Column<int>(type: "int", nullable: false),
+                    StartedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    FinishedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    TimeLimitMinutes = table.Column<int>(type: "int", nullable: false),
+                    IsPublished = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
+                    AttemptNumber = table.Column<int>(type: "int", nullable: false),
+                    QuizId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_QuizAttempts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_QuizAttempts_Quizzes_QuizId",
+                        column: x => x.QuizId,
+                        principalTable: "Quizzes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "QuizQuestions",
                 columns: table => new
                 {
@@ -350,33 +412,6 @@ namespace Braimp.Infrastructure.Migrations
                     table.PrimaryKey("PK_QuizQuestions", x => x.Id);
                     table.ForeignKey(
                         name: "FK_QuizQuestions_Quizzes_QuizId",
-                        column: x => x.QuizId,
-                        principalTable: "Quizzes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "QuizResults",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    StudentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Score = table.Column<decimal>(type: "decimal(5,2)", precision: 5, scale: 2, nullable: false),
-                    Grade = table.Column<decimal>(type: "decimal(5,2)", precision: 5, scale: 2, nullable: true),
-                    CorrectAnswerCount = table.Column<int>(type: "int", nullable: false),
-                    IncorrectAnswerCount = table.Column<int>(type: "int", nullable: false),
-                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    IsPublished = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
-                    AttemptNumber = table.Column<int>(type: "int", nullable: false),
-                    QuizId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_QuizResults", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_QuizResults_Quizzes_QuizId",
                         column: x => x.QuizId,
                         principalTable: "Quizzes",
                         principalColumn: "Id",
@@ -422,7 +457,7 @@ namespace Braimp.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "QuizOptions",
+                name: "QestionOptions",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -432,9 +467,9 @@ namespace Braimp.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_QuizOptions", x => x.Id);
+                    table.PrimaryKey("PK_QestionOptions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_QuizOptions_QuizQuestions_QuizQuestionId",
+                        name: "FK_QestionOptions_QuizQuestions_QuizQuestionId",
                         column: x => x.QuizQuestionId,
                         principalTable: "QuizQuestions",
                         principalColumn: "Id",
@@ -469,6 +504,12 @@ namespace Braimp.Infrastructure.Migrations
                 name: "IX_Assignments_CourseId",
                 table: "Assignments",
                 column: "CourseId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CourseImages_CourseId",
+                table: "CourseImages",
+                column: "CourseId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_CourseNews_CourseId",
@@ -521,9 +562,14 @@ namespace Braimp.Infrastructure.Migrations
                 column: "CourseId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_QuizOptions_QuizQuestionId",
-                table: "QuizOptions",
+                name: "IX_QestionOptions_QuizQuestionId",
+                table: "QestionOptions",
                 column: "QuizQuestionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_QuizAttempts_QuizId",
+                table: "QuizAttempts",
+                column: "QuizId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_QuizQuestionFiles_QuizQuestionId",
@@ -534,11 +580,6 @@ namespace Braimp.Infrastructure.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_QuizQuestions_QuizId",
                 table: "QuizQuestions",
-                column: "QuizId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_QuizResults_QuizId",
-                table: "QuizResults",
                 column: "QuizId");
 
             migrationBuilder.CreateIndex(
@@ -564,6 +605,9 @@ namespace Braimp.Infrastructure.Migrations
                 name: "AssignmentFiles");
 
             migrationBuilder.DropTable(
+                name: "CourseImages");
+
+            migrationBuilder.DropTable(
                 name: "CourseNews");
 
             migrationBuilder.DropTable(
@@ -582,19 +626,22 @@ namespace Braimp.Infrastructure.Migrations
                 name: "Notifications");
 
             migrationBuilder.DropTable(
-                name: "QuizOptions");
+                name: "QestionOptions");
+
+            migrationBuilder.DropTable(
+                name: "QuizAttempts");
 
             migrationBuilder.DropTable(
                 name: "QuizQuestionFiles");
-
-            migrationBuilder.DropTable(
-                name: "QuizResults");
 
             migrationBuilder.DropTable(
                 name: "Resources");
 
             migrationBuilder.DropTable(
                 name: "SubmissionFiles");
+
+            migrationBuilder.DropTable(
+                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "Tags");

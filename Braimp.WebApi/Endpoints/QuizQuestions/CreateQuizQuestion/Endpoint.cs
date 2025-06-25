@@ -11,6 +11,7 @@ public class Endpoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapPost(ApiRoutes.QuizQuestions.Create, Handler)
+            .RequireAuthorization("User")
             .Accepts<Request>("multipart/form-data")
             .DisableAntiforgery()
             .Produces(StatusCodes.Status201Created)

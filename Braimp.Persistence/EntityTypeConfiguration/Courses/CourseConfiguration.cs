@@ -26,17 +26,9 @@ public class CourseConfiguration : IEntityTypeConfiguration<Course>
 
         builder.Property(course => course.GradingSystem)
             .HasConversion<string>()
-            .HasDefaultValue(GradingSystem.PointsOutOf10)
+            .HasDefaultValue(GradingSystem.TenPoint)
             .HasMaxLength(50);
 
-        builder.Property(course => course.CoverImageUrl)
-            .HasMaxLength(2048);
-
-        builder.Property(course => course.BackgroundColor)
-            .HasMaxLength(50);
-
-        builder.Property(course => course.LogoUrl)
-            .HasMaxLength(2048);
 
         builder.HasOne(course => course.CourseCategory)
             .WithMany(courseCategory => courseCategory.Courses)

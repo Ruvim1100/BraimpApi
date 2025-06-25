@@ -11,12 +11,13 @@ public class Endpoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapPost(ApiRoutes.Categories.Create, Handler)
+            .RequireAuthorization("Admin")
             .Produces(StatusCodes.Status201Created)
             .ProducesValidationProblem()
             .WithTags(EndpointTags.Categories);
     }
 
-    private async Task<IResult> Handler([FromBody] CreateCategoryDto createCategoryDto, 
+    private async Task<IResult> Handler([FromBody] Request createCategoryDto, 
         IMediator mediator, IMapper mapper, CancellationToken cancellationToken)
     {
         var command = mapper.Map<CreateCategoryCommand>(createCategoryDto);

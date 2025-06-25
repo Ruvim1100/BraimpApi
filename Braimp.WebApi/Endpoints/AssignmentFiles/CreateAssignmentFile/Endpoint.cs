@@ -11,11 +11,12 @@ public class Endpoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapPost(ApiRoutes.AssignmentFiles.Create, Handler)
-               .Accepts<IFormFile>("multipart/form-data")
-               .Produces<Guid>(StatusCodes.Status200OK)
-               .DisableAntiforgery()
-               .WithTags(EndpointTags.AssignmentFiles)
-               .WithOpenApi();
+            .RequireAuthorization("User")
+            .Accepts<IFormFile>("multipart/form-data")
+            .Produces<Guid>(StatusCodes.Status200OK)
+            .DisableAntiforgery()
+            .WithTags(EndpointTags.AssignmentFiles)
+            .WithOpenApi();
     }
 
     private async Task<IResult> Handler([FromRoute] Guid courseId, [FromRoute] Guid assignmentId,

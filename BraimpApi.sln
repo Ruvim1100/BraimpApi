@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Braimp.Ai", "Braimp.Ai\Brai
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Braimp.Identity", "Braimp.Identity\Braimp.Identity.csproj", "{C9C06F36-8046-4D15-B128-5F7080C2E40E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Braimp.Tests.Integration", "Braimp.Tests.Integration\Braimp.Tests.Integration.csproj", "{5600AD2A-F8A5-449D-B30A-8A7C5301159D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{C9C06F36-8046-4D15-B128-5F7080C2E40E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C9C06F36-8046-4D15-B128-5F7080C2E40E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C9C06F36-8046-4D15-B128-5F7080C2E40E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5600AD2A-F8A5-449D-B30A-8A7C5301159D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5600AD2A-F8A5-449D-B30A-8A7C5301159D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5600AD2A-F8A5-449D-B30A-8A7C5301159D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5600AD2A-F8A5-449D-B30A-8A7C5301159D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

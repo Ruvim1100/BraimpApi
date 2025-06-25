@@ -7,7 +7,12 @@ public static class ConfigureSwagger
     {
         services.AddSwaggerGen(c =>
         {
-            c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+            c.SwaggerDoc("v1", new OpenApiInfo { Title = "Braimp API", Version = "v1" });
+
+            var tenantId = configuration["AzureAd:TenantId"];
+            var policy = configuration["AzureAd:UserFlow"];
+            var clientId = configuration["AzureAd:ClientId"];
+            var scope = configuration["AzureAd:Scopes"];
 
             c.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
             {
@@ -16,19 +21,15 @@ public static class ConfigureSwagger
                 {
                     AuthorizationCode = new OpenApiOAuthFlow
                     {
-                        AuthorizationUrl = new Uri(string.Format("https://login.microsoftonline.com/{0}/oauth2/v2.0/authorize", configuration["AzureAd:TenantId"])),
-                        TokenUrl = new Uri(string.Format("https://login.microsoftonline.com/{0}/oauth2/v2.0/token", configuration["AzureAd:TenantId"])),
+                        AuthorizationUrl = new Uri($"https://braimpplatform.ciamlogin.com/{tenantId}/oauth2/v2.0/authorize?p={policy}"),
+                        TokenUrl = new Uri($"https://braimpplatform.ciamlogin.com/{tenantId}/oauth2/v2.0/token?p={policy}"),
                         Scopes = new Dictionary<string, string>
                         {
-                            {
-                                configuration["AzureAd:Scopes"]!, "Access API" 
-                            }
+                            { scope!, "Access Braimp API" }
                         }
                     }
                 }
             });
-
-            c.CustomSchemaIds(type => type.FullName!);
 
             c.AddSecurityRequirement(new OpenApiSecurityRequirement
             {
@@ -41,10 +42,11 @@ public static class ConfigureSwagger
                             Id = "oauth2"
                         }
                     },
-                    new[] { configuration["AzureAd:Scopes"]! }
+                    new[] { scope }
                 }
             });
 
+            c.CustomSchemaIds(type => type.FullName!);
         });
 
         return services;

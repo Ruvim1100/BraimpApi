@@ -12,12 +12,13 @@ public class Endpoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapPost(ApiRoutes.Courses.Create, Handler)
+            .RequireAuthorization("User")
             .Produces(StatusCodes.Status201Created)
             .ProducesValidationProblem()
             .WithTags(EndpointTags.Courses);
     }
 
-    private async Task<IResult> Handler([FromBody] Request createCourseDto, 
+    public async Task<IResult> Handler([FromBody] Request createCourseDto, 
         IMediator mediator, IMapper mapper, ICurrentUserService currentUser, CancellationToken cancellationToken)
     {
         var command = mapper.Map<CreateCourseCommand>(createCourseDto);

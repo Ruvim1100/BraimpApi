@@ -1,2 +1,4 @@
-﻿namespace Braimp.WebApi.Endpoints.Ai.GenerateTest;
-public record GenerateTestRequest(string content);
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Braimp.WebApi.Endpoints.Ai.GenerateTest;
+public record GenerateTestRequest([Required, MinLength(100)] string content);

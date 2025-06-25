@@ -10,6 +10,7 @@ public class Endpoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapDelete(ApiRoutes.Quizzes.Delete, Handler)
+            .RequireAuthorization("User")
             .Produces(StatusCodes.Status204NoContent)
             .ProducesProblem(StatusCodes.Status400BadRequest)
             .WithTags(EndpointTags.Quizzes);

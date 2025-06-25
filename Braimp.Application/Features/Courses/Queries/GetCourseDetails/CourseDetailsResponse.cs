@@ -5,6 +5,7 @@ using Braimp.Domain.Entities.Courses;
 namespace Braimp.Application.Features.Courses.Queries.GetCourseDetails;
 public class CourseDetailsResponse : IMapWith<Course>
 {
+    public Guid Id { get; set; }
     public Guid OwnerId { get; set; }
     public string Title { get; set; } = string.Empty;
     public string? Description { get; set; }

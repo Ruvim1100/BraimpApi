@@ -8,8 +8,5 @@ public class UpdateCourseCommand : IRequest<Unit>
     public string? Title { get; set; }
     public string? Description { get; set; }
     public GradingSystem? GradingSystem { get; set; }
-    public string? CoverImageUrl { get; set; }
-    public string? BackgroundColor { get; set; }
-    public string? LogoUrl { get; set; }
     public Guid? CourseCategoryId { get; set; }
 }

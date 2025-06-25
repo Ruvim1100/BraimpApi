@@ -9,6 +9,9 @@ public class Endpoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapDelete(ApiRoutes.Categories.Delete, Handler)
+            .RequireAuthorization("Admin")
+            .Produces(StatusCodes.Status204NoContent)
+            .ProducesValidationProblem()
             .WithTags(EndpointTags.Categories);
     }
 

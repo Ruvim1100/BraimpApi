@@ -82,7 +82,7 @@ public class CreateQuizQuestionCommandHandler(IBraimpDbContext dbContext, IUnitO
 
             if (request.QuizOptions != null)
             {
-                var options = request.QuizOptions.Select(option => new QuizOption
+                var options = request.QuizOptions.Select(option => new QuestionOption
                 {
                     Id = Guid.NewGuid(),
                     Text = option.Text,
@@ -90,7 +90,7 @@ public class CreateQuizQuestionCommandHandler(IBraimpDbContext dbContext, IUnitO
                     QuizQuestionId = question.Id
                 }).ToList();
 
-                dbContext.QuizOptions.AddRange(options);
+                dbContext.QuestionOptions.AddRange(options);
             }
             else
             {

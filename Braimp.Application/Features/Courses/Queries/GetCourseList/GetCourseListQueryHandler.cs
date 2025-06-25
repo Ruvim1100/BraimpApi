@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using Braimp.Application.Abstraction;
-using Braimp.Application.Extensions;
 using Braimp.Application.Pagination;
 using Braimp.Domain.Entities.Courses.Enums;
 using MediatR;
@@ -9,19 +7,22 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace Braimp.Application.Features.Courses.Queries.GetCourseList;
-public class GetCourseListQueryHandler(IBraimpDbContext dbContext, IMapper mapper, ILogger<GetCourseListQueryHandler> logger) 
+public class GetCourseListQueryHandler(IBraimpDbContext dbContext, IMapper mapper, 
+    ILogger<GetCourseListQueryHandler> logger, IBlobStorageService blobStorageService) 
     : IRequestHandler<GetCourseListQuery, PaginationResult<CourseLookupModel>>
 {
     public async Task<PaginationResult<CourseLookupModel>> Handle(GetCourseListQuery request,  CancellationToken cancellationToken)
     {
         logger.LogInformation(
-            "Starting GetCourseListQuery handling: SearchTerm={SearchTerm}, Category={Category}, Status={Status}, SortBy={SortBy}, Descending={Descending}",
+            "Starting GetCourseListQuery handling: SearchTerm={SearchTerm}, Category={Category}, SortBy={SortBy}, Descending={Descending}",
             request.SearchTerm,
             request.Category,
-            request.Status,
             request.SortBy,
             request.Descending);
+
         var query = dbContext.Courses
+            .Where(course => course.Status == CourseStatus.Approved)
+            .Include(course => course.Image)
             .AsNoTracking();
 
         if (!string.IsNullOrWhiteSpace(request.SearchTerm))
@@ -37,12 +38,6 @@ public class GetCourseListQueryHandler(IBraimpDbContext dbContext, IMapper mappe
             query = query.Where(c => c.CourseCategoryId == request.Category.Value);
         }
 
-        if (!string.IsNullOrWhiteSpace(request.Status) &&
-            Enum.TryParse<CourseStatus>(request.Status, true, out var status))
-        {
-            query = query.Where(c => c.Status == status);
-        }
-
         query = (request.SortBy?.ToLower(), request.Descending) switch
         {
             ("title", true) => query.OrderByDescending(c => c.Title),
@@ -52,15 +47,52 @@ public class GetCourseListQueryHandler(IBraimpDbContext dbContext, IMapper mappe
             _ => query.OrderByDescending(c => c.CreatedAt)
         };
 
-        var result = await query
-            .ProjectTo<CourseLookupModel>(mapper.ConfigurationProvider)
-            .ToPagedListAsync(request, cancellationToken);
+        var totalCount = await query.CountAsync(cancellationToken);
+
+        var items = await query
+            .Skip((request.Page - 1) * request.PageSize)
+            .Take(request.PageSize)
+            .ToListAsync(cancellationToken);
+
+        var imageResourceIds = items
+            .Where(course => course.Image != null)
+            .Select(course => course.Image!.ResourceId)
+            .Distinct()
+            .ToList();
+
+        var resources = await dbContext.Resources
+            .Where(resource => imageResourceIds.Contains(resource.Id))
+            .ToDictionaryAsync(resource => resource.Id, cancellationToken);
+
+        var courseLookupList = items.Select(course =>
+        {
+            var model = mapper.Map<CourseLookupModel>(course);
+            if (course.Image != null && resources.TryGetValue(course.Image.ResourceId, out var resource))
+            {
+                var (previewUrl, _) = blobStorageService.GetDownloadTokens(
+                    containerName: "courses",
+                    blobName: resource.Url,
+                    fileName: resource.Name,
+                    expiry: TimeSpan.FromHours(1)
+                );
+
+                model.ThumbnailImage = previewUrl;
+            }
+            return model;
+
+        }).ToList();
 
         logger.LogInformation(
             "GetCourseListQuery completed successfully: returned {Count} items, Page={Page}, PageSize={PageSize}",
-            result.Items.Count,
+            courseLookupList.Count,
             request.Page,
             request.PageSize);
-        return result;
+
+        return new PaginationResult<CourseLookupModel>(
+            courseLookupList,
+            request.Page,
+            request.PageSize,
+            totalCount
+        );
     }
 }

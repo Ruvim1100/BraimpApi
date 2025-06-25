@@ -25,14 +25,14 @@ app.UseSwagger(c => c.OpenApiVersion = Microsoft.OpenApi.OpenApiSpecVersion.Open
 app.UseSwaggerUI(c =>
 {
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "Braimp API V1");
-    c.OAuthClientId("b4f7e9d9-93d9-488b-ba6e-c4f34d5abf47");
+    c.OAuthClientId("5e947c18-aec6-4cf8-b4c8-b442ddfb7ab2");
     c.OAuthUsePkce();
 });
 app.UseTimig();
 app.UseCustomExceptionHandler();
 app.UseHttpsRedirection();
 app.UseRouting();
-app.UseCors("AllowAll");
+app.UseCors("AllowFrontend");
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapCarter();

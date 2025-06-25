@@ -10,13 +10,18 @@ public class Quiz : BaseEntity<Guid>, IAuditable
     public bool IsPublished { get; set; }
     public int MaxAttempts { get; set; }
     public bool IsRandomized { get; set; }
-    public DateTimeOffset? StartTime { get; set; }
+    public DateTimeOffset? AvailableFrom { get; set; }
+    public DateTimeOffset? AvailableUntil { get; set; }
+
     public DateTimeOffset CreatedAt { get; set; }
     public DateTimeOffset? UpdatedAt { get; set; }
+
     public Guid CourseId { get; set; }
     public Course Course { get; set; } = null!;
+
     public ICollection<QuizQuestion> Questions { get; set; }
         = new List<QuizQuestion>();
-    public ICollection<QuizResult> QuizResults { get; set; }
-        = new List<QuizResult>();
+
+    public ICollection<QuizAttempt> QuizAttempts { get; set; }
+        = new List<QuizAttempt>();
 }

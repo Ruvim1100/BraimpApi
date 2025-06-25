@@ -9,8 +9,7 @@ public class Endpoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapGet(ApiRoutes.Lessons.Get, Handler)
-           .WithName("GetLessonList")
-           .WithSummary("Get list of lessons in a module")
+           .RequireAuthorization("User")
            .Produces<LessonListResponse>(StatusCodes.Status200OK)
            .ProducesValidationProblem()
            .WithTags(EndpointTags.Lessons); ;

@@ -1,14 +1,10 @@
-﻿using Braimp.Domain.Entities.Courses.Enums;
-using FluentValidation;
+﻿using FluentValidation;
 
 namespace Braimp.Application.Features.Courses.Queries.GetCourseList;
 internal class GetCourseListQueryValidator : AbstractValidator<GetCourseListQuery>
 {
     public GetCourseListQueryValidator()
     {
-        RuleFor(x => x.Status)
-            .Must(value => string.IsNullOrWhiteSpace(value) || Enum.TryParse<CourseStatus>(value, true, out _))
-            .WithMessage("Invalid course status");
 
         RuleFor(x => x.SortBy)
             .Must(value => string.IsNullOrWhiteSpace(value) ||

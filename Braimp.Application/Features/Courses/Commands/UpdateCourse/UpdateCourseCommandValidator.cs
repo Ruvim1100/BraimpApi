@@ -26,18 +26,6 @@ public class UpdateCourseCommandValidator : AbstractValidator<UpdateCourseComman
             .IsInEnum()
             .WithMessage("Invalid grading system specified.");
 
-        RuleFor(x => x.CoverImageUrl)
-            .MaximumLength(2048)
-            .WithMessage("Cover image URL is too long.");
-
-        RuleFor(x => x.LogoUrl)
-            .MaximumLength(2048)
-            .WithMessage("Logo URL is too long.");
-
-        RuleFor(x => x.BackgroundColor)
-            .MaximumLength(20)
-            .WithMessage("Background color format is too long.");
-
         RuleFor(command => command.CourseCategoryId)
             .Must(command => !command.HasValue || command.Value != Guid.Empty)
             .WithMessage("Category ID must be a non-empty GUID if provided.");

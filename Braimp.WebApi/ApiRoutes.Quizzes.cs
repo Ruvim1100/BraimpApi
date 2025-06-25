@@ -1,5 +1,5 @@
 ﻿namespace Braimp.WebApi;
-internal partial class ApiRoutes
+public partial class ApiRoutes
 {
     internal class Quizzes
     {

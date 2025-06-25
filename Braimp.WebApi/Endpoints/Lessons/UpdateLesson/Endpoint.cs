@@ -11,7 +11,7 @@ public class Endpoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapPut(ApiRoutes.Lessons.Update, Handler)
-            .RequireAuthorization()
+            .RequireAuthorization("User")
             .Produces<Guid>(StatusCodes.Status204NoContent)
             .ProducesValidationProblem()
             .WithTags(EndpointTags.Lessons); ;

@@ -1,7 +1,7 @@
 ﻿namespace Braimp.WebApi;
-internal partial class ApiRoutes
+public partial class ApiRoutes
 {
-    internal class Assignments
+    public class Assignments
     {
         public const string Create = "api/courses/{courseId}/assignments";
         public const string Delete = "api/courses/{courseId}/assignments/{id}";

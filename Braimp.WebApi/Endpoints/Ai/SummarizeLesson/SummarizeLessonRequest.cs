@@ -1,2 +1,4 @@
 ﻿namespace Braimp.WebApi.Endpoints.Ai.SummarizeLesson;
-public record SummarizeLessonRequest(string content);
+using System.ComponentModel.DataAnnotations;
+
+public record SummarizeLessonRequest([Required, MinLength(100)] string content);

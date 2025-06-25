@@ -10,6 +10,7 @@ public class Endpoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapPut(ApiRoutes.AssignmentFiles.Update, Handler)
+            .RequireAuthorization("User")
             .Produces<Guid>(StatusCodes.Status200OK)
             .ProducesValidationProblem()
             .WithTags(EndpointTags.AssignmentFiles);

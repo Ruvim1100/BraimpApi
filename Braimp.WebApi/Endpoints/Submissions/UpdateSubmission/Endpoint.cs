@@ -9,8 +9,9 @@ public class Endpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPut(ApiRoutes.Submissions.Update, Handler).
-            Produces<Guid>(StatusCodes.Status200OK)
+        app.MapPut(ApiRoutes.Submissions.Update, Handler)
+            .RequireAuthorization("User")
+            .Produces<Guid>(StatusCodes.Status200OK)
             .ProducesValidationProblem()
             .WithTags(EndpointTags.Submissions);
     }

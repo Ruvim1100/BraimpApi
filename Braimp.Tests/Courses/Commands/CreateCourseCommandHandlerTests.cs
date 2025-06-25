@@ -25,7 +25,7 @@ public class CreateCourseCommandHandlerTests : TestCommandBase
         // Arrange
         var userId = BraimpContextFactory.UserAId;
 
-        _mockCurrentUser.Setup(x => x.UserId).Returns(userId);
+        _mockCurrentUser.Setup(mockUser => mockUser.UserId).Returns(userId);
 
         var handler = new CreateCourseCommandHandler(context, context, _mockCurrentUser.Object,
             _mockLogger.Object);
@@ -34,7 +34,7 @@ public class CreateCourseCommandHandlerTests : TestCommandBase
         {
             Title = "New Test Course",
             Description = "Test Description",
-            GradingSystem = GradingSystem.PointsOutOf100,
+            GradingSystem = GradingSystem.HundredPoint,
             CourseCategoryId = BraimpContextFactory.CourseCategoryId
         };
 
@@ -46,7 +46,7 @@ public class CreateCourseCommandHandlerTests : TestCommandBase
         course.ShouldNotBeNull();
         course.Title.ShouldBe("New Test Course");
         course.Description.ShouldBe("Test Description");
-        course.GradingSystem.ShouldBe(GradingSystem.PointsOutOf100);
+        course.GradingSystem.ShouldBe(GradingSystem.HundredPoint);
         course.CourseCategoryId.ShouldBe(BraimpContextFactory.CourseCategoryId);
         course.OwnerId.ShouldBe(userId);
 
@@ -70,7 +70,7 @@ public class CreateCourseCommandHandlerTests : TestCommandBase
         {
             Title = "Invalid Category Course",
             Description = "Description",
-            GradingSystem = GradingSystem.PointsOutOf100,
+            GradingSystem = GradingSystem.HundredPoint,
             CourseCategoryId = Guid.NewGuid()
         };
 

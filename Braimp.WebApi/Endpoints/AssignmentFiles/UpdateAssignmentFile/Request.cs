@@ -1,2 +1,4 @@
 ﻿namespace Braimp.WebApi.Endpoints.AssignmentFiles.UpdateAssignmentFile;
-public record Request(string Name);
+using System.ComponentModel.DataAnnotations;
+
+public record Request([Required, MaxLength(100)] string Name);

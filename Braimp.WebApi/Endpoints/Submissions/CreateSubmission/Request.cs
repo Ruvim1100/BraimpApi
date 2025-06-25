@@ -1,5 +1,9 @@
-﻿namespace Braimp.WebApi.Endpoints.Submissions.CreateSubmission;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Braimp.WebApi.Endpoints.Submissions.CreateSubmission;
 public class Request
 {
-    public string? Text { get; set; }
+    [Required]
+    [MaxLength(100)]
+    public string Text { get; set; } = string.Empty;
 }

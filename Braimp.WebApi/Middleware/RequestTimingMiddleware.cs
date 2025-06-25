@@ -19,6 +19,6 @@ public class RequestTimingMiddleware
         var start = DateTime.UtcNow;
         await _next.Invoke(context);
  //       stopwatch.Stop();
-        _logger.LogInformation($"Timing: {context.Request.Path}: {(DateTime.UtcNow - start).TotalMilliseconds}");
+        _logger.LogInformation($"Timing: {context.Request.Path}: {(DateTime.UtcNow - start).TotalMilliseconds}"); //readable
     }
 }

@@ -11,7 +11,7 @@ public class Endpoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapPost(ApiRoutes.Ai.Generate, Handler)
-            .RequireAuthorization("Admin")
+            .RequireAuthorization("User")
             .Produces<AiMessage>(StatusCodes.Status200OK)
             .ProducesValidationProblem()
             .WithTags(EndpointTags.Ai)

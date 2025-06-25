@@ -12,4 +12,5 @@ internal class EndpointTags
     public const string SubmissionFiles = "SubmissionFiles";
     public const string Quizzes = "Quizzes";
     public const string QuizQuestions = "QuizQuestions";
+    public const string CourseImages = "CourseImages";
 }
