@@ -9,10 +9,11 @@ public class AssignmentDetailsResponse : IMapWith<Assignment>
     public string Title { get; set; } = string.Empty;
     public string? Description { get; set; }
     public DateTimeOffset Deadline { get; set; }
-    public Guid CourseId { get; set; }
+    public ICollection<AssignmentFileModel> AssignmentFiles { get; set; } = new List<AssignmentFileModel>();
 
     public void Mapping(Profile profile)
     {
-        profile.CreateMap<Assignment, AssignmentDetailsResponse>();
+        profile.CreateMap<Assignment, AssignmentDetailsResponse>()
+               .ForMember(dest => dest.AssignmentFiles, opt => opt.Ignore());
     }
 }

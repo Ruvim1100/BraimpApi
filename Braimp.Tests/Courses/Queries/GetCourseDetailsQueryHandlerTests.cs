@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using Braimp.Application.Abstraction;
-using Braimp.Application.Exceptions;
 using Braimp.Application.Features.Courses.Queries.GetCourseDetails;
-using Braimp.Domain.Entities.Courses.Enums;
 using Braimp.Tests.Common;
 using Microsoft.Extensions.Logging;
 using Moq;

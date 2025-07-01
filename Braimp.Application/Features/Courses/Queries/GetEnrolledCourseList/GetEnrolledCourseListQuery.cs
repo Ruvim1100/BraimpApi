@@ -1,6 +1,6 @@
-﻿using MediatR;
+﻿using Braimp.Application.Pagination;
 
 namespace Braimp.Application.Features.Courses.Queries.GetEnrolledCourseList;
-public class GetEnrolledCourseListQuery : IRequest<EnrolledCourseListResponse>
+public class GetEnrolledCourseListQuery : PaginationRequest<EnrolledCourseLookupModel>
 {
 }

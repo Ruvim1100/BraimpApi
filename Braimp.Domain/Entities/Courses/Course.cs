@@ -16,7 +16,8 @@ public class Course : BaseEntity<Guid>, IAuditable
     public DateTimeOffset CreatedAt { get; set; }
     public DateTimeOffset? UpdatedAt { get; set; }
     public GradingSystem GradingSystem { get; set; } = GradingSystem.TenPoint;
-    public CourseImage? Image { get; set; }
+    public Guid? ThumbnailResourceId { get; set; }
+    public Guid? BannerResourceId { get; set; }
     public Guid CourseCategoryId { get; set; }
     public CourseCategory CourseCategory { get; set; } = null!;
     public ICollection<EnrollmentRequest> EnrollmentRequests { get; set; }

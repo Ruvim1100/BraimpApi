@@ -1,4 +1,5 @@
-﻿using Braimp.Application.Mapping;
+﻿using AutoMapper;
+using Braimp.Application.Mapping;
 using Braimp.Domain.Entities.LearningContent;
 
 namespace Braimp.Application.Features.Lessons.Queries.GetLessonList;
@@ -10,4 +11,9 @@ public class LessonLookupModel : IMapWith<Lesson>
     public DateTimeOffset CreatedAt { get; set; }
     public bool IsPublished { get; set; }
     public int SortIndex { get; set; }
+
+    public void Mapping(Profile profile)
+    {
+        profile.CreateMap<Lesson, LessonLookupModel>();
+    }
 }

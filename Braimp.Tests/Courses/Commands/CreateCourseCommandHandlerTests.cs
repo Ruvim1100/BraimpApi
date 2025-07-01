@@ -55,29 +55,29 @@ public class CreateCourseCommandHandlerTests : TestCommandBase
         participant!.Role.ShouldBe(CourseRole.Owner);
     }
 
-    [Fact]
-    public async Task CreateCourseCommandHandler_ShouldThrow_WhenCategoryNotFound()
-    {
-        // Arrange
-        var userId = BraimpContextFactory.UserAId;
+    //[Fact]
+    //public async Task CreateCourseCommandHandler_ShouldThrow_WhenCategoryNotFound()
+    //{
+    //    // Arrange
+    //    var userId = BraimpContextFactory.UserAId;
 
-        _mockCurrentUser.Setup(x => x.UserId).Returns(userId);
+    //    _mockCurrentUser.Setup(x => x.UserId).Returns(userId);
 
-        var handler = new CreateCourseCommandHandler(context, context, _mockCurrentUser.Object,
-            _mockLogger.Object);
+    //    var handler = new CreateCourseCommandHandler(context, context, _mockCurrentUser.Object,
+    //        _mockLogger.Object);
 
-        var command = new CreateCourseCommand
-        {
-            Title = "Invalid Category Course",
-            Description = "Description",
-            GradingSystem = GradingSystem.HundredPoint,
-            CourseCategoryId = Guid.NewGuid()
-        };
+    //    var command = new CreateCourseCommand
+    //    {
+    //        Title = "Invalid Category Course",
+    //        Description = "Description",
+    //        GradingSystem = GradingSystem.HundredPoint,
+    //        CourseCategoryId = Guid.NewGuid()
+    //    };
 
-        // Act & Assert
-        var act = () => handler.Handle(command, CancellationToken.None);
+    //    // Act & Assert
+    //    var act = () => handler.Handle(command, CancellationToken.None);
 
-        // Assert
-        //await Should.ThrowAsync<Exception>(act);
-    }
+    //    // Assert
+    //    //await Should.ThrowAsync<Exception>(act);
+    //}
 }

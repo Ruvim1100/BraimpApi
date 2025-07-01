@@ -10,6 +10,10 @@ public class GetLessonListQueryValidator : AbstractValidator<GetLessonListQuery>
     {
         _dbContext = dbContext;
 
+        RuleFor(query => query.CourseId)
+            .NotEmpty()
+            .WithMessage("CourseId Field must be initialized");
+
         RuleFor(query => query.ModuleId)
             .NotEmpty()
             .WithMessage("ModuleId Field must be initialized");

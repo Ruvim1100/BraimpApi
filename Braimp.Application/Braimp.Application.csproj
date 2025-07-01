@@ -19,14 +19,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\CourseImages\Commands\UpdateCourseImage\" />
-    <Folder Include="Features\CourseImages\Queries\GetCourseImageList\" />
     <Folder Include="Features\News\Queries\GetCourseNewsList\" />
     <Folder Include="Features\News\Queries\GetNewsDetails\" />
     <Folder Include="Features\QuizQuestions\Commands\DeleteQuizQuestion\" />
     <Folder Include="Features\QuizQuestions\Commands\UpdateQuizQuestion\" />
     <Folder Include="Features\QuizQuestions\Queries\GetQuizQuestionDetails\" />
-    <Folder Include="Features\QuizQuestions\Queries\GetQuizQuestionList\" />
   </ItemGroup>
 
 </Project>

@@ -10,12 +10,12 @@ public class GetAssignmentListQueryHandler(IBraimpDbContext dbContext, IMapper m
 {
     public async Task<AssignmentListResponse> Handle(GetAssignmentListQuery request, CancellationToken cancellationToken)
     {
-        var assignments = dbContext.Assignments
-            .Where(assignment => assignment.CourseId == request.CourseId);
+        var assignments = await dbContext.Assignments
+            .Where(assignment => assignment.CourseId == request.CourseId)
+            .OrderBy(assignment => assignment.CreatedAt)
+            .ProjectTo<AssignmentLookupModel>(mapper.ConfigurationProvider)
+            .ToListAsync(cancellationToken);
 
-        var result = await assignments.ProjectTo<AssignmentLookupModel>(mapper.ConfigurationProvider)
-            .ToListAsync();
-
-        return new AssignmentListResponse { Assignments = result };
+        return new AssignmentListResponse { Assignments = assignments };
     }
 }

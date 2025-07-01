@@ -10,24 +10,11 @@ public class GetModuleListQueryHandler(IBraimpDbContext dbContext, IMapper mappe
 {
     public async Task<ModuleListResponse> Handle(GetModuleListQuery request, CancellationToken cancellationToken)
     {
-        var query = dbContext.Modules
-            .Where(module => module.CourseId == request.CourseId);
-
-        if (!string.IsNullOrEmpty(request.SearchTerm))
-        {
-            var pattern = $"%{request.SearchTerm}%";
-            query = query.Where(module => EF.Functions.Like(module.Title, pattern) ||
-                (module.Description != null && EF.Functions.Like(module.Description, pattern))
-            );
-        }
-
-        if (request.IsPublished.HasValue)
-            query = query.Where(m => m.IsPublished == request.IsPublished);
-
-        var modules = await query.OrderBy(module => module.SortIndex)
+        var modules = await dbContext.Modules
+            .Where(module => module.CourseId == request.CourseId)
+            .OrderBy(module => module.SortIndex)
             .ProjectTo<ModuleLookupModel>(mapper.ConfigurationProvider)
-            .ToListAsync(cancellationToken);
-
+            .ToListAsync(cancellationToken); ;
         return new ModuleListResponse { Modules = modules};
     }
 }

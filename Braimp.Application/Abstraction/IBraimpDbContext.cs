@@ -18,7 +18,6 @@ public interface IBraimpDbContext
     DbSet<CourseNews> CourseNews { get; }
     DbSet<CourseParticipant> CourseParticipants { get; }
     DbSet<EnrollmentRequest> EnrollmentRequests { get; }
-    DbSet<CourseImage> CourseImages { get; }
     DbSet<Module> Modules { get; }
     DbSet<Lesson> Lessons { get; }
     DbSet<LessonFile> Materials { get; }
@@ -27,8 +26,9 @@ public interface IBraimpDbContext
     DbSet<QuizQuestion> QuizQuestions { get; }
     DbSet<QuestionOption> QuestionOptions { get; }
     DbSet<QuizAttempt> QuizAttempts { get; }
-    //DbSet<QuestionAnswer> QuestionAnswers { get; }
-    //DbSet<AnswerOption> AnswerOptions { get; }
+     DbSet<AttemptAnswer> AttemptAnswers { get; }
+    DbSet<AnswerOption> AnswerOptions { get; }
+    DbSet<AnswerText> AnswerTexts { get; }
     DbSet<Assignment> Assignments { get; }
     DbSet<Submission> Submissions { get; }
     DbSet<SubmissionFile> SubmissionFiles { get; }

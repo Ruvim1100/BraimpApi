@@ -1,16 +1,23 @@
-﻿using FluentValidation;
+﻿using Braimp.Application.Abstraction;
+using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 
 namespace Braimp.Application.Features.Modules.Queries.GetModuleList;
 public class GetModuleListQueryValidator : AbstractValidator<GetModuleListQuery>
 {
-    public GetModuleListQueryValidator()
+    private readonly IBraimpDbContext _dbContext;
+    public GetModuleListQueryValidator(IBraimpDbContext dbContext)
     {
-        RuleFor(q => q.CourseId)
+        _dbContext = dbContext;
+
+        RuleFor(query => query.CourseId)
             .NotEmpty()
             .WithMessage("CourseId must be provided.");
 
-        RuleFor(q => q.SearchTerm)
-            .MaximumLength(200)
-            .WithMessage("SearchTerm must not exceed 200 characters.");
+        RuleFor(query => query)
+            .MustAsync(CourseExists).WithMessage("Course doesn't exist");
     }
+
+    private async Task<bool> CourseExists(GetModuleListQuery query, CancellationToken cancellationToken) => 
+        await _dbContext.Courses.AnyAsync(course => course.Id == query.CourseId, cancellationToken);
 }

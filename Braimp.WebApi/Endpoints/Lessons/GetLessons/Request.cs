@@ -12,10 +12,4 @@ public class Request
     [Required]
     public Guid ModuleId { get; set; }
 
-    [FromQuery]
-    [MaxLength(100)]
-    public string? SearchTerm { get; set; }
-
-    [FromQuery]
-    public bool? IsPublished { get; set; }
 }

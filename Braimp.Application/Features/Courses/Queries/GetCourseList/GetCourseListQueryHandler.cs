@@ -1,5 +1,5 @@
-﻿using AutoMapper;
-using Braimp.Application.Abstraction;
+﻿using Braimp.Application.Abstraction;
+using Braimp.Application.Constants;
 using Braimp.Application.Pagination;
 using Braimp.Domain.Entities.Courses.Enums;
 using MediatR;
@@ -7,92 +7,102 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace Braimp.Application.Features.Courses.Queries.GetCourseList;
-public class GetCourseListQueryHandler(IBraimpDbContext dbContext, IMapper mapper, 
+public class GetCourseListQueryHandler(IBraimpDbContext dbContext,
     ILogger<GetCourseListQueryHandler> logger, IBlobStorageService blobStorageService) 
     : IRequestHandler<GetCourseListQuery, PaginationResult<CourseLookupModel>>
 {
     public async Task<PaginationResult<CourseLookupModel>> Handle(GetCourseListQuery request,  CancellationToken cancellationToken)
     {
-        logger.LogInformation(
-            "Starting GetCourseListQuery handling: SearchTerm={SearchTerm}, Category={Category}, SortBy={SortBy}, Descending={Descending}",
-            request.SearchTerm,
-            request.Category,
-            request.SortBy,
-            request.Descending);
+        using var scope = logger.BeginScope(
+                "GetCourseListQuery: Page={Page}, PageSize={PageSize}, SearchTerm={SearchTerm}, Category={Category}",
+                request.Page, request.PageSize, request.SearchTerm, request.Category);
 
-        var query = dbContext.Courses
+        logger.LogInformation("Starting GetCourseListQuery handling.");
+
+        var baseQuery = dbContext.Courses
             .Where(course => course.Status == CourseStatus.Approved)
-            .Include(course => course.Image)
             .AsNoTracking();
 
         if (!string.IsNullOrWhiteSpace(request.SearchTerm))
         {
             var pattern = $"%{request.SearchTerm}%";
-            query = query.Where(course => EF.Functions.Like(course.Title, pattern) ||
-                (course.Description != null && EF.Functions.Like(course.Description, pattern))
-            );
+            baseQuery = baseQuery.Where(course =>
+                EF.Functions.Like(course.Title, pattern) ||
+                (course.Description != null && EF.Functions.Like(course.Description, pattern)));
+            logger.LogDebug("Applied search filter with term='{SearchTerm}'.", request.SearchTerm);
         }
-
         if (request.Category.HasValue)
         {
-            query = query.Where(c => c.CourseCategoryId == request.Category.Value);
+            baseQuery = baseQuery.Where(course => course.CourseCategoryId == request.Category.Value);
+            logger.LogDebug("Applied category filter with Id={Category}.", request.Category);
         }
 
-        query = (request.SortBy?.ToLower(), request.Descending) switch
+        baseQuery = (request.SortBy?.ToLower(), request.Descending) switch
         {
-            ("title", true) => query.OrderByDescending(c => c.Title),
-            ("title", false) => query.OrderBy(c => c.Title),
-            ("createdat", true) => query.OrderByDescending(c => c.CreatedAt),
-            ("createdat", false) => query.OrderBy(c => c.CreatedAt),
-            _ => query.OrderByDescending(c => c.CreatedAt)
+            ("title", true) => baseQuery.OrderByDescending(course => course.Title),
+            ("title", false) => baseQuery.OrderBy(course => course.Title),
+            ("createdat", true) => baseQuery.OrderByDescending(course => course.CreatedAt),
+            ("createdat", false) => baseQuery.OrderBy(course => course.CreatedAt),
+            _ => baseQuery.OrderByDescending(course => course.CreatedAt)
         };
+        logger.LogDebug(
+            "Applied sorting SortBy='{SortBy}', Descending={Descending}.",
+            request.SortBy ?? "createdAt", request.Descending);
 
-        var totalCount = await query.CountAsync(cancellationToken);
+        var totalCount = await baseQuery.CountAsync(cancellationToken);
+        logger.LogInformation("Total courses after filtering: {TotalCount}.", totalCount);
 
-        var items = await query
+        var pageData = await baseQuery
             .Skip((request.Page - 1) * request.PageSize)
             .Take(request.PageSize)
+            .Select(course => new
+            {
+                course.Id,
+                course.Title,
+                course.Description,
+                course.CreatedAt,
+                course.ThumbnailResourceId
+            })
             .ToListAsync(cancellationToken);
+        logger.LogInformation("Loaded {Count} courses for current page.", pageData.Count);
 
-        var imageResourceIds = items
-            .Where(course => course.Image != null)
-            .Select(course => course.Image!.ResourceId)
+        var thumbIds = pageData
+            .Where(id => id.ThumbnailResourceId.HasValue)
+            .Select(id => id.ThumbnailResourceId!.Value)
             .Distinct()
             .ToList();
 
-        var resources = await dbContext.Resources
-            .Where(resource => imageResourceIds.Contains(resource.Id))
-            .ToDictionaryAsync(resource => resource.Id, cancellationToken);
+        var resourceInfo = await dbContext.Resources
+            .Where(resource => thumbIds.Contains(resource.Id))
+            .Select(resource => new { resource.Id, resource.Url, resource.Name })
+            .ToDictionaryAsync(resource => resource.Id, resource => (resource.Url, resource.Name), cancellationToken);
+        logger.LogDebug("Loaded metadata for {Count} resources.", resourceInfo.Count);
 
-        var courseLookupList = items.Select(course =>
+        TimeSpan expiry = TimeSpan.FromMinutes(5);
+        string? GeneratePreviewUrl(Guid? resourceId)
         {
-            var model = mapper.Map<CourseLookupModel>(course);
-            if (course.Image != null && resources.TryGetValue(course.Image.ResourceId, out var resource))
+            if (!resourceId.HasValue || !resourceInfo.TryGetValue(resourceId.Value, out var info))
+                return null;
+
+            var token = blobStorageService
+                .GetDownloadTokens(BlobContainers.Courses, info.Url, info.Name, expiry)
+                .PreviewToken;
+            logger.LogTrace("Generated preview token for ResourceId={ResourceId}, blobName={BlobName}.", resourceId, info.Url);
+            return token;
+        }
+
+        var resultItems = pageData
+            .Select(course => new CourseLookupModel
             {
-                var (previewUrl, _) = blobStorageService.GetDownloadTokens(
-                    containerName: "courses",
-                    blobName: resource.Url,
-                    fileName: resource.Name,
-                    expiry: TimeSpan.FromHours(1)
-                );
+                Id = course.Id,
+                Title = course.Title,
+                Description = course.Description,
+                CreatedAt = course.CreatedAt,
+                ThumbnailImageUrl = GeneratePreviewUrl(course.ThumbnailResourceId)
+            })
+            .ToList();
 
-                model.ThumbnailImage = previewUrl;
-            }
-            return model;
-
-        }).ToList();
-
-        logger.LogInformation(
-            "GetCourseListQuery completed successfully: returned {Count} items, Page={Page}, PageSize={PageSize}",
-            courseLookupList.Count,
-            request.Page,
-            request.PageSize);
-
-        return new PaginationResult<CourseLookupModel>(
-            courseLookupList,
-            request.Page,
-            request.PageSize,
-            totalCount
-        );
+        logger.LogInformation("Finished processing. Returning {Count} items.", resultItems.Count);
+        return new CourseListResponse(resultItems, request.Page, request.PageSize, totalCount);
     }
 }

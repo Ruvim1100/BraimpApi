@@ -18,4 +18,7 @@ public class QuizAttempt : BaseEntity<Guid>
 
     public Guid QuizId { get; set; }
     public Quiz Quiz { get; set; } = null!;
+
+    public ICollection<AttemptAnswer> AttemptAnswers { get; set; } 
+        = new List<AttemptAnswer>();
 }

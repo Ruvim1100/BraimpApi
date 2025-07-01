@@ -146,6 +146,9 @@ namespace Braimp.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("BannerResourceId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid>("CourseCategoryId")
                         .HasColumnType("uniqueidentifier");
 
@@ -172,6 +175,9 @@ namespace Braimp.Infrastructure.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)")
                         .HasDefaultValue("Pending");
+
+                    b.Property<Guid?>("ThumbnailResourceId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -202,26 +208,6 @@ namespace Braimp.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("CourseCategories", (string)null);
-                });
-
-            modelBuilder.Entity("Braimp.Domain.Entities.Courses.CourseImage", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("CourseId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ResourceId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CourseId")
-                        .IsUnique();
-
-                    b.ToTable("CourseImages", (string)null);
                 });
 
             modelBuilder.Entity("Braimp.Domain.Entities.Courses.CourseNews", b =>
@@ -461,6 +447,85 @@ namespace Braimp.Infrastructure.Migrations
                     b.ToTable("Notifications", (string)null);
                 });
 
+            modelBuilder.Entity("Braimp.Domain.Entities.Quizzes.AnswerOption", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AttemptAnswerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsCorrect")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsSelected")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AttemptAnswerId");
+
+                    b.ToTable("AnswerOptions", (string)null);
+                });
+
+            modelBuilder.Entity("Braimp.Domain.Entities.Quizzes.AnswerText", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AttemptAnswerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AttemptAnswerId");
+
+                    b.ToTable("AnswerTexts", (string)null);
+                });
+
+            modelBuilder.Entity("Braimp.Domain.Entities.Quizzes.AttemptAnswer", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("QuestionText")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<string>("QuestionType")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<Guid>("QuizAttemptId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Weight")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(1);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("QuizAttemptId");
+
+                    b.ToTable("AttemptAnswers", (string)null);
+                });
+
             modelBuilder.Entity("Braimp.Domain.Entities.Quizzes.QuestionOption", b =>
                 {
                     b.Property<Guid>("Id")
@@ -475,14 +540,14 @@ namespace Braimp.Infrastructure.Migrations
 
                     b.Property<string>("Text")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("QuizQuestionId");
 
-                    b.ToTable("QestionOptions", (string)null);
+                    b.ToTable("QuestionOptions", (string)null);
                 });
 
             modelBuilder.Entity("Braimp.Domain.Entities.Quizzes.Quiz", b =>
@@ -789,17 +854,6 @@ namespace Braimp.Infrastructure.Migrations
                     b.Navigation("CourseCategory");
                 });
 
-            modelBuilder.Entity("Braimp.Domain.Entities.Courses.CourseImage", b =>
-                {
-                    b.HasOne("Braimp.Domain.Entities.Courses.Course", "Course")
-                        .WithOne("Image")
-                        .HasForeignKey("Braimp.Domain.Entities.Courses.CourseImage", "CourseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Course");
-                });
-
             modelBuilder.Entity("Braimp.Domain.Entities.Courses.CourseNews", b =>
                 {
                     b.HasOne("Braimp.Domain.Entities.Courses.Course", "Course")
@@ -875,6 +929,39 @@ namespace Braimp.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Course");
+                });
+
+            modelBuilder.Entity("Braimp.Domain.Entities.Quizzes.AnswerOption", b =>
+                {
+                    b.HasOne("Braimp.Domain.Entities.Quizzes.AttemptAnswer", "AttemptAnswer")
+                        .WithMany("AnswerOptions")
+                        .HasForeignKey("AttemptAnswerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AttemptAnswer");
+                });
+
+            modelBuilder.Entity("Braimp.Domain.Entities.Quizzes.AnswerText", b =>
+                {
+                    b.HasOne("Braimp.Domain.Entities.Quizzes.AttemptAnswer", "AttemptAnswer")
+                        .WithMany("AnswerTexts")
+                        .HasForeignKey("AttemptAnswerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AttemptAnswer");
+                });
+
+            modelBuilder.Entity("Braimp.Domain.Entities.Quizzes.AttemptAnswer", b =>
+                {
+                    b.HasOne("Braimp.Domain.Entities.Quizzes.QuizAttempt", "QuizAttempt")
+                        .WithMany("AttemptAnswers")
+                        .HasForeignKey("QuizAttemptId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("QuizAttempt");
                 });
 
             modelBuilder.Entity("Braimp.Domain.Entities.Quizzes.QuestionOption", b =>
@@ -969,8 +1056,6 @@ namespace Braimp.Infrastructure.Migrations
 
                     b.Navigation("EnrollmentRequests");
 
-                    b.Navigation("Image");
-
                     b.Navigation("Modules");
 
                     b.Navigation("News");
@@ -999,11 +1084,23 @@ namespace Braimp.Infrastructure.Migrations
                     b.Navigation("Lessons");
                 });
 
+            modelBuilder.Entity("Braimp.Domain.Entities.Quizzes.AttemptAnswer", b =>
+                {
+                    b.Navigation("AnswerOptions");
+
+                    b.Navigation("AnswerTexts");
+                });
+
             modelBuilder.Entity("Braimp.Domain.Entities.Quizzes.Quiz", b =>
                 {
                     b.Navigation("Questions");
 
                     b.Navigation("QuizAttempts");
+                });
+
+            modelBuilder.Entity("Braimp.Domain.Entities.Quizzes.QuizAttempt", b =>
+                {
+                    b.Navigation("AttemptAnswers");
                 });
 
             modelBuilder.Entity("Braimp.Domain.Entities.Quizzes.QuizQuestion", b =>

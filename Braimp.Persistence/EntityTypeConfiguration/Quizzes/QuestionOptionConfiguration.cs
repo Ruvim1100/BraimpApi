@@ -13,7 +13,7 @@ public class QuestionOptionConfiguration : IEntityTypeConfiguration<QuestionOpti
         builder.HasKey(quizOption => quizOption.Id);
 
         builder.Property(quizOption => quizOption.Text)
-            .HasMaxLength(100);
+            .HasMaxLength(300);
 
         builder.HasOne(quizOption => quizOption.QuizQuestion)
             .WithMany(quizQuestion => quizQuestion.QuestionOptions)

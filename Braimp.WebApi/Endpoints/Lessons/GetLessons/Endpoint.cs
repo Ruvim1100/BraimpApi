@@ -21,9 +21,7 @@ public class Endpoint : ICarterModule
         var query = new GetLessonListQuery
         {
             CourseId = request.CourseId,
-            ModuleId = request.ModuleId,
-            SearchTerm = request.SearchTerm,
-            IsPublished = request.IsPublished
+            ModuleId = request.ModuleId
         };
 
         var result = await mediator.Send(query, cancellationToken);

@@ -9,13 +9,10 @@ public class QuizDetailsResponse : IMapWith<Quiz>
     public string Title { get; set; } = string.Empty;
     public string? Description { get; set; }
     public int? TimeLimitMinutes { get; set; }
-    public bool IsPublished { get; set; }
     public int MaxAttempts { get; set; }
     public bool IsRandomized { get; set; }
-    public DateTimeOffset? StartTime { get; set; }
-    public DateTimeOffset CreatedAt { get; set; }
-    public DateTimeOffset? UpdatedAt { get; set; }
-    public Guid CourseId { get; set; }
+    public DateTimeOffset? AvailableFrom { get; set; }
+    public DateTimeOffset? AvailableUntil { get; set; }
 
     public void Mapping(Profile profile)
     {

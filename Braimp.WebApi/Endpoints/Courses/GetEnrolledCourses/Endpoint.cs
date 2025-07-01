@@ -2,6 +2,7 @@
 using Braimp.WebApi.Constants;
 using Carter;
 using MediatR;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Braimp.WebApi.Endpoints.Courses.GetEnrolledCourses;
 public class Endpoint : ICarterModule
@@ -15,9 +16,13 @@ public class Endpoint : ICarterModule
             .WithTags(EndpointTags.Courses);
     }
 
-    private async Task<IResult> Handler(IMediator mediator, CancellationToken cancellationToken)
+    private async Task<IResult> Handler([FromQuery] int page, [FromQuery] int pageSize, IMediator mediator, CancellationToken cancellationToken)
     {
-        var query = new GetEnrolledCourseListQuery();
+        var query = new GetEnrolledCourseListQuery
+        {
+            Page = page,
+            PageSize = pageSize
+        };
         var courses = await mediator.Send(query);
         return Results.Ok(courses);
     }

@@ -17,14 +17,15 @@ internal static class TableNames
     public const string Materials = "Materials";
     public const string Quizzes = "Quizzes";
     public const string QuizQuestions = "QuizQuestions";
-    public const string QestionOptions = "QestionOptions";
+    public const string QestionOptions = "QuestionOptions";
     public const string QuizResults = "QuizAttempts";
     public const string Tags = "Tags";
     public const string CourseTags = "CourseTags";
     public const string LessonFiles = "LessonFiles";
     public const string Resources = "Resources";
     public const string QuizQuestionFiles = "QuizQuestionFiles";
-    public const string QuestionAnswer = "QuestionAnswer";
-    public const string QuizAttempt = "QuizAttempt";
-    public const string AnswerOption = "AnswerOption";
+    public const string AttemptAnswers = "AttemptAnswers";
+    public const string QuizAttempts = "QuizAttempts";
+    public const string AnswerOptions = "AnswerOptions";
+    public const string AnswerTexts = "AnswerTexts";
 }

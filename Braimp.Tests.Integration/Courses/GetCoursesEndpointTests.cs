@@ -1,9 +1,8 @@
 ﻿using Braimp.Application.Features.Courses.Queries.GetCourseList;
 using Braimp.Application.Pagination;
-using Braimp.Domain.Entities.Courses.Enums;
 using Braimp.Tests.Integration.Helpers;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Braimp.WebApi.Endpoints.Courses.GetCourses;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace Braimp.Tests.Integration.Courses;
 public class GetCoursesEndpointTests
@@ -28,7 +27,6 @@ public class GetCoursesEndpointTests
             PageSize = 10,
             SortBy = "CreatedAt",
             Descending = true,
-            Status = CourseStatus.Approved.ToString()
         };
 
         // Act

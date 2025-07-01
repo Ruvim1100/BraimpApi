@@ -11,7 +11,7 @@ public class Endpoint : ICarterModule
     {
         app.MapGet(ApiRoutes.Assignments.GetById, Handler)
             .RequireAuthorization("User")
-            .Produces(StatusCodes.Status200OK)
+            .Produces<AssignmentDetailsResponse>(StatusCodes.Status200OK)
             .ProducesValidationProblem()
             .WithTags(EndpointTags.Assignments);
     }
