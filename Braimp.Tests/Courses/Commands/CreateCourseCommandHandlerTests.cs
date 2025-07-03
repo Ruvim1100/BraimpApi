@@ -33,7 +33,6 @@ public class CreateCourseCommandHandlerTests : TestCommandBase
         var command = new CreateCourseCommand
         {
             Title = "New Test Course",
-            Description = "Test Description",
             GradingSystem = GradingSystem.HundredPoint,
             CourseCategoryId = BraimpContextFactory.CourseCategoryId
         };

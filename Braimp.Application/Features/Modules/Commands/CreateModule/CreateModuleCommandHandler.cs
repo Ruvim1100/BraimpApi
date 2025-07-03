@@ -12,7 +12,6 @@ public class CreateModuleCommandHandler(IBraimpDbContext dbContext, IUnitOfWork 
         {
             Id = Guid.NewGuid(),
             Title = request.Title,
-            Description = request.Description,
             IsPublished = request.IsPublished,
             SortIndex = request.SortIndex,
             CourseId = request.CourseId,

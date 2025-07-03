@@ -11,6 +11,7 @@ public class GetModuleListQueryHandler(IBraimpDbContext dbContext, IMapper mappe
     public async Task<ModuleListResponse> Handle(GetModuleListQuery request, CancellationToken cancellationToken)
     {
         var modules = await dbContext.Modules
+            .Include(m => m.Lessons)
             .Where(module => module.CourseId == request.CourseId)
             .OrderBy(module => module.SortIndex)
             .ProjectTo<ModuleLookupModel>(mapper.ConfigurationProvider)

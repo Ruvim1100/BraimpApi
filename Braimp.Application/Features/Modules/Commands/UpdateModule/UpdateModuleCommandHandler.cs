@@ -12,7 +12,6 @@ public class UpdateModuleCommandHandler(IBraimpDbContext dbContext, IUnitOfWork 
             .FirstAsync(module => module.Id == request.Id, cancellationToken);
 
         module.Title = request.Title ?? module.Title;
-        module.Description = request.Description ?? module.Description;
         module.IsPublished = request.IsPublished ?? module.IsPublished;
         module.SortIndex = request.SortIndex ?? module.SortIndex;
 

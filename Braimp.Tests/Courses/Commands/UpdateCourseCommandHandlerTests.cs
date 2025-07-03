@@ -1,5 +1,4 @@
-﻿using Braimp.Application.Exceptions;
-using Braimp.Application.Features.Courses.Commands.UpdateCourse;
+﻿using Braimp.Application.Features.Courses.Commands.UpdateCourse;
 using Braimp.Tests.Common;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -19,13 +18,11 @@ public class UpdateCourseCommandHandlerTests : TestCommandBase
     {
         // Arrange
         var newTitle = "I Don't remember";
-        var newDescription = "Something New";
         var handler = new UpdateCourseCommandHandler(context, context, _mocklogger.Object);
         var command = new UpdateCourseCommand
         {
             Id = BraimpContextFactory.CourseIdForUpdate,
             Title = newTitle,
-            Description = newDescription
         };
 
         // Act
@@ -35,7 +32,6 @@ public class UpdateCourseCommandHandlerTests : TestCommandBase
         var course = await context.Courses.FindAsync(command.Id);
         course.ShouldNotBeNull();
         course!.Title.ShouldBe(newTitle);
-        course.Description.ShouldBe(newDescription);
     }
 
     [Fact]

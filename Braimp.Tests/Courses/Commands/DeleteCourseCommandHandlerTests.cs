@@ -1,5 +1,4 @@
-﻿using Braimp.Application.Exceptions;
-using Braimp.Application.Features.Courses.Commands.DeleteCourse;
+﻿using Braimp.Application.Features.Courses.Commands.DeleteCourse;
 using Braimp.Tests.Common;
 using Microsoft.Extensions.Logging;
 using Moq;

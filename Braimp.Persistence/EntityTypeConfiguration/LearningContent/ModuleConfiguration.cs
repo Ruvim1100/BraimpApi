@@ -15,9 +15,6 @@ public class ModuleConfiguration : IEntityTypeConfiguration<Module>
         builder.Property(module => module.Title)
             .HasMaxLength(100);
 
-        builder.Property(module => module.Description)
-            .HasMaxLength(1000);
-
         builder.Property(module => module.IsPublished)
             .HasDefaultValue(true);
 

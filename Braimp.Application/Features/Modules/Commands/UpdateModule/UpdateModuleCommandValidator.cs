@@ -18,10 +18,6 @@ public class UpdateModuleCommandValidator : AbstractValidator<UpdateModuleComman
             .MaximumLength(100)
             .WithMessage("Module title must not exceed 100 characters.");
 
-        RuleFor(updateModuleCommand => updateModuleCommand.Description)
-            .MaximumLength(1000)
-            .WithMessage("Module description must not exceed 1000 characters.");
-
         RuleFor(updateModuleCommand => updateModuleCommand.SortIndex)
             .GreaterThanOrEqualTo(0)
             .When(updateModuleCommand => updateModuleCommand.SortIndex.HasValue)

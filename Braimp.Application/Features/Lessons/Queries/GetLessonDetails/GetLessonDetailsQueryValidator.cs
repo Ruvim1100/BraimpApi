@@ -12,7 +12,7 @@ public class GetLessonDetailsQueryValidator : AbstractValidator<GetLessonDetails
 
         RuleFor(query => query.Id)
             .NotEmpty()
-            .WithMessage("Id field must initialized");
+            .WithMessage("Id field must be initialized");
 
         RuleFor(query => query)
             .MustAsync(LessonExists)

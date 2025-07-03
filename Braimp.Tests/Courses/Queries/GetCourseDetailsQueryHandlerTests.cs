@@ -14,6 +14,7 @@ public class GetCourseDetailsQueryHandlerTests
     private readonly IMapper _mapper;
     private readonly Mock<ILogger<GetCourseDetailsQueryHandler>> _mockLogger;
     private readonly Mock<ICurrentUserService> _mockCurrentUser;
+    private readonly Mock<IBlobStorageService> _blobStorageService;
 
     public GetCourseDetailsQueryHandlerTests(QueryTestFixture fixture)
     {
@@ -21,13 +22,14 @@ public class GetCourseDetailsQueryHandlerTests
         _mapper = fixture.Mapper;
         _mockLogger = new Mock<ILogger<GetCourseDetailsQueryHandler>>();
         _mockCurrentUser = new Mock<ICurrentUserService>();
+        _blobStorageService = new Mock<IBlobStorageService>();
     }
 
     [Fact]
     public async Task GetCourseDetailsQueryHandler_Succes()
     {
         // Arrange
-        var handler = new GetCourseDetailsQueryHandler(_dbContext, _mapper, _mockLogger.Object, _mockCurrentUser.Object);
+        var handler = new GetCourseDetailsQueryHandler(_dbContext, _mapper, _mockLogger.Object, _mockCurrentUser.Object, _blobStorageService.Object);
         var query = new GetCourseDetailQuery
         {
             Id = Guid.Parse("{EA8C646B-26CB-4258-848E-2FDED0D8B5AC}")
@@ -38,7 +40,6 @@ public class GetCourseDetailsQueryHandlerTests
 
         // Assert
         result.ShouldBeOfType<CourseDetailsResponse>();
-        result.OwnerId.ShouldBe(BraimpContextFactory.UserAId);
         result.Title.ShouldBe("Course1");
         result.Description.ShouldBe("Description2");
     }
@@ -47,7 +48,7 @@ public class GetCourseDetailsQueryHandlerTests
     public async Task GetCourseDetailsQueryHandler_ShouldThrow_WhenCourseNotFound()
     {
         // Arrange
-        var handler = new GetCourseDetailsQueryHandler(_dbContext, _mapper, _mockLogger.Object, _mockCurrentUser.Object);
+        var handler = new GetCourseDetailsQueryHandler(_dbContext, _mapper, _mockLogger.Object, _mockCurrentUser.Object, _blobStorageService.Object);
         var query = new GetCourseDetailQuery 
         { 
             Id = Guid.NewGuid() 

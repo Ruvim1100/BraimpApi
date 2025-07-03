@@ -1,21 +1,21 @@
 ﻿using Braimp.Application.Abstraction;
 using Braimp.Application.Constants;
 using Braimp.Domain.Entities;
-using Braimp.Domain.Entities.Assignments;
 using MediatR;
+using Braimp.Domain.Entities.LearningContent;
 
-namespace Braimp.Application.Features.AssignmentFiles.Commands.CreateAssignmentFile;
-public class CreateAssignmentFileCommandHandler(IBraimpDbContext dbContext, IUnitOfWork unitOfWork, 
-    IBlobStorageService blobStorageService) : IRequestHandler<CreateAssignmentFileCommand, Guid>
+namespace Braimp.Application.Features.LessonFiles.Commands.CreateLessonFile;
+public class CreateLessonFileCommandHandler(IBraimpDbContext dbContext, IUnitOfWork unitOfWork, 
+    IBlobStorageService blobStorageService) : IRequestHandler<CreateLessonFileCommand>
 {
-    public async Task<Guid> Handle(CreateAssignmentFileCommand request, CancellationToken cancellationToken)
+    public async Task Handle(CreateLessonFileCommand request, CancellationToken cancellationToken)
     {
         var extension = Path.GetExtension(request.OriginalFileName);
         var uniqueBlobName = $"{Guid.NewGuid()}{extension}";
 
         await blobStorageService.UploadAsync(
             request.FileStream,
-            containerName: BlobContainers.Assignments,
+            containerName: BlobContainers.Lessons,
             blobName: uniqueBlobName,
             encoding: request.Encoding,
             cancellationToken);
@@ -27,17 +27,16 @@ public class CreateAssignmentFileCommandHandler(IBraimpDbContext dbContext, IUni
             Url = uniqueBlobName
         };
 
-        var assignmentFile = new AssignmentFile
-        { 
-            Id = Guid.NewGuid(), 
-            AssignmentId = request.AssignmentId,
+        var lessonFile = new LessonFile
+        {
+            Id = Guid.NewGuid(),
+            LessonId = request.LessonId,
             ResourceId = resource.Id,
         };
 
-        dbContext.AssignmentFiles.Add(assignmentFile);
+        dbContext.LessonFiles.Add(lessonFile);
         dbContext.Resources.Add(resource);
         await unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return assignmentFile.Id;
     }
 }

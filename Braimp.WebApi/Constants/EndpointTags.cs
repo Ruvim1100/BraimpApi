@@ -6,6 +6,7 @@ internal class EndpointTags
     public const string Courses = "Courses";
     public const string Modules = "Modules";
     public const string Lessons = "Lessons";
+    public const string LessonFiles = "LessonFiles";
     public const string Assignments = "Assignments";
     public const string AssignmentFiles = "AssignmentFiles";
     public const string Submissions = "Submissions";

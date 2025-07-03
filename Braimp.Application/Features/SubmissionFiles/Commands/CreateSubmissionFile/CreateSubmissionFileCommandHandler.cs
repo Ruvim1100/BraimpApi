@@ -23,7 +23,7 @@ public class CreateSubmissionFileCommandHandler(IBraimpDbContext dbContext, IUni
         var resource = new Resource
         {
             Id = Guid.NewGuid(),
-            Name = request.DisplayName,
+            Name = request.DisplayName + extension,
             Url = uniqeBlobName
         };
 

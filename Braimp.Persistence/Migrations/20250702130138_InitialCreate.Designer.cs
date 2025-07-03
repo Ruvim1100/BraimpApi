@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Braimp.Infrastructure.Migrations
 {
     [DbContext(typeof(BraimpDbContext))]
-    [Migration("20250701180238_InitialCreate")]
+    [Migration("20250702130138_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -377,10 +377,6 @@ namespace Braimp.Infrastructure.Migrations
 
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
 
                     b.Property<bool>("IsPublished")
                         .ValueGeneratedOnAdd()

@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Features\LessonFiles\Queries\" />
     <Folder Include="Features\News\Queries\GetCourseNewsList\" />
     <Folder Include="Features\News\Queries\GetNewsDetails\" />
     <Folder Include="Features\QuizQuestions\Commands\DeleteQuizQuestion\" />

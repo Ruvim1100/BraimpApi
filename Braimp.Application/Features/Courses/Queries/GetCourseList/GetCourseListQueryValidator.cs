@@ -6,16 +6,16 @@ internal class GetCourseListQueryValidator : AbstractValidator<GetCourseListQuer
     public GetCourseListQueryValidator()
     {
 
-        RuleFor(x => x.SortBy)
+        RuleFor(query => query.SortBy)
             .Must(value => string.IsNullOrWhiteSpace(value) ||
                            new[] { "title", "createdat" }.Contains(value.ToLower()))
             .WithMessage("SortBy must be either 'title' or 'createdat'");
 
-        RuleFor(x => x.Page)
+        RuleFor(query => query.Page)
             .GreaterThan(0)
             .WithMessage("Page number must be greater than zero");
 
-        RuleFor(x => x.PageSize)
+        RuleFor(query => query.PageSize)
             .InclusiveBetween(1, 100)
             .WithMessage("Page size must be between 1 and 100");
     }
