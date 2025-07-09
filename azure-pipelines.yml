@@ -54,4 +54,4 @@ steps:
     azureSubscription: 'Braimp(57c0cc03-25b8-4e0a-9ee8-7e6348c06c8b)'
     appType: 'webApp'
     WebAppName: 'braimp-backend'
-    packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
+    packageForLinux: '$(Build.ArtifactStagingDirectory)/*.zip'
