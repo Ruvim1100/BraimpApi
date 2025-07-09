@@ -5,8 +5,8 @@ public class DbInitializer
 {
     public static async Task Initialize(BraimpDbContext context)
     {
-        //context.Database.EnsureDeleted();
+        Console.WriteLine("Running EF Core migrations...");
         await context.Database.MigrateAsync();
-        //await BraimpDataSeeder.SeedAsync(context);
+        Console.WriteLine("Migrations applied successfully.");
     }
 }

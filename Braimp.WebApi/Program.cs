@@ -3,6 +3,7 @@ using Braimp.Application;
 using Braimp.Identity;
 using Braimp.Infrastructure;
 using Braimp.WebApi.Configuration;
+using Braimp.WebApi.Extensions;
 using Carter;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,7 +20,7 @@ builder.Services.AddBraimpMappings()
 
 var app = builder.Build();
 
-//await app.InitializeDatabaseAsync();
+await app.InitializeDatabaseAsync();
 app.UseSwagger(c => c.OpenApiVersion = Microsoft.OpenApi.OpenApiSpecVersion.OpenApi2_0);
 app.UseSwaggerUI(c =>
 {
