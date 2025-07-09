@@ -35,4 +35,5 @@ app.UseCors("AllowFrontend");
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapCarter();
+app.MapGet("/", () => Results.Ok("Braimp API is running."));
 app.Run();
