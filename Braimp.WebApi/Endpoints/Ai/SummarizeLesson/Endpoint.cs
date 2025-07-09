@@ -11,7 +11,7 @@ namespace Braimp.WebApi.Endpoints.Ai.SummarizeLesson
         public void AddRoutes(IEndpointRouteBuilder app)
         {
             app.MapPost(ApiRoutes.Ai.Summarize, Handler)
-                .RequireAuthorization("User")
+                .RequireAuthorization(Roles.User)
                 .Produces<AiMessage>(StatusCodes.Status200OK)
                 .ProducesValidationProblem()
                 .WithName("SummarizeLessonEndpoint")

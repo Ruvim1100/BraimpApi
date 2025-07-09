@@ -19,7 +19,6 @@ public class CreateCourseCommandHandler(IBraimpDbContext dbContext, IUnitOfWork 
         var course = new Course
         {
             Id = Guid.NewGuid(),
-            OwnerId = currentUser.UserId,
             Title = request.Title,
             Description = request.Description,
             Status = CourseStatus.Pending,

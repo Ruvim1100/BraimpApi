@@ -29,8 +29,11 @@ public class UpdateQuizCommandHandler(IBraimpDbContext dbContext, IUnitOfWork un
         if (request.IsRandomized.HasValue)
             quiz.IsRandomized = request.IsRandomized.Value;
 
-        if (request.StartTime.HasValue)
-            quiz.AvailableFrom = request.StartTime.Value;
+        if (request.AvailableFrom.HasValue)
+            quiz.AvailableFrom = request.AvailableFrom.Value;
+
+        if (request.AvailableUntil.HasValue)
+            quiz.AvailableUntil = request.AvailableUntil.Value;
 
         dbContext.Quizzes.Update(quiz);
         await unitOfWork.SaveChangesAsync(cancellationToken);

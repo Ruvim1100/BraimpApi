@@ -10,6 +10,7 @@ public class Quiz : BaseEntity<Guid>, IAuditable
     public bool IsPublished { get; set; }
     public int MaxAttempts { get; set; }
     public bool IsRandomized { get; set; }
+    public int SortIndex { get; set; }
     public DateTimeOffset? AvailableFrom { get; set; }
     public DateTimeOffset? AvailableUntil { get; set; }
 

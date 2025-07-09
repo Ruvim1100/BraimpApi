@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Braimp.Application.Features.Submissions.Commands.CreateSubmission;
+﻿using Braimp.Application.Features.Submissions.Commands.CreateSubmission;
 using Braimp.WebApi.Constants;
 using Carter;
 using MediatR;
@@ -11,20 +10,27 @@ public class Endpoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapPost(ApiRoutes.Submissions.Create, Handler)
-            .RequireAuthorization("User")
-            .Produces<Guid>(StatusCodes.Status201Created)
-            .ProducesValidationProblem()
-            .WithTags(EndpointTags.Submissions);
+            .RequireAuthorization(Roles.User)
+            .Accepts<IFormFile>("multipart/form-data")
+            .Produces(StatusCodes.Status201Created)
+            .DisableAntiforgery()
+            .WithTags(EndpointTags.Submissions)
+            .WithOpenApi();
     }
 
-    private async Task<IResult> Handler([FromRoute] Guid courseId, [FromRoute] Guid assignmentId, [FromBody] Request request,
-        IMediator mediator, IMapper mapper, CancellationToken cancellationToken)
+    private async Task<IResult> Handler([FromRoute] Guid courseId, [FromRoute] Guid assignmentId, 
+        [FromForm] Request request, IMediator mediator, CancellationToken cancellationToken)
     {
+        await using var stream = request.File.OpenReadStream();
+
         var command = new CreateSubmissionCommand
         {
             CourseId = courseId,
             AssignmentId = assignmentId,
-            Text = request.Text
+            DisplayName = request.DisplayName,
+            OriginalFileName = request.File.FileName,
+            Text = request.Text,
+            FileStream = stream
         };
         var result = await mediator.Send(command, cancellationToken);
 

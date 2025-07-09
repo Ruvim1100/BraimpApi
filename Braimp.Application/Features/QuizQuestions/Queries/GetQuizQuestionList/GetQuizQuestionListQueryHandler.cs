@@ -9,9 +9,11 @@ public class GetQuizQuestionListQueryHandler(IBraimpDbContext dbContext, IMapper
 {
     public async Task<QuizQestionListResponse> Handle(GetQuizQuestionListQuery request, CancellationToken cancellationToken)
     {
-        var questions = await dbContext.QuizQuestions.Where(question => question.QuizId == request.QuizId)
+        var questions = await dbContext.QuizQuestions
+            .Where(question => question.QuizId == request.QuizId)
             .Include(question => question.QuestionOptions)
-            .Include(q => q.QuizQuestionFile)
+            .Include(question => question.QuizQuestionFile)
+            .OrderBy(question => question.SortIndex)
             .ToListAsync(cancellationToken);
 
         var fileResourceIds = questions

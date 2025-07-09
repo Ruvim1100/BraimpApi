@@ -1,5 +1,4 @@
 ﻿using Braimp.Application.Features.AI.GenerateTest;
-using Braimp.Application.Modules;
 using Braimp.WebApi.Constants;
 using Carter;
 using MediatR;
@@ -10,18 +9,25 @@ public class Endpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost(ApiRoutes.Ai.Generate, Handler)
-            .RequireAuthorization("User")
-            .Produces<AiMessage>(StatusCodes.Status200OK)
+        app.MapPost(ApiRoutes.Quizzes.Generate, Handler)
+            .RequireAuthorization(Roles.User)
+            .Produces<Guid>(StatusCodes.Status200OK)
             .ProducesValidationProblem()
-            .WithTags(EndpointTags.Ai)
-            .WithName(EndpointNames.GenerateTest);
+            .WithTags(EndpointTags.Quizzes);
     }
 
-    public async Task<IResult> Handler([FromBody] GenerateTestRequest generateTestDto, IMediator mediator, CancellationToken cancellationToken)
+    public async Task<IResult> Handler([FromRoute] Guid courseId, [FromBody] Request request, IMediator mediator, CancellationToken cancellationToken)
     {
-        var command = new GenerateTestCommand(generateTestDto.content);
-        var res = await mediator.Send(command, cancellationToken);
-        return Results.Ok(res);
+        var command = new GenerateTestCommand
+        {
+            CourseId = courseId,
+            Title = request.Title,
+            QuestionCount = request.QuestionCount,
+            Language = request.Language,
+            SourceText = request.SourceText,
+        };
+
+        var id = await mediator.Send(command, cancellationToken);
+        return Results.Ok(new { id });
     }
 }

@@ -31,10 +31,18 @@ public class CreateQuizCommandValidator : AbstractValidator<CreateQuizCommand>
             .GreaterThan(0).WithMessage("MaxAttempts must be greater than 0")
             .LessThanOrEqualTo(10).WithMessage("MaxAttempts cannot exceed 10");
 
-        RuleFor(command => command.StartTime)
+        RuleFor(command => command.AvailableFrom)
             .Must(BeInTheFuture)
             .WithMessage("Start time must be in the future")
-            .When(x => x.StartTime.HasValue);
+            .When(x => x.AvailableFrom.HasValue);
+
+        RuleFor(command => command)
+           .Must(command =>
+               command.AvailableFrom.HasValue && command.AvailableUntil.HasValue
+                   ? command.AvailableUntil > command.AvailableFrom
+                   : true)
+           .WithMessage("AvailableUntil must be later than AvailableFrom")
+           .When(x => x.AvailableFrom.HasValue && x.AvailableUntil.HasValue);
 
         RuleFor(command => command)
             .MustAsync(CourseExists)

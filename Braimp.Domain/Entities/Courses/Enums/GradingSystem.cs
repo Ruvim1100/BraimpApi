@@ -1,8 +1,10 @@
-﻿namespace Braimp.Domain.Entities.Courses.Enums;
+﻿using System.Text.Json.Serialization;
+namespace Braimp.Domain.Entities.Courses.Enums;
+
+[JsonConverter(typeof(JsonStringEnumConverter))]
 public enum GradingSystem
 {
     TenPoint = 0,
     HundredPoint = 1,
-    FivePoint = 2,
     Letter = 3
 }

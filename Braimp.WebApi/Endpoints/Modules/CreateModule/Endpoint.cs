@@ -11,13 +11,13 @@ public class Endpoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapPost(ApiRoutes.Modules.Create, Handler).WithName("CreateModule")
-            .RequireAuthorization("User")
+            .RequireAuthorization(Roles.User)
             .Produces(StatusCodes.Status201Created)
             .ProducesValidationProblem()
             .WithTags(EndpointTags.Modules);
     }
 
-    private async Task<IResult> Handler([FromRoute]Guid courseId, [FromBody] Request request, 
+    private async Task<IResult> Handler([FromRoute] Guid courseId, [FromBody] Request request, 
         IMediator mediator, IMapper mapper, CancellationToken cancellationToken)
     {
         var command = mapper.Map<CreateModuleCommand>(request);

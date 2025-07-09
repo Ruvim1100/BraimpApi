@@ -10,7 +10,7 @@ public class Endpoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapGet(ApiRoutes.Quizzes.GetPublished, Handler)
-            .RequireAuthorization("User")
+            .RequireAuthorization(Roles.User)
             .Produces<PublishedQuizListResponse>(StatusCodes.Status200OK)
             .ProducesValidationProblem()
             .WithTags(EndpointTags.Quizzes);
@@ -20,7 +20,7 @@ public class Endpoint : ICarterModule
     {
         var query = new GetPublishedQuizListQuery {CourseId = courseId };
 
-        var quizzes = await mediator.Send(query);
+        var quizzes = await mediator.Send(query, cancellationToken);
         return Results.Ok(quizzes);
     }
 }

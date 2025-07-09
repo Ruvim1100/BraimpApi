@@ -23,6 +23,10 @@ public class CreateLessonFileCommandValidator : AbstractValidator<CreateLessonFi
             .Must(stream => stream.CanRead && stream.Length > 0)
             .WithMessage("File stream must be readable and not empty");
 
+        RuleFor(command => command.FileStream.Length)
+            .LessThanOrEqualTo(5 * 1024 * 1024)
+            .WithMessage("File size must be less than 5MB.");
+
         RuleFor(command => command)
             .MustAsync(LessonExists)
             .WithMessage("lesson doesn't exist");

@@ -25,18 +25,26 @@ public class GetAssignmentDetailsQueryHandler(IBraimpDbContext dbContext, IMappe
 
             var files = new List<AssignmentFileModel>();
 
-            foreach (var resource in resources)
+            foreach (var assignmentFile in assignment.AssignmentFiles)
             {
+                var resource = resources.FirstOrDefault(r => r.Id == assignmentFile.ResourceId);
+                if (resource is null) continue;
+
                 var (_, downloadToken) = blobStorageService.GetDownloadTokens(
                     containerName: "assignments",
                     blobName: resource.Url,
                     fileName: resource.Name,
                     expiry: TimeSpan.FromMinutes(5));
 
-                files.Add(new AssignmentFileModel {FileName = resource.Name, DownloadUrl = downloadToken});
+                files.Add(new AssignmentFileModel
+                {
+                    Id = assignmentFile.Id,
+                    Name = resource.Name,
+                    DownloadUrl = downloadToken
+                });
             }
 
-            result.AssignmentFiles = files;
+            result.Files = files;
         }
 
         return result;

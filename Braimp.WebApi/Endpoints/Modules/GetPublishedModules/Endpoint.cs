@@ -13,14 +13,14 @@ public class Endpoint : ICarterModule
             .Produces<PublishedModuleListResponse>(StatusCodes.Status200OK)
             .ProducesValidationProblem()
             .WithTags(EndpointTags.Modules)
-            .RequireAuthorization("User");
+            .RequireAuthorization(Roles.User);
     }
 
     private async Task<IResult> Handler([FromRoute] Guid courseId, IMediator mediator, 
         CancellationToken cancellationToken)
     {
         var query = new GetPublishedModuleListQuery { CourseId = courseId };
-        var modules = await mediator.Send(query);
+        var modules = await mediator.Send(query, cancellationToken);
         return Results.Ok(modules);
     }
 }

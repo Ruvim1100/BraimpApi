@@ -20,6 +20,7 @@ public class GetCourseDetailsQueryHandler(IBraimpDbContext dbContext, IMapper ma
 
 
         var course = await dbContext.Courses
+            .Where(course => !course.IsDeleted)
             .Include(course => course.CourseCategory)
             .Include(course => course.Tags)
                 .ThenInclude(courseTag => courseTag.Tag)

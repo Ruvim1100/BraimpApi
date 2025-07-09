@@ -19,12 +19,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\LessonFiles\Queries\" />
     <Folder Include="Features\News\Queries\GetCourseNewsList\" />
     <Folder Include="Features\News\Queries\GetNewsDetails\" />
-    <Folder Include="Features\QuizQuestions\Commands\DeleteQuizQuestion\" />
+    <Folder Include="Features\QuizAttempts\Queries\" />
     <Folder Include="Features\QuizQuestions\Commands\UpdateQuizQuestion\" />
     <Folder Include="Features\QuizQuestions\Queries\GetQuizQuestionDetails\" />
+    <Folder Include="Features\Tags\Commands\" />
   </ItemGroup>
 
 </Project>

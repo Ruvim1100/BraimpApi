@@ -6,9 +6,6 @@ using System.ComponentModel.DataAnnotations;
 namespace Braimp.WebApi.Endpoints.Assignments.UpdateAssignment;
 public class Request : IMapWith<UpdateAssignmentCommand>
 {
-    [Required]
-    public Guid Id { get; set; }
-
     [MaxLength(100)]
     public string? Title { get; set; }
 

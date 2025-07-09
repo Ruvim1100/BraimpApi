@@ -11,6 +11,8 @@ public class AttemptAnswer : BaseEntity<Guid>
     public Guid QuizAttemptId { get; set; }
     public QuizAttempt QuizAttempt { get; set; } = null!;
 
+    public Guid? OriginalQuestionId { get; set; }
+
     public ICollection<AnswerOption> AnswerOptions { get; set; } 
         = new List<AnswerOption>();
 

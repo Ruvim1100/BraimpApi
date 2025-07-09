@@ -10,7 +10,7 @@ public class Endpoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapGet(ApiRoutes.Submissions.GetById, Handler)
-            .RequireAuthorization("User")
+            .RequireAuthorization(Roles.User)
             .Produces<SubmissionDetailsResponse>(StatusCodes.Status200OK)
             .ProducesValidationProblem()
             .WithTags(EndpointTags.Submissions);

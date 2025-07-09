@@ -17,6 +17,7 @@ namespace Braimp.Application.Features.Courses.Queries.GetOwnedCourseList
         {
             var baseQuery = dbContext.Courses
                 .Where(course => course.Status == CourseStatus.Approved)
+                .Where(course => !course.IsDeleted)
                 .Where(course => course.Participants
                 .Any(participant => participant.UserId == currentUserService.UserId
                 && participant.Role == CourseRole.Owner))

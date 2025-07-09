@@ -12,7 +12,7 @@ public class GetAssignmentListQueryHandler(IBraimpDbContext dbContext, IMapper m
     {
         var assignments = await dbContext.Assignments
             .Where(assignment => assignment.CourseId == request.CourseId)
-            .OrderBy(assignment => assignment.CreatedAt)
+            .OrderBy(assignment => assignment.Deadline)
             .ProjectTo<AssignmentLookupModel>(mapper.ConfigurationProvider)
             .ToListAsync(cancellationToken);
 

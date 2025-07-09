@@ -30,10 +30,9 @@ public class GetAssignmentFileListQueryHandler(IBraimpDbContext dbContext, IBlob
             assignmentFiles.Add(
                 new AssignmentFileLookupModel
                 {
-                    AssignmentFileId = file.AssignmentFile.Id,
+                    Id = file.AssignmentFile.Id,
                     Name = file.Resource.Name,
                     DownloadUrl = sasUrl.DownloadToken,
-                    PreviewUrl = sasUrl.PreviewToken
                 }
             );
         }

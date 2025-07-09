@@ -11,10 +11,30 @@ public class GetSubmissionListQueryHandler(IBraimpDbContext dbContext, IMapper m
     public async Task<SubmissionListResponse> Handle(GetSubmissionListQuery request, CancellationToken cancellationToken)
     {
         var submissions = await dbContext.Submissions
-            .Where(submission => submission.AssignmentId == request.AssignmentId)
-            .ProjectTo<SubmissionLookupModel>(mapper.ConfigurationProvider)
-            .ToListAsync();
+                    .Where(s => s.AssignmentId == request.AssignmentId)
+                    .ProjectTo<SubmissionLookupModel>(mapper.ConfigurationProvider)
+                    .ToListAsync(cancellationToken);
 
-        return new SubmissionListResponse { Submissions = submissions};
+        var studentIds = submissions
+                    .Select(student => student.StudentId)
+                    .Distinct()
+                    .ToList();
+
+        var students = await dbContext.Users
+            .Where(user => studentIds.Contains(user.Id))
+            .ToDictionaryAsync(user => user.Id, cancellationToken);
+
+        foreach (var student in submissions)
+        {
+            if (students.TryGetValue(student.StudentId, out var user))
+            {
+                student.Student = mapper.Map<StudentModel>(user);
+            }
+        }
+
+        return new SubmissionListResponse
+        {
+            Submissions = submissions
+        };
     }
 }

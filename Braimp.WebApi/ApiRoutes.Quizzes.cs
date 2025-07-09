@@ -9,5 +9,6 @@ public partial class ApiRoutes
         public const string Get = "api/courses/{courseId}/quizzes";
         public const string GetPublished = "api/courses/{courseId}/quizzes/published";
         public const string Update = "api/courses/{courseId}/quizzes/{id}";
+        public const string Generate = "api/courses/{courseId}/quizzes/ai/generate";
     }
 }

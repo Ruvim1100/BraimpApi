@@ -22,6 +22,7 @@ public class BraimpDbContext : DbContext, IBraimpDbContext, IUnitOfWork
     public DbSet<EnrollmentRequest> EnrollmentRequests => Set<EnrollmentRequest>();
     public DbSet<Module> Modules => Set<Module>();
     public DbSet<Lesson> Lessons => Set<Lesson>();
+    public DbSet<LessonBlock> LessonBlocks => Set<LessonBlock>();
     public DbSet<LessonFile> Materials => Set<LessonFile>();
     public DbSet<Notification> Notifications => Set<Notification>();
     public DbSet<Quiz> Quizzes => Set<Quiz>();
@@ -33,7 +34,6 @@ public class BraimpDbContext : DbContext, IBraimpDbContext, IUnitOfWork
     public DbSet<AnswerText> AnswerTexts => Set<AnswerText>();
     public DbSet<Assignment> Assignments => Set<Assignment>();
     public DbSet<Submission> Submissions => Set<Submission>();
-    public DbSet<SubmissionFile> SubmissionFiles => Set<SubmissionFile>();
     public DbSet<AssignmentFile> AssignmentFiles => Set<AssignmentFile>();
     public DbSet<Resource> Resources => Set<Resource>();
     public DbSet<LessonFile> LessonFiles => Set<LessonFile>();

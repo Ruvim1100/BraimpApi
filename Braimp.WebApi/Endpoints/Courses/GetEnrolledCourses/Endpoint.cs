@@ -10,7 +10,7 @@ public class Endpoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapGet(ApiRoutes.Courses.GetEnrolled, Handler)
-            .RequireAuthorization("User")
+            .RequireAuthorization(Roles.User)
             .Produces<EnrolledCourseListResponse>(StatusCodes.Status200OK)
             .ProducesValidationProblem()
             .WithTags(EndpointTags.Courses);
@@ -23,7 +23,7 @@ public class Endpoint : ICarterModule
             Page = page,
             PageSize = pageSize
         };
-        var courses = await mediator.Send(query);
+        var courses = await mediator.Send(query, cancellationToken);
         return Results.Ok(courses);
     }
 }

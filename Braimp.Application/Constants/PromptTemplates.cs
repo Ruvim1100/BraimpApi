@@ -5,8 +5,28 @@ public static class PromptTemplates
         "You are an educational assistant. Summarize the following lecture in 3-5 bullet points. " +
         "Focus on key concepts:{0}";
 
-    public const string GenerateTest = "You are an educational assistant. " +
-    "Generate exactly 5 multiple-choice questions with 3 option in strict JSON format based on the following lesson:" +
-    "{0}" +    "Required JSON structure:" +    "{{" +    "  \"questions\": [" +    "    {{" +    "      \"text\": \"question text\"," +    "      \"options\": [" +    "        {{ \"text\": \"option1\", \"isCorrect\": false }}," +    "        {{ \"text\": \"option2\", \"isCorrect\": true }}" +    "      ]" +    "    }}" +    "  ]" +    "}}" +    "Rules:" +    "1. Each question must have exactly one correct option (\"isCorrect\": true)." +    "2. Do not use markdown formatting (e.g., ```json)." +    "3. The output must be strictly valid JSON with no extra text before or after." +    "4. Do not wrap the JSON in a string; output the JSON object directly." +
-    "5. Optionally, you may output JSON in compact form (no newlines or indentation).";
+    public const string GenerateTest = @"
+You are an educational assistant. 
+Generate exactly {0} single-choice questions with 4 options in strict JSON format based on the following lesson text in {1} language':
+{2}
+
+Output format instructions:
+- Return a valid JSON object only.
+- Do not include any explanation, markdown, or code block formatting.
+- Do not include line breaks or indentation.
+
+Required JSON structure:
+{{
+  ""questions"": [
+    {{
+      ""text"": ""question text"",
+      ""options"": [
+        {{ ""text"": ""Option A"", ""isCorrect"": false }},
+        {{ ""text"": ""Option B"", ""isCorrect"": false }},
+        {{ ""text"": ""Option C"", ""isCorrect"": true }},
+        {{ ""text"": ""Option D"", ""isCorrect"": false }}
+      ]
+    }}
+  ]
+}}";
 }

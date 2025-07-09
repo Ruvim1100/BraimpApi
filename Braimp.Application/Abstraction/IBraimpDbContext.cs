@@ -20,6 +20,7 @@ public interface IBraimpDbContext
     DbSet<EnrollmentRequest> EnrollmentRequests { get; }
     DbSet<Module> Modules { get; }
     DbSet<Lesson> Lessons { get; }
+    DbSet<LessonBlock> LessonBlocks { get; }
     DbSet<LessonFile> Materials { get; }
     DbSet<Notification> Notifications { get; }
     DbSet<Quiz> Quizzes { get; }
@@ -31,7 +32,6 @@ public interface IBraimpDbContext
     DbSet<AnswerText> AnswerTexts { get; }
     DbSet<Assignment> Assignments { get; }
     DbSet<Submission> Submissions { get; }
-    DbSet<SubmissionFile> SubmissionFiles { get; }
     DbSet<AssignmentFile> AssignmentFiles { get; }
     DbSet<Resource> Resources { get; }
     DbSet<LessonFile> LessonFiles { get; }

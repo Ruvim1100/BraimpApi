@@ -11,7 +11,20 @@ public class DeleteModuleCommandHandler(IBraimpDbContext dbContext, IUnitOfWork 
         var module = await dbContext.Modules
             .FirstAsync(module => module.Id == request.Id, cancellationToken);
 
+        var courseId = module.CourseId;
+        var deletedSortIndex = module.SortIndex;
+
         dbContext.Modules.Remove(module);
+
+        var modulesToUpdate = await dbContext.Modules
+            .Where(module => module.CourseId == courseId && module.SortIndex > deletedSortIndex)
+            .ToListAsync(cancellationToken);
+
+        foreach (var moduleToUpdate in modulesToUpdate)
+        {
+            moduleToUpdate.SortIndex -= 1;
+        }
+
         await unitOfWork.SaveChangesAsync(cancellationToken);
 
         return Unit.Value;

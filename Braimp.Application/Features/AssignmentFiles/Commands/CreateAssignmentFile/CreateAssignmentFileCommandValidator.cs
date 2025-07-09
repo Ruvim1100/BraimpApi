@@ -25,6 +25,10 @@ public class CreateAssignmentFileCommandValidator : AbstractValidator<CreateAssi
             .Must(stream => stream.CanRead && stream.Length > 0)
             .WithMessage("File stream must be readable and not empty");
 
+        RuleFor(command => command.FileStream.Length)
+            .LessThanOrEqualTo(10 * 1024 * 1024)
+            .WithMessage("File size must be less than 5MB.");
+
         RuleFor(command => command)
             .MustAsync(AssignmentExists)
             .WithMessage("Assignemnt doesn't exist");

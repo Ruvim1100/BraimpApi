@@ -2,16 +2,19 @@
 internal class EndpointTags
 {
     public const string Ai = "Ai";
+    public const string Tags = "Tags";
     public const string Categories = "Categories";
     public const string Courses = "Courses";
     public const string Modules = "Modules";
     public const string Lessons = "Lessons";
     public const string LessonFiles = "LessonFiles";
+    public const string LessonBlocks = "LessonBlocks";
     public const string Assignments = "Assignments";
     public const string AssignmentFiles = "AssignmentFiles";
     public const string Submissions = "Submissions";
     public const string SubmissionFiles = "SubmissionFiles";
     public const string Quizzes = "Quizzes";
     public const string QuizQuestions = "QuizQuestions";
+    public const string QuizAttempts = "QuizAttempts";
     public const string CourseImages = "CourseImages";
 }

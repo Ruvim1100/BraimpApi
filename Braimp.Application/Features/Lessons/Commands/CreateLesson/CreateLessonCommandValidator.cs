@@ -18,10 +18,6 @@ public class CreateLessonCommandValidator : AbstractValidator<CreateLessonComman
             .MaximumLength(1000)
             .WithMessage("Lesson Description must not exceed 1000 characters.");
 
-        RuleFor(command => command.SortIndex)
-            .GreaterThanOrEqualTo(0)
-            .WithMessage("Sort index must Greater Than Or EqualTo 0");
-
         RuleFor(command => command.ModuleId)
             .NotEmpty()
             .WithMessage("ModuleId is required");

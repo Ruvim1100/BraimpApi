@@ -11,6 +11,7 @@ public class CourseParticipantConfiguration : IEntityTypeConfiguration<CoursePar
         builder.ToTable(TableNames.CourseParticipants);
 
         builder.HasKey(courseParticipant => courseParticipant.Id);
+
         builder.Property(courseParticipant => courseParticipant.Role)
             .HasConversion<string>()
             .HasMaxLength(50);
@@ -18,6 +19,11 @@ public class CourseParticipantConfiguration : IEntityTypeConfiguration<CoursePar
         builder.HasOne(courseParticipant => courseParticipant.Course)
             .WithMany(course => course.Participants)
             .HasForeignKey(courseParticipant => courseParticipant.CourseId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.HasOne(courseParticipant => courseParticipant.User)
+            .WithMany(user => user.Courses)
+            .HasForeignKey(courseParticipant => courseParticipant.UserId)
             .OnDelete(DeleteBehavior.Cascade);
     }
 }

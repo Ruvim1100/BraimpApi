@@ -10,13 +10,14 @@ public class Endpoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapGet(ApiRoutes.QuizQuestions.Get, Handler)
-            .RequireAuthorization("User")
+            .RequireAuthorization(Roles.User)
             .Produces<QuizQestionListResponse>(StatusCodes.Status200OK)
             .ProducesValidationProblem()
             .WithTags(EndpointTags.QuizQuestions);
     }
 
-    private async Task<IResult> Handler([FromRoute] Guid courseId, [FromRoute] Guid quizId, IMediator mediator)
+    private async Task<IResult> Handler([FromRoute] Guid courseId, [FromRoute] Guid quizId, 
+        IMediator mediator, CancellationToken cancellationToken)
     {
         var query = new GetQuizQuestionListQuery
         {
@@ -24,7 +25,7 @@ public class Endpoint : ICarterModule
             QuizId = quizId
         };
 
-        var questions = await mediator.Send(query);
+        var questions = await mediator.Send(query, cancellationToken);
 
         return Results.Ok(questions);
     }

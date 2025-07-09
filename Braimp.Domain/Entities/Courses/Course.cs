@@ -9,12 +9,12 @@ using Braimp.Domain.Entities.Tags;
 namespace Braimp.Domain.Entities.Courses;
 public class Course : BaseEntity<Guid>, IAuditable
 {
-    public Guid OwnerId { get; set; }
     public string Title { get; set; } = string.Empty;
     public string? Description { get; set; }
     public CourseStatus Status { get; set; } = CourseStatus.Pending;
     public DateTimeOffset CreatedAt { get; set; }
     public DateTimeOffset? UpdatedAt { get; set; }
+    public bool IsDeleted { get; set; } = false;
     public GradingSystem GradingSystem { get; set; } = GradingSystem.TenPoint;
     public Guid? ThumbnailResourceId { get; set; }
     public Guid? BannerResourceId { get; set; }

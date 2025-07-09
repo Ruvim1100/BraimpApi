@@ -1,6 +1,7 @@
 ﻿using Braimp.Application.Abstraction;
 using Braimp.Domain.Entities.Quizzes;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace Braimp.Application.Features.Quizzes.Commands.CreateQuiz;
 public class CreateQuizCommandHandler(IBraimpDbContext dbContext, IUnitOfWork unitOfWork) 
@@ -8,6 +9,11 @@ public class CreateQuizCommandHandler(IBraimpDbContext dbContext, IUnitOfWork un
 {
     public async Task<Guid> Handle(CreateQuizCommand request, CancellationToken cancellationToken)
     {
+
+        var maxSortIndex = await dbContext.Quizzes
+            .Where(quiz => quiz.CourseId == request.CourseId)
+            .MaxAsync(quiz => (int?)quiz.SortIndex, cancellationToken) ?? -1;
+
         var quiz = new Quiz
         {
             Id = Guid.NewGuid(),
@@ -17,7 +23,9 @@ public class CreateQuizCommandHandler(IBraimpDbContext dbContext, IUnitOfWork un
             IsPublished = request.IsPublished,
             MaxAttempts = request.MaxAttempts,
             IsRandomized = request.IsRandomized,
-            AvailableFrom = request.StartTime,
+            SortIndex = maxSortIndex + 1,
+            AvailableFrom = request.AvailableFrom,
+            AvailableUntil = request.AvailableUntil,
             CourseId = request.CourseId
         };
 

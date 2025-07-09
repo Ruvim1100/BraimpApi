@@ -8,7 +8,7 @@ public class PublishedQuizLookupModel : IMapWith<Quiz>
     public Guid Id { get; set; }
     public string Title { get; set; } = string.Empty;
     public int MaxAttempts { get; set; }
-
+    public int SortIndex { get; set; }
     public DateTimeOffset? AvailableFrom { get; set; }
     public DateTimeOffset? AvailableUntil { get; set; }
 

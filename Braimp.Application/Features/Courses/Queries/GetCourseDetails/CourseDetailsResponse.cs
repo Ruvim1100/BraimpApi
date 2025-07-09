@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Braimp.Application.Mapping;
 using Braimp.Domain.Entities.Courses;
-using Braimp.Domain.Entities.Courses.Enums;
 
 namespace Braimp.Application.Features.Courses.Queries.GetCourseDetails;
 public class CourseDetailsResponse : IMapWith<Course>
@@ -10,12 +9,12 @@ public class CourseDetailsResponse : IMapWith<Course>
     public string Title { get; set; } = string.Empty;
     public string? Description { get; set; }
     public string Status { get; set; } = string.Empty;
-    public GradingSystem GradingSystem { get; set; }
+    public string GradingSystem { get; set; } = string.Empty;
     public DateTimeOffset CreatedAt { get; set; }
     public string? ThumbnailImageUrl { get; set; }
     public string? BannerImageUrl { get; set; }
     public string CourseCategory { get; set; } = string.Empty;
-    public List<string> Tags { get; set; } = new();
+    public List<TagModel> Tags { get; set; } = new();
 
     public void Mapping(Profile profile)
     {
@@ -25,12 +24,14 @@ public class CourseDetailsResponse : IMapWith<Course>
 
             .ForMember(destination => destination.CourseCategory,
             opt => opt.MapFrom(source => source.CourseCategory.Name))
-
+            
             .ForMember(destination => destination.Tags,
-            opt => opt.MapFrom(source => source.Tags.Select(ct => ct.Tag.Name).ToList()))
+            opt => opt.MapFrom(source => source.Tags.Select(ct => ct.Tag)))
 
             .ForMember(destination => destination.ThumbnailImageUrl, opt => opt.Ignore())
             .ForMember(destination => destination.BannerImageUrl, opt => opt.Ignore());
+
+
 
     }
 }

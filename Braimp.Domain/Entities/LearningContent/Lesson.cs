@@ -13,4 +13,6 @@ public class Lesson : BaseEntity<Guid>, IAuditable
     public Module Module { get; set; } = null!;
     public ICollection<LessonFile> LessonFiles { get; set; }
         = new List<LessonFile>();
+    public ICollection<LessonBlock> LessonBlocks { get; set; }
+    = new List<LessonBlock>();
 }

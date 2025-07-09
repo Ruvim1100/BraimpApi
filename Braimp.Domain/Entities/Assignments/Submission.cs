@@ -13,8 +13,6 @@ public class Submission : BaseEntity<Guid>, IAuditable
     public DateTimeOffset? ReviewedAt { get; set; }
     public bool CanEdit { get; set; }
     public Guid AssignmentId { get; set; }
+    public Guid FileResourceId { get; set; }
     public Assignment Assignment { get; set; } = null!;
-
-    public ICollection<SubmissionFile> SubmissionFiles { get; set; }
-        = new List<SubmissionFile>();
 }

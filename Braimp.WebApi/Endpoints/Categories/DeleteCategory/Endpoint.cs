@@ -9,7 +9,7 @@ public class Endpoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapDelete(ApiRoutes.Categories.Delete, Handler)
-            .RequireAuthorization("Admin")
+            .RequireAuthorization(Roles.Admin)
             .Produces(StatusCodes.Status204NoContent)
             .ProducesValidationProblem()
             .WithTags(EndpointTags.Categories);
@@ -19,7 +19,7 @@ public class Endpoint : ICarterModule
     {
         var command = new DeleteCategoryCommand(id);
 
-        await mediator.Send(command,cancellationToken);
+        await mediator.Send(command, cancellationToken);
         return Results.NoContent();
     }
 }

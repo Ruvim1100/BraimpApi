@@ -1,4 +1,5 @@
 ﻿using Braimp.Application.Abstraction;
+using Braimp.Domain.Entities.Tags;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -30,6 +31,22 @@ public class UpdateCourseCommandHandler(IBraimpDbContext dbContext, IUnitOfWork 
         if (request.GradingSystem.HasValue)
             course.GradingSystem = request.GradingSystem.Value;
 
+        var existingTags = dbContext.CourseTags.Where(courseTag => courseTag.CourseId == course.Id);
+        dbContext.CourseTags.RemoveRange(existingTags);
+
+        var courseTags = new List<CourseTag>();
+
+        foreach (var id in request.TagIds)
+        {
+            courseTags.Add(new CourseTag 
+            {
+                Id = Guid.NewGuid(),
+                TagId = id,
+                CourseId = course.Id,
+            });
+        }
+
+        dbContext.CourseTags.AddRange(courseTags);
         await unitOfWork.SaveChangesAsync(cancellationToken);
 
         logger.LogInformation(

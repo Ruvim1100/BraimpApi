@@ -11,7 +11,7 @@ public class Endpoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapPut(ApiRoutes.Categories.Update, Handler)
-            .RequireAuthorization("Admin")
+            .RequireAuthorization(Roles.Admin)
             .Produces(StatusCodes.Status204NoContent)
             .ProducesValidationProblem()
             .WithTags(EndpointTags.Categories);
@@ -21,7 +21,7 @@ public class Endpoint : ICarterModule
         IMapper mapper, CancellationToken cancellationToken)
     {
         var command = new UpdateCategoryCommand(id, updateCategoryDto.Name);
-        await mediator.Send(command);
+        await mediator.Send(command, cancellationToken);
         return Results.NoContent();
     }
 }

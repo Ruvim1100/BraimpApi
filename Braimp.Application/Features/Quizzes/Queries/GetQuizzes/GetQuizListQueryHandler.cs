@@ -12,6 +12,7 @@ public class GetQuizListQueryHandler(IBraimpDbContext dbContext, IMapper mapper)
     {
         var quizzes = await dbContext.Quizzes
             .Where(quiz => quiz.CourseId == request.CourseId)
+            .OrderBy(quiz => quiz.SortIndex)
             .ProjectTo<QuizLookupModel>(mapper.ConfigurationProvider)
             .ToListAsync(cancellationToken);
 

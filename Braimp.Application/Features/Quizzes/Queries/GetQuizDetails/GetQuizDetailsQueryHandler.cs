@@ -9,6 +9,7 @@ public class GetQuizDetailsQueryHandler(IBraimpDbContext dbContext, IMapper mapp
     public async Task<QuizDetailsResponse> Handle(GetQuizDetailsQuery request, CancellationToken cancellationToken)
     {
         var quiz = await dbContext.Quizzes
+            .Include(quiz => quiz.Questions)
             .FirstAsync(quiz => quiz.Id == request.Id, cancellationToken);
 
         return mapper.Map<QuizDetailsResponse>(quiz);

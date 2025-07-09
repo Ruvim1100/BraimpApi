@@ -20,6 +20,7 @@ public class GetCourseListQueryHandler(IBraimpDbContext dbContext,
         logger.LogInformation("Starting GetCourseListQuery handling.");
 
         var baseQuery = dbContext.Courses
+            .Where(course => !course.IsDeleted)
             .Where(course => course.Status == CourseStatus.Approved)
             .AsNoTracking();
 
@@ -28,9 +29,12 @@ public class GetCourseListQueryHandler(IBraimpDbContext dbContext,
             var pattern = $"%{request.SearchTerm}%";
             baseQuery = baseQuery.Where(course =>
                 EF.Functions.Like(course.Title, pattern) ||
-                (course.Description != null && EF.Functions.Like(course.Description, pattern)));
+                (course.Description != null && EF.Functions.Like(course.Description, pattern)) ||
+                course.Tags.Any(courseTag => courseTag.Tag.Name.Contains(request.SearchTerm)));
             logger.LogDebug("Applied search filter with term='{SearchTerm}'.", request.SearchTerm);
         }
+
+
         if (request.Category.HasValue)
         {
             baseQuery = baseQuery.Where(course => course.CourseCategoryId == request.Category.Value);

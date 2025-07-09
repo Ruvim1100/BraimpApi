@@ -47,7 +47,6 @@ public class CreateCourseCommandHandlerTests : TestCommandBase
         course.Description.ShouldBe("Test Description");
         course.GradingSystem.ShouldBe(GradingSystem.HundredPoint);
         course.CourseCategoryId.ShouldBe(BraimpContextFactory.CourseCategoryId);
-        course.OwnerId.ShouldBe(userId);
 
         var participant = course.Participants.FirstOrDefault(p => p.UserId == userId);
         participant.ShouldNotBeNull();

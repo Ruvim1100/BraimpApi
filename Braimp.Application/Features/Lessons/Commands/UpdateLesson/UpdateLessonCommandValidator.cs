@@ -30,10 +30,6 @@ public class UpdateLessonCommandValidator : AbstractValidator<UpdateLessonComman
             .MaximumLength(1000)
             .WithMessage("Lesson Description must be at most 1000 characters.");
 
-        RuleFor(command => command.SortIndex)
-            .GreaterThanOrEqualTo(0)
-            .WithMessage("Lesson Index must be Greater Than Or Equal To 0");
-
         RuleFor(command => command)
             .MustAsync(LessonExists)
             .WithMessage("Lesson does not exist in the specified module or course.");

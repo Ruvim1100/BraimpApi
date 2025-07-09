@@ -3,6 +3,7 @@ using Braimp.Application.Constants;
 using Braimp.Domain.Entities;
 using Braimp.Domain.Entities.Quizzes;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace Braimp.Application.Features.QuizQuestions.Commands.CreateQuizQuestion;
@@ -16,12 +17,17 @@ public class CreateQuizQuestionCommandHandler(IBraimpDbContext dbContext, IUnitO
         {
             logger.LogInformation("Starting CreateQuizQuestionCommand handlingQuizId={QuizId}", request.QuizId);
 
+            var maxSortIndex = await dbContext.QuizQuestions
+                .Where(question => question.QuizId == request.QuizId)
+                .MaxAsync(question => (int?)question.SortIndex, cancellationToken) ?? -1;
+
             var question = new QuizQuestion
             {
                 Id = Guid.NewGuid(),
                 QuizId = request.QuizId,
                 Text = request.Text,
                 QuestionType = request.QuestionType,
+                SortIndex = maxSortIndex + 1,
                 Weight = request.Weight
             };
 

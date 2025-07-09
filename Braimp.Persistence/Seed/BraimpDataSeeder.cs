@@ -49,14 +49,13 @@ public static class BraimpDataSeeder
         var course1 = new Course
         {
             Id = Guid.NewGuid(),
-            OwnerId = owner.Id,
             Title = "Introduction to ASP.NET Core",
             Description = "A basic course on building Web APIs with ASP.NET Core.",
             Status = CourseStatus.Approved,
             GradingSystem = GradingSystem.TenPoint,
             CourseCategoryId = catNet.Id
         };
-        await db.Courses.AddAsync(course1);
+        await db.Courses.AddAsync(course1, cancellationToken);
 
         // 4) Participants & EnrollmentRequest
         await db.CourseParticipants.AddRangeAsync(
@@ -82,7 +81,7 @@ public static class BraimpDataSeeder
             UserId = student.Id,
             Status = EnrollmentStatus.Approved,
             
-        });
+        }, cancellationToken);
 
         // 5) Module & Lessons
         var module1 = new Module
@@ -121,7 +120,6 @@ public static class BraimpDataSeeder
             AuthorId = owner.Id,
             Title = "Course Launched!",
             Content = "We're excited to announce that the ASP.NET Core course is now open—welcome aboard!",
-            
         });
 
         // 7) Quiz

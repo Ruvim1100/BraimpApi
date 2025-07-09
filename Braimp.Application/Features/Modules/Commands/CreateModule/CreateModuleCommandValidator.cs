@@ -21,10 +21,6 @@ public class CreateModuleCommandValidator : AbstractValidator<CreateModuleComman
         RuleFor(command => command)
             .MustAsync(CourseExists)
             .WithMessage("Course doesn't exist");
-
-        RuleFor(createModuleCommand => createModuleCommand.SortIndex)
-            .GreaterThanOrEqualTo(0)
-            .WithMessage("SortIndex must be greater than or equal to zero.");
     }
 
     private Task<bool> CourseExists(CreateModuleCommand command, CancellationToken cancellationToken) =>

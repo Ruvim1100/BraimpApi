@@ -41,6 +41,7 @@ public class UpdateCourseCommandValidator : AbstractValidator<UpdateCourseComman
     private async Task<bool> CourseExists(UpdateCourseCommand command, CancellationToken cancellationToken) =>
        await _dbContext.Courses.AnyAsync(course => course.Id == command.Id);
 
+
     private async Task<bool> CategoryExists(UpdateCourseCommand command, CancellationToken cancellationToken)
     {
         if (!command.CourseCategoryId.HasValue)

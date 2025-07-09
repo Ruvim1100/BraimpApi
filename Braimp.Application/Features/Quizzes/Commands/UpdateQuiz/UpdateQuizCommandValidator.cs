@@ -35,26 +35,22 @@ public class UpdateQuizCommandValidator : AbstractValidator<UpdateQuizCommand>
                 .LessThanOrEqualTo(240).WithMessage("Time limit cannot exceed 240 minutes");
         });
 
-        When(c => c.MaxAttempts.HasValue, () => 
+        When(c => c.AvailableFrom.HasValue && c.AvailableUntil.HasValue, () =>
+        {
+            RuleFor(c => c)
+                .Must(c => c.AvailableUntil > c.AvailableFrom)
+                .WithMessage("AvailableUntil must be later than AvailableFrom");
+        });
+
+    When(c => c.MaxAttempts.HasValue, () => 
         {
             RuleFor(c => c.MaxAttempts!.Value)
                 .GreaterThan(0).WithMessage("MaxAttempts must be greater than 0")
                 .LessThanOrEqualTo(10).WithMessage("MaxAttempts cannot exceed 10");
         });
-
-        When(c => c.StartTime.HasValue, () => 
-        {
-            RuleFor(c => c.StartTime!.Value)
-                .Must(BeInFuture)
-                .WithMessage("Start time must be in the future");
-        });
-
     }
 
     private async Task<bool> QuizExists(UpdateQuizCommand command, CancellationToken cancellationToken) =>
         await _dbContext.Quizzes.AnyAsync(quiz => quiz.Id == command.Id &&
         quiz.CourseId == command.CourseId, cancellationToken);
-
-    private bool BeInFuture(DateTimeOffset startTime) =>
-        startTime > DateTimeOffset.UtcNow;
 }

@@ -1,10 +1,7 @@
-﻿using AutoMapper;
-using Braimp.Application.Features.Assignments.Commands.CreateAssignment;
-using Braimp.Application.Mapping;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Braimp.WebApi.Endpoints.Assignments.CreateAssignment;
-public class Request : IMapWith<CreateAssignmentCommand>
+public class Request
 {
     [Required]
     [MaxLength(100)]
@@ -13,11 +10,6 @@ public class Request : IMapWith<CreateAssignmentCommand>
     [MaxLength(500)]
     public string? Description { get; set; }
 
-    [Required]
-    public DateTimeOffset Deadline { get; set; }
+    public DateTimeOffset? Deadline { get; set; }
 
-    public void Mapping(Profile profile)
-    {
-        profile.CreateMap<Request, CreateAssignmentCommand>();
-    }
 }

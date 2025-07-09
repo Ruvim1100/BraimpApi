@@ -15,12 +15,13 @@ public class DeleteCourseCommandHandler(IBraimpDbContext dbContext, IUnitOfWork 
         var course = await dbContext.Courses
             .FirstAsync(course => course.Id == request.Id, cancellationToken);
 
-        logger.LogDebug(
-            "Removing course: Id={CourseId}, Title={Title}",
-            course.Id,
-            course.Title);
+        if (course.IsDeleted)
+        {
+            logger.LogWarning("Course already marked as deleted: CourseId={CourseId}", request.Id);
+            return Unit.Value;
+        }
 
-        dbContext.Courses.Remove(course);
+        course.IsDeleted = true;
         await unitOfWork.SaveChangesAsync(cancellationToken);
 
         logger.LogInformation(

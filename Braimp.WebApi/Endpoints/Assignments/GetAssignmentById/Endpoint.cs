@@ -10,7 +10,7 @@ public class Endpoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapGet(ApiRoutes.Assignments.GetById, Handler)
-            .RequireAuthorization("User")
+            .RequireAuthorization(Roles.User)
             .Produces<AssignmentDetailsResponse>(StatusCodes.Status200OK)
             .ProducesValidationProblem()
             .WithTags(EndpointTags.Assignments);
@@ -25,7 +25,7 @@ public class Endpoint : ICarterModule
             CourseId = courseId,
         };
 
-        var assignment = await mediator.Send(query);
+        var assignment = await mediator.Send(query, cancellationToken);
         return Results.Ok(assignment);
     }
 }

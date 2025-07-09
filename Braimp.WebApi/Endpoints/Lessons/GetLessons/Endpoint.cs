@@ -9,7 +9,7 @@ public class Endpoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapGet(ApiRoutes.Lessons.Get, Handler)
-           .RequireAuthorization("User")
+           .RequireAuthorization(Roles.User)
            .Produces<LessonListResponse>(StatusCodes.Status200OK)
            .ProducesValidationProblem()
            .WithTags(EndpointTags.Lessons); ;

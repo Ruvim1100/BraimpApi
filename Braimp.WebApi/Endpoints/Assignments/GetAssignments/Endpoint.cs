@@ -10,7 +10,7 @@ public class Endpoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapGet(ApiRoutes.Assignments.Get, Handler)
-            .RequireAuthorization("User")
+            .RequireAuthorization(Roles.User)
             .Produces(StatusCodes.Status200OK)
             .ProducesValidationProblem()
             .WithTags(EndpointTags.Assignments);
@@ -19,7 +19,7 @@ public class Endpoint : ICarterModule
     private async Task<IResult> Handler([FromRoute] Guid courseId, IMediator mediator, CancellationToken cancellationToken)
     {
         var query = new GetAssignmentListQuery { CourseId = courseId };
-        var assignments = await mediator.Send(query);
+        var assignments = await mediator.Send(query, cancellationToken);
 
         return Results.Ok(assignments);
     }

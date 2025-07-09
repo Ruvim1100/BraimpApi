@@ -22,7 +22,8 @@ public class Request : IMapWith<UpdateQuizCommand>
 
     public bool? IsRandomized { get; set; }
 
-    public DateTimeOffset? StartTime { get; set; }
+    public DateTimeOffset? AvailableFrom { get; set; }
+    public DateTimeOffset? AvailableUntil { get; set; }
 
     public void Mapping(Profile profile)
     {

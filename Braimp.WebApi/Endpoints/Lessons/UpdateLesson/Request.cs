@@ -14,10 +14,8 @@ public class Request : IMapWith<UpdateLessonCommand>
 
     public bool? IsPublished { get; set; }
 
-    public int? SortIndex { get; set; }
-
     public void Mapping(Profile profile)
     {
-        profile.CreateMap<Request, UpdateLessonCommand>().ReverseMap();
+        profile.CreateMap<Request, UpdateLessonCommand>();
     }
 }

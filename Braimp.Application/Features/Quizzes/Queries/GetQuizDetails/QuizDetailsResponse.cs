@@ -11,11 +11,15 @@ public class QuizDetailsResponse : IMapWith<Quiz>
     public int? TimeLimitMinutes { get; set; }
     public int MaxAttempts { get; set; }
     public bool IsRandomized { get; set; }
+    public int SortIndex { get; set; }
+    public int QuestionCount { get; set; }
     public DateTimeOffset? AvailableFrom { get; set; }
     public DateTimeOffset? AvailableUntil { get; set; }
 
     public void Mapping(Profile profile)
     {
-        profile.CreateMap<Quiz, QuizDetailsResponse>();
+        profile.CreateMap<Quiz, QuizDetailsResponse>()
+        .ForMember(dest => dest.QuestionCount,
+                   opt => opt.MapFrom(src => src.Questions.Count));
     }
 }

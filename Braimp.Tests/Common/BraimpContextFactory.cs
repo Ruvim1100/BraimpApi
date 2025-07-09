@@ -32,7 +32,6 @@ public class BraimpContextFactory
             new Course
             {
                 Id = Guid.Parse("{EA8C646B-26CB-4258-848E-2FDED0D8B5AC}"),
-                OwnerId = UserAId,
                 Title = "Course1",
                 Description = "Description2",
                 Status = CourseStatus.Approved,
@@ -42,7 +41,6 @@ public class BraimpContextFactory
             new Course
             {
                 Id = Guid.Parse("{A00298E4-A885-414A-AAA1-460AB7FD8B02}"),
-                OwnerId = UserBId,
                 Title = "Course2",
                 Description = "Description2",
                 Status = CourseStatus.Approved,
@@ -52,7 +50,6 @@ public class BraimpContextFactory
             new Course
             {
                 Id = CourseIdForDelete,
-                OwnerId = UserAId,
                 Title = "Course3",
                 Description = "Description3",
                 Status = CourseStatus.Approved,
@@ -62,7 +59,6 @@ public class BraimpContextFactory
             new Course
             {
                 Id = CourseIdForUpdate,
-                OwnerId = UserBId,
                 Title = "Course4",
                 Description = "Description4",
                 Status = CourseStatus.Approved,

@@ -15,14 +15,5 @@ public class Request
     [Range(1, 100)]
     public int Weight { get; set; } = 1;
 
-    [Required]
-    public Guid QuizId { get; set; }
-
-    [Required]
-    public Guid CourseId { get; set; }
-    public IFormFile? File { get; set; }
-
-    [MaxLength(255)]
-    public string? DisplayName { get; set; }
     public IEnumerable<OptionModel>? QuizOptions { get; set; }
 }

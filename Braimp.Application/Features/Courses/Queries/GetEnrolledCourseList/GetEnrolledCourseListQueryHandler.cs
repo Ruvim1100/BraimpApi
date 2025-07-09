@@ -13,6 +13,7 @@ public class GetEnrolledCourseListQueryHandler(IBraimpDbContext dbContext, IBlob
     {
         var baseQuery = dbContext.Courses
             .Where(course => course.Status == CourseStatus.Approved)
+            .Where(course => !course.IsDeleted)
             .Where(course => course.Participants
                 .Any(participant => participant.UserId == currentUserService.UserId
                        && participant.Role == CourseRole.Student))

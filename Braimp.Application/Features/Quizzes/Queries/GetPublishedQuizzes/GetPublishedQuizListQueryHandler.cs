@@ -11,7 +11,7 @@ public class GetPublishedQuizListQueryHandler(IBraimpDbContext dbContext, IMappe
     {
         var quizzes = await dbContext.Quizzes
             .Where(quiz => quiz.CourseId == request.CourseId && quiz.IsPublished)
-            .OrderBy(quiz => quiz.CreatedAt)
+            .OrderBy(quiz => quiz.SortIndex)
             .ProjectTo<PublishedQuizLookupModel>(mapper.ConfigurationProvider)
             .ToListAsync(cancellationToken);
 

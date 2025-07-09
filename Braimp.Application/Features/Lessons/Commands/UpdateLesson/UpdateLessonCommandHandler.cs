@@ -1,12 +1,15 @@
 ﻿using Braimp.Application.Abstraction;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 namespace Braimp.Application.Features.Lessons.Commands.UpdateLesson;
 public class UpdateLessonCommandHandler(IBraimpDbContext dbContext, IUnitOfWork unitOfWork) 
     : IRequestHandler<UpdateLessonCommand, Guid>
 {
     public async Task<Guid> Handle(UpdateLessonCommand request, CancellationToken cancellationToken)
     {
-        var lesson = await dbContext.Lessons.FindAsync(request.Id, cancellationToken);
+        var lesson = await dbContext.Lessons
+            .FirstAsync(lesson => lesson.Id == request.Id, 
+            cancellationToken);
 
         if (request.Title != null)
             lesson!.Title = request.Title.Trim();
@@ -15,7 +18,6 @@ public class UpdateLessonCommandHandler(IBraimpDbContext dbContext, IUnitOfWork 
             lesson!.Description = request.Description.Trim();
 
         lesson!.IsPublished = request.IsPublished ?? lesson.IsPublished;
-        lesson.SortIndex = request.SortIndex ?? lesson.SortIndex;
 
         await unitOfWork.SaveChangesAsync(cancellationToken);
         return lesson.Id;

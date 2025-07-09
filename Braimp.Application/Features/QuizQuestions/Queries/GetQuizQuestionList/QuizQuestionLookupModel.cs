@@ -11,6 +11,7 @@ public class QuizQuestionLookupModel : IMapWith<QuizQuestion>
     public string Text { get; set; } = string.Empty;
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public QuestionType QuestionType { get; set; }
+    public int SortIndex { get; set; }
     public int Weight { get; set; } = 1;
 
     public string File { get; set; } = string.Empty;

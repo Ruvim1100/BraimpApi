@@ -11,16 +11,25 @@ public class Endpoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapPut(ApiRoutes.Lessons.Update, Handler)
-            .RequireAuthorization("User")
+            .RequireAuthorization(Roles.User)
             .Produces<Guid>(StatusCodes.Status204NoContent)
             .ProducesValidationProblem()
             .WithTags(EndpointTags.Lessons); ;
     }
 
-    private async Task<IResult> Handler([FromRoute] Guid id, [FromRoute] Guid moduleId, [FromRoute] Guid courseId, 
-        Request request, IMediator mediator, IMapper mapper, CancellationToken cancellationToken)
+    private async Task<IResult> Handler([FromRoute] Guid id, [FromRoute] Guid moduleId, [FromRoute] Guid courseId,
+        [FromBody] Request request, IMediator mediator, IMapper mapper, CancellationToken cancellationToken)
     {
-        var lessonId = await mediator.Send(mapper.Map<UpdateLessonCommand>(request));
+        var command = new UpdateLessonCommand
+        {
+            Id = id,
+            ModuleId = moduleId,
+            CourseId = courseId,
+            Title = request.Title,
+            Description = request.Description,
+            IsPublished = request.IsPublished
+        };
+        var lessonId = await mediator.Send(command, cancellationToken);
         return Results.NoContent();
     }
 }

@@ -14,11 +14,14 @@ public class SubmissionDetailsResponse : IMapWith<Submission>
     public DateTimeOffset CreatedAt { get; set; }
     public DateTimeOffset? UpdatedAt { get; set; }
     public DateTimeOffset? ReviewedAt { get; set; }
-    public Guid AssignmentId { get; set; }
+    public string DownloadFileUrl { get; set; } = string.Empty;
+    public StudentModel Student { get; set; } = null!;
 
     public void Mapping(Profile profile)
     {
-        profile.CreateMap<Submission, SubmissionDetailsResponse>();
+        profile.CreateMap<Submission, SubmissionDetailsResponse>()
+           .ForMember(dest => dest.Student, opt => opt.Ignore())
+           .ForMember(dest => dest.DownloadFileUrl, opt => opt.Ignore());
     }
 
 }

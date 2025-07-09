@@ -28,6 +28,6 @@ public class AzureOpenAiService : IAiService
     public Task<AiMessage> SummarizeLessonAsync(AiMessage request, CancellationToken cancellationToken = default) =>
         _summarize.RunAsync(request, cancellationToken);
 
-    public Task<AiMessage> GenerateTestAsync(AiMessage request, CancellationToken cancellationToken = default) =>
-        _generateTest.RunAsync(request, cancellationToken);
+    public Task<AiMessage> GenerateTestAsync(string promt, CancellationToken cancellationToken = default) =>
+        _generateTest.RunAsync(promt, cancellationToken);
 }

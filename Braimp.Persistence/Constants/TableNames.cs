@@ -13,6 +13,7 @@ internal static class TableNames
     public const string SubmissionFiles = "SubmissionFiles";
     public const string AssignmentFiles = "AssignmentFiles";
     public const string Lessons = "Lessons";
+    public const string LessonBlocks = "LessonBlocks";
     public const string Modules = "Modules";
     public const string Materials = "Materials";
     public const string Quizzes = "Quizzes";
@@ -28,4 +29,5 @@ internal static class TableNames
     public const string QuizAttempts = "QuizAttempts";
     public const string AnswerOptions = "AnswerOptions";
     public const string AnswerTexts = "AnswerTexts";
+    public const string Users = "Users";
 }

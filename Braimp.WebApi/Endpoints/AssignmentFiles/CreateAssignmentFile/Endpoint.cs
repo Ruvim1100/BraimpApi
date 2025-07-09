@@ -3,7 +3,6 @@ using Braimp.WebApi.Constants;
 using Carter;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using System.Text;
 
 namespace Braimp.WebApi.Endpoints.AssignmentFiles.CreateAssignmentFile;
 public class Endpoint : ICarterModule
@@ -11,7 +10,7 @@ public class Endpoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapPost(ApiRoutes.AssignmentFiles.Create, Handler)
-            .RequireAuthorization("User")
+            .RequireAuthorization(Roles.User)
             .Accepts<IFormFile>("multipart/form-data")
             .Produces<Guid>(StatusCodes.Status200OK)
             .DisableAntiforgery()
@@ -30,7 +29,6 @@ public class Endpoint : ICarterModule
             DisplayName = displayName,
             OriginalFileName = file.FileName,
             FileStream = file.OpenReadStream(),
-            Encoding = Encoding.UTF8
         };
 
         var result = await mediator.Send(command, cancellationToken);

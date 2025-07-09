@@ -20,7 +20,7 @@ public class CreateAssignmentCommandValidator : AbstractValidator<CreateAssignme
             .WithMessage("Description must not exceed 1000 characters");
 
         RuleFor(assignment => assignment.Deadline)
-            .Must(BeAFutureDate)
+            .Must(d => !d.HasValue || d > DateTimeOffset.UtcNow)
             .WithMessage("Deadline must be a future date");
 
         RuleFor(assignment => assignment.CourseId)
@@ -32,10 +32,6 @@ public class CreateAssignmentCommandValidator : AbstractValidator<CreateAssignme
             .WithMessage("Specified course does not exist");
     }
 
-    private bool BeAFutureDate(DateTimeOffset deadline)
-    {
-        return deadline > DateTimeOffset.UtcNow;
-    }
 
     private async Task<bool> CourseExists(CreateAssignmentCommand command, CancellationToken cancellationToken)
     {

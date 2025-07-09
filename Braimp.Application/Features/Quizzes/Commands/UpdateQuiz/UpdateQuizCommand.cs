@@ -10,6 +10,7 @@ public class UpdateQuizCommand : IRequest<Guid>
     public bool? IsPublished { get; set; }
     public int? MaxAttempts { get; set; }
     public bool? IsRandomized { get; set; }
-    public DateTimeOffset? StartTime { get; set; }
+    public DateTimeOffset? AvailableFrom { get; set; }
+    public DateTimeOffset? AvailableUntil { get; set; }
     public Guid CourseId { get; set; }
 }
