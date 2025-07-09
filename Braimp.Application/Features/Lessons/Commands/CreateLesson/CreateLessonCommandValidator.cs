@@ -24,7 +24,7 @@ public class CreateLessonCommandValidator : AbstractValidator<CreateLessonComman
 
         RuleFor(command => command)
             .MustAsync(ModuleExists)
-            .WithMessage("Module doesn't  exist.");
+            .WithMessage("Module doesn't exist.");
     }
 
     private Task<bool> ModuleExists(CreateLessonCommand command, CancellationToken cancellationToken) =>
