@@ -11,7 +11,7 @@ public static class ServiceRegistration
     public static IServiceCollection AddInfrastructure(this IServiceCollection services,
         IConfiguration configuration)
     {
-        var connectionString = configuration.GetConnectionString("DbConnection") ??
+        var connectionString = configuration.GetConnectionString("DefaultConnection") ??
             throw new ArgumentNullException();
 
         services.AddDbContext<BraimpDbContext>(options => { options.UseSqlServer(connectionString); });
