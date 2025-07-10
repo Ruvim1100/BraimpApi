@@ -13,7 +13,7 @@ builder.Services.AddBraimpMappings()
     .AddIdentity(builder.Configuration)
     .AddInfrastructure(builder.Configuration)
     .AddAi(builder.Configuration)
-    .AddBraimpCors()
+    .AddBraimpCors(builder.Configuration)
     .AddEndpointsApiExplorer()
     .AddCarter(configurator: c => c.WithValidatorLifetime(ServiceLifetime.Scoped))
     .AddBraimpSwagger(builder.Configuration);
