@@ -1,10 +1,8 @@
 ﻿namespace Braimp.WebApi.Configuration;
 public static class ConfigureCors
 {
-    public static IServiceCollection AddBraimpCors(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddBraimpCors(this IServiceCollection services)
     {
-        var allowedOrigins = configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? [];
-
         services.AddCors(options =>
         {
             options.AddPolicy("AllowFrontend", policy =>
