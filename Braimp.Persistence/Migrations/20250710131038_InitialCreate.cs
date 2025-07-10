@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -57,7 +58,6 @@ namespace Braimp.Infrastructure.Migrations
                     Surname = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     GivenName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Country = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    City = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     ProfileImageUrl = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true)
@@ -368,13 +368,13 @@ namespace Braimp.Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     StudentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Score = table.Column<decimal>(type: "decimal(5,2)", precision: 5, scale: 2, nullable: false),
+                    Score = table.Column<decimal>(type: "decimal(5,2)", precision: 5, scale: 2, nullable: true),
                     Grade = table.Column<decimal>(type: "decimal(5,2)", precision: 5, scale: 2, nullable: true),
-                    CorrectAnswerCount = table.Column<int>(type: "int", nullable: false),
-                    IncorrectAnswerCount = table.Column<int>(type: "int", nullable: false),
+                    CorrectAnswerCount = table.Column<int>(type: "int", nullable: true),
+                    IncorrectAnswerCount = table.Column<int>(type: "int", nullable: true),
                     StartedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     FinishedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    TimeLimitMinutes = table.Column<int>(type: "int", nullable: false),
+                    TimeLimitMinutes = table.Column<int>(type: "int", nullable: true),
                     IsPublished = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
                     AttemptNumber = table.Column<int>(type: "int", nullable: false),
                     QuizId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
@@ -460,7 +460,8 @@ namespace Braimp.Infrastructure.Migrations
                     QuestionText = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false),
                     QuestionType = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Weight = table.Column<int>(type: "int", nullable: false, defaultValue: 1),
-                    QuizAttemptId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    QuizAttemptId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    OriginalQuestionId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -520,6 +521,7 @@ namespace Braimp.Infrastructure.Migrations
                     Text = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false),
                     IsCorrect = table.Column<bool>(type: "bit", nullable: false),
                     IsSelected = table.Column<bool>(type: "bit", nullable: false),
+                    OriginalOptionId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     AttemptAnswerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Braimp.Infrastructure.Migrations
 {
     [DbContext(typeof(BraimpDbContext))]
-    [Migration("20250708223459_AddQuizAttempt")]
-    partial class AddQuizAttempt
+    [Migration("20250710131038_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
