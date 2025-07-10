@@ -10,19 +10,19 @@ public static class ConfigureCors
             options.AddPolicy("AllowFrontend", policy =>
             {
                 policy
-                    .WithOrigins(allowedOrigins ?? Array.Empty<string>())
+                    .WithOrigins("https://braimp-frontend-had8cgbjb7fxctev.westeurope-01.azurewebsites.net")
                     .AllowAnyMethod()
                     .AllowAnyHeader()
                     .AllowCredentials();
             });
 
-            options.AddPolicy("AllowAll", policy =>
-            {
-                policy
-                .AllowAnyMethod()
-                .AllowAnyHeader()
-                .AllowCredentials();
-            });
+            //options.AddPolicy("AllowAll", policy =>
+            //{
+            //    policy
+            //    .AllowAnyMethod()
+            //    .AllowAnyHeader()
+            //    .AllowCredentials();
+            //});
         });
 
         return services;
