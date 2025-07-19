@@ -16,11 +16,15 @@ public class CreateNewsCommandValidator : AbstractValidator<CreateNewsCommand>
 
         RuleFor(command => command.Title)
             .NotEmpty().WithMessage("Title is required")
-            .MaximumLength(100).WithMessage("Title must be at most 200 characters");
+            .MaximumLength(100).WithMessage("Title must be at most 100 characters");
 
         RuleFor(command => command.Content)
             .NotEmpty().WithMessage("Content is required")
             .MaximumLength(1000).WithMessage("Content must be at most 1000 characters");
+
+        RuleFor(command => command.FileStream.Length)
+            .LessThanOrEqualTo(5 * 1024 * 1024)
+            .WithMessage("File size must be less than 5MB.");
 
         RuleFor(command => command)
             .MustAsync(CourseExists)

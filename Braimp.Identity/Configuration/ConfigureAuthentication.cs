@@ -15,6 +15,15 @@ public static class ConfigureAuthentication
             jwtBearerScheme: JwtBearerDefaults.AuthenticationScheme,
             subscribeToJwtBearerMiddlewareDiagnosticsEvents: false );
 
+        services.AddAuthentication()
+            .AddJwtBearer("AuthExtension", options =>
+            {
+                options.Authority =
+                    $"{configuration["AzureAdApi:Instance"]}{configuration["AzureAdAuthExt:TenantId"]}/v2.0";
+                options.Audience = configuration["AzureAdAuthExt:Audience"];
+                options.TokenValidationParameters.RoleClaimType = ClaimTypes.Role;
+            });
+
         services.Configure<JwtBearerOptions>(
             JwtBearerDefaults.AuthenticationScheme, options =>
             {
@@ -26,6 +35,12 @@ public static class ConfigureAuthentication
         {
             options.AddPolicy("User", p => p.RequireRole("User"));
             options.AddPolicy("Admin", p => p.RequireRole("Admin", "User"));
+
+            options.AddPolicy("AuthExtension", p =>
+            {
+                p.RequireAuthenticatedUser();
+                p.AuthenticationSchemes.Add("AuthExtension");
+            });
         });
         return services;
     }

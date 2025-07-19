@@ -2,7 +2,7 @@
 using System.Text;
 
 namespace Braimp.Application.Features.Courses.Commands.UpdateCourseThumbnail;
-public class UpdateCourseThumbnailCommand : IRequest
+public class UpdateCourseThumbnailCommand : IRequest<Unit>
 {
     public Guid Id { get; set; }
     public string DisplayName { get; set; } = string.Empty;

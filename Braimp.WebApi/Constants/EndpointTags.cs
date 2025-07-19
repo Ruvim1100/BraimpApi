@@ -17,4 +17,6 @@ internal class EndpointTags
     public const string QuizQuestions = "QuizQuestions";
     public const string QuizAttempts = "QuizAttempts";
     public const string CourseImages = "CourseImages";
+    public const string CourseNews = "CourseNews";
+    public const string EnrollmentRequests = "EnrollmentRequests";
 }

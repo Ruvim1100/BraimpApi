@@ -2,7 +2,7 @@
 using MediatR;
 
 namespace Braimp.Application.Features.LessonBlocks.Commands.CreateLessonBlock;
-public class CreateLessonBlockCommand : IRequest
+public class CreateLessonBlockCommand : IRequest<Unit>
 { 
     public Guid LessonId { get; set; }
     public LessonBlockType Type { get; set; }

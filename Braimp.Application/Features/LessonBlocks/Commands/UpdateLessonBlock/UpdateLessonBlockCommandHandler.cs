@@ -3,9 +3,9 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace Braimp.Application.Features.LessonBlocks.Commands.UpdateLessonBlock;
-public class UpdateLessonBlockCommandHandler(IBraimpDbContext dbContext, IUnitOfWork unitOfWork) : IRequestHandler<UpdateLessonBlockCommand>
+public class UpdateLessonBlockCommandHandler(IBraimpDbContext dbContext, IUnitOfWork unitOfWork) : IRequestHandler<UpdateLessonBlockCommand, Unit>
 {
-    public async Task Handle(UpdateLessonBlockCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(UpdateLessonBlockCommand request, CancellationToken cancellationToken)
     {
         var lessonBlock = await dbContext.LessonBlocks
             .FirstAsync(block => block.Id == request.Id, cancellationToken);
@@ -14,5 +14,7 @@ public class UpdateLessonBlockCommandHandler(IBraimpDbContext dbContext, IUnitOf
 
         dbContext.LessonBlocks.Update(lessonBlock);
         await unitOfWork.SaveChangesAsync(cancellationToken);
+
+        return Unit.Value;
     }
 }

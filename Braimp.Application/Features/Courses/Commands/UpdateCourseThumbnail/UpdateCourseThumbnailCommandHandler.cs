@@ -6,9 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Braimp.Application.Features.Courses.Commands.UpdateCourseThumbnail;
 public class UpdateCourseThumbnailCommandHandler(IBraimpDbContext dbContext, IUnitOfWork unitOfWork, 
-    IBlobStorageService blobStorageService) : IRequestHandler<UpdateCourseThumbnailCommand>
+    IBlobStorageService blobStorageService) : IRequestHandler<UpdateCourseThumbnailCommand, Unit>
 {
-    public async Task Handle(UpdateCourseThumbnailCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(UpdateCourseThumbnailCommand request, CancellationToken cancellationToken)
     {
         var course = await dbContext.Courses
         .FirstAsync(course => course.Id == request.Id,
@@ -47,5 +47,6 @@ public class UpdateCourseThumbnailCommandHandler(IBraimpDbContext dbContext, IUn
         dbContext.Resources.Add(resource);
 
         await unitOfWork.SaveChangesAsync(cancellationToken);
+        return Unit.Value;
     }
 }

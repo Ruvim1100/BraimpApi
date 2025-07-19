@@ -6,9 +6,9 @@ using Braimp.Domain.Entities.LearningContent;
 
 namespace Braimp.Application.Features.LessonFiles.Commands.CreateLessonFile;
 public class CreateLessonFileCommandHandler(IBraimpDbContext dbContext, IUnitOfWork unitOfWork, 
-    IBlobStorageService blobStorageService) : IRequestHandler<CreateLessonFileCommand>
+    IBlobStorageService blobStorageService) : IRequestHandler<CreateLessonFileCommand, Unit>
 {
-    public async Task Handle(CreateLessonFileCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(CreateLessonFileCommand request, CancellationToken cancellationToken)
     {
         var extension = Path.GetExtension(request.OriginalFileName);
         var uniqueBlobName = $"{Guid.NewGuid()}{extension}";
@@ -38,5 +38,6 @@ public class CreateLessonFileCommandHandler(IBraimpDbContext dbContext, IUnitOfW
         dbContext.Resources.Add(resource);
         await unitOfWork.SaveChangesAsync(cancellationToken);
 
+        return Unit.Value;
     }
 }

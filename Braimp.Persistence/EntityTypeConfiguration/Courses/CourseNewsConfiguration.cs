@@ -18,7 +18,7 @@ public class CourseNewsConfiguration : IEntityTypeConfiguration<CourseNews>
         builder.Property(courseNews => courseNews.Content)
             .HasMaxLength(1000);
 
-        builder.Property(courseNews => courseNews.ImageUrl)
+        builder.Property(courseNews => courseNews.ImageResourceId)
             .HasMaxLength(2048);
 
         builder.HasOne(courseNews => courseNews.Course)

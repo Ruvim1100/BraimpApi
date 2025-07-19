@@ -4,12 +4,14 @@ using Microsoft.SemanticKernel;
 using Braimp.Application.Modules;
 using Braimp.Ai.Option;
 using Microsoft.Extensions.Options;
+using Braimp.Ai.Skills;
 
 namespace Braimp.Ai.Services;
 public class AzureOpenAiService : IAiService
 {
-    private readonly SummarizeSkill _summarize;
+    private readonly SummarizeSkill _summarizeLesson;
     private readonly GenerateTestSkill _generateTest;
+    private readonly TranslateSkills _translateLesson;
 
     public AzureOpenAiService(IOptions<AiOptions> options)
     {
@@ -21,13 +23,17 @@ public class AzureOpenAiService : IAiService
         builder.AddAzureOpenAIChatCompletion(deployment, endpoint, apiKey);
         var kernel = builder.Build();
 
-        _summarize = new SummarizeSkill(kernel);
+        _summarizeLesson = new SummarizeSkill(kernel);
         _generateTest = new GenerateTestSkill(kernel);
+        _translateLesson = new TranslateSkills(kernel);
     }
 
     public Task<AiMessage> SummarizeLessonAsync(AiMessage request, CancellationToken cancellationToken = default) =>
-        _summarize.RunAsync(request, cancellationToken);
+        _summarizeLesson.RunAsync(request, cancellationToken);
 
     public Task<AiMessage> GenerateTestAsync(string promt, CancellationToken cancellationToken = default) =>
         _generateTest.RunAsync(promt, cancellationToken);
+
+    public Task<AiMessage> TranslateLessonAsync(string promt, CancellationToken cancellationToken = default) =>
+        _translateLesson.RunAsync(promt, cancellationToken);
 }

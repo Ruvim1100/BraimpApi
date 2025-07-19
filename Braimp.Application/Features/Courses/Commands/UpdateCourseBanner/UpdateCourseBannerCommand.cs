@@ -2,7 +2,7 @@
 using System.Text;
 
 namespace Braimp.Application.Features.Courses.Commands.UpdateCourseBanner;
-public class UpdateCourseBannerCommand : IRequest
+public class UpdateCourseBannerCommand : IRequest<Unit>
 {
     public Guid Id { get; set; }
     public string DisplayName { get; set; } = string.Empty;

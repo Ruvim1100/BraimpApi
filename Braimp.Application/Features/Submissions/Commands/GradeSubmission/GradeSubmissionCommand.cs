@@ -1,7 +1,7 @@
 ﻿using MediatR;
 
 namespace Braimp.Application.Features.Submissions.Commands.GradeSubmission;
-public class GradeSubmissionCommand : IRequest
+public class GradeSubmissionCommand : IRequest<Unit>
 {
     public Guid Id { get; set; }
     public Guid ReviewerId { get; set; }

@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Braimp.Application.Features.QuizQuestions.Commands.DeleteQuizQuestion;
 public class DeleteQuizQuestionCommandHandler(IBraimpDbContext dbContext, IUnitOfWork unitOfWork) 
-    : IRequestHandler<DeleteQuizQuestionCommand>
+    : IRequestHandler<DeleteQuizQuestionCommand, Unit>
 {
-    public async Task Handle(DeleteQuizQuestionCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(DeleteQuizQuestionCommand request, CancellationToken cancellationToken)
     {
         var question = await dbContext.QuizQuestions
             .FirstAsync(question => question.Id == request.Id,
@@ -27,5 +27,7 @@ public class DeleteQuizQuestionCommandHandler(IBraimpDbContext dbContext, IUnitO
 
 
         await unitOfWork.SaveChangesAsync(cancellationToken);
+
+        return Unit.Value;
     }
 }

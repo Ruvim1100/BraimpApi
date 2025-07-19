@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Braimp.Application.Features.Submissions.Commands.GradeSubmission;
 public class GradeSubmissionCommandHandler(IBraimpDbContext dbContext, IUnitOfWork unitOfWork) 
-    : IRequestHandler<GradeSubmissionCommand>
+    : IRequestHandler<GradeSubmissionCommand, Unit>
 {
-    public async Task Handle(GradeSubmissionCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(GradeSubmissionCommand request, CancellationToken cancellationToken)
     {
         var submission = await dbContext.Submissions
             .FirstAsync(submission => submission.Id == request.Id, cancellationToken);
@@ -19,5 +19,7 @@ public class GradeSubmissionCommandHandler(IBraimpDbContext dbContext, IUnitOfWo
 
         dbContext.Submissions.Update(submission);
         await unitOfWork.SaveChangesAsync(cancellationToken);
+
+        return Unit.Value;
     }
 }

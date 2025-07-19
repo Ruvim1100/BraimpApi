@@ -4,14 +4,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Braimp.Application.Features.Notifications.Commands.DeleteNotification;
 public class DeleteNotificationCommandHandler(IBraimpDbContext dbContext, IUnitOfWork unitOfWork) 
-    : IRequestHandler<DeleteNotificationCommand>
+    : IRequestHandler<DeleteNotificationCommand, Unit>
 {
-    public async Task Handle(DeleteNotificationCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(DeleteNotificationCommand request, CancellationToken cancellationToken)
     {
         var notification = await dbContext.Notifications
             .FirstAsync(notification => notification.Id == request.Id);
 
         dbContext.Notifications.Remove(notification);
         await unitOfWork.SaveChangesAsync(cancellationToken);
+
+        return Unit.Value;
     }
 }

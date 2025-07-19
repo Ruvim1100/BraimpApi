@@ -6,9 +6,9 @@ using Microsoft.EntityFrameworkCore;
 namespace Braimp.Application.Features.AssignmentFiles.Commands.DeleteAssignmentFile;
 internal class DeleteAssignmentFileCommandHandler(IBraimpDbContext dbContext, IUnitOfWork unitOfWork,
     IBlobStorageService blobStorageService) 
-    : IRequestHandler<DeleteAssignmentFileCommand>
+    : IRequestHandler<DeleteAssignmentFileCommand, Unit>
 {
-    public async Task Handle(DeleteAssignmentFileCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(DeleteAssignmentFileCommand request, CancellationToken cancellationToken)
     {
         var assignmentFile = await dbContext.AssignmentFiles
             .FirstAsync(assignmentFile => assignmentFile.Id == request.Id, cancellationToken);
@@ -21,5 +21,7 @@ internal class DeleteAssignmentFileCommandHandler(IBraimpDbContext dbContext, IU
         dbContext.Resources.Remove(resource);
 
         await unitOfWork.SaveChangesAsync(cancellationToken);
+
+        return Unit.Value;
     }
 }

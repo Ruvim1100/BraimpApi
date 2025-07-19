@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Braimp.Application.Features.LessonFiles.Commands.DeleteLessonFile;
 public class DeleteLessonFileCommandHandler(IBraimpDbContext dbContext, IUnitOfWork unitOfWork, 
-    IBlobStorageService blobStorageService) : IRequestHandler<DeleteLessonFileCommand>
+    IBlobStorageService blobStorageService) : IRequestHandler<DeleteLessonFileCommand, Unit>
 {
-    public async Task Handle(DeleteLessonFileCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(DeleteLessonFileCommand request, CancellationToken cancellationToken)
     {
         var lessonFile = await dbContext.LessonFiles
             .FirstAsync(file => file.Id == request.Id, cancellationToken);
@@ -20,5 +20,7 @@ public class DeleteLessonFileCommandHandler(IBraimpDbContext dbContext, IUnitOfW
         dbContext.Resources.Remove(resource);
         dbContext.LessonFiles.Remove(lessonFile);
         await unitOfWork.SaveChangesAsync(cancellationToken);
+
+        return Unit.Value;
     }
 }

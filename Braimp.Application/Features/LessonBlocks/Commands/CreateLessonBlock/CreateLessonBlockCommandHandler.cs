@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Braimp.Application.Features.LessonBlocks.Commands.CreateLessonBlock;
 public class CreateLessonBlockCommandHandler(IBraimpDbContext dbContext, IUnitOfWork unitOfWork) 
-    : IRequestHandler<CreateLessonBlockCommand>
+    : IRequestHandler<CreateLessonBlockCommand, Unit>
 {
-    public async Task Handle(CreateLessonBlockCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(CreateLessonBlockCommand request, CancellationToken cancellationToken)
     {
         var maxSortIndex = await dbContext.LessonBlocks
             .Where(block => block.LessonId == request.LessonId)
@@ -24,5 +24,7 @@ public class CreateLessonBlockCommandHandler(IBraimpDbContext dbContext, IUnitOf
 
         dbContext.LessonBlocks.Add(lessonBlock);
         await unitOfWork.SaveChangesAsync(cancellationToken);
+
+        return Unit.Value;
     }
 }

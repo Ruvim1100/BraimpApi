@@ -6,7 +6,6 @@ public static class PaginationResultExtension
 {
     public static async Task<PaginationResult<T>> ToPagedListAsync<T>(this IQueryable<T> source, PaginationRequest<T> paginationRequest, CancellationToken cancellationToken = default)
     {
-        ///TODO: reflection ordering using expression builder
         var totalCount = await source.CountAsync(cancellationToken).ConfigureAwait(false);
         var items = await source
             .Skip((paginationRequest.Page - 1) * paginationRequest.PageSize)

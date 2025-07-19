@@ -28,7 +28,7 @@ public class UpdateNewsCommandValidator : AbstractValidator<UpdateNewsCommand>
         When(command => command.Content != null, () =>
         {
             RuleFor(command => command.Content)
-            .MinimumLength(1000)
+            .MaximumLength(1000)
             .WithMessage("Content cannot exceed 1000 characters");
         });
 

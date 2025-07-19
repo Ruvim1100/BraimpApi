@@ -7,4 +7,5 @@ internal class BlobContainers
     public const string Lessons = "lessons";
     public const string Quizzes = "quizzes";
     public const string Submissions = "submissions";
+    public const string News = "news";
 }

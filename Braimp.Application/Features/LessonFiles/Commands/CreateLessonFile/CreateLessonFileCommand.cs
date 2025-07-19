@@ -3,7 +3,7 @@ using System.Text;
 
 namespace Braimp.Application.Features.LessonFiles.Commands.CreateLessonFile;
 
-public class CreateLessonFileCommand : IRequest
+public class CreateLessonFileCommand : IRequest<Unit>
 {
     public Guid LessonId { get; set; }
     public string DisplayName { get; set; } = string.Empty;

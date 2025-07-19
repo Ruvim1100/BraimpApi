@@ -1,7 +1,9 @@
-﻿namespace Braimp.Application.Constants;
+﻿using System.Net.Http;
+
+namespace Braimp.Application.Constants;
 public static class PromptTemplates
 {
-    public const string Summarize =
+    public const string SummarizeLesson =
         "You are an educational assistant. Summarize the following lecture in 3-5 bullet points. " +
         "Focus on key concepts:{0}";
 
@@ -29,4 +31,20 @@ Required JSON structure:
     }}
   ]
 }}";
+
+    public const string TranslateLesson = @"
+You are a professional technical translator.
+
+Your task:
+- Translate the provided content into {0}.
+- The content is in HTML format.
+- Preserve all HTML tags, structure, and formatting.
+- Do NOT translate tag names, class names, IDs, attributes, code, or links.
+- Only translate user-visible text.
+- Return ONLY the translated HTML.
+
+Here is the content:
+---
+{1}
+";
 }
