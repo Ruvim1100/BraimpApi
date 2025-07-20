@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Braimp.Application.Features.Assignments.Commands.DeleteAssignment;
 public class DeleteAssignmentCommandHandler(IBraimpDbContext dbContext, IUnitOfWork unitOfWork) 
-    : IRequestHandler<DeleteAssignmentCommand, Unit>>
+    : IRequestHandler<DeleteAssignmentCommand, Unit>
 {
     public async Task<Unit> Handle(DeleteAssignmentCommand request, CancellationToken cancellationToken)
     {

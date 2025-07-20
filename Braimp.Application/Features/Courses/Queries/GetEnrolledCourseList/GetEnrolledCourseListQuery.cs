@@ -1,6 +1,6 @@
 ﻿using Braimp.Application.Pagination;
 
 namespace Braimp.Application.Features.Courses.Queries.GetEnrolledCourseList;
-public class GetEnrolledCourseListQuery : PaginationRequest<EnrolledCourseLookupModel>
+public class GetEnrolledCourseListQuery : PaginationRequest<EnrollmentRequestLookupModel>
 {
 }

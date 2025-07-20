@@ -7,9 +7,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Braimp.Application.Features.Courses.Queries.GetEnrolledCourseList;
 public class GetEnrolledCourseListQueryHandler(IBraimpDbContext dbContext, IBlobStorageService blobStorageService,
-    ICurrentUserService currentUserService) : IRequestHandler<GetEnrolledCourseListQuery, PaginationResult<EnrolledCourseLookupModel>>
+    ICurrentUserService currentUserService) : IRequestHandler<GetEnrolledCourseListQuery, PaginationResult<EnrollmentRequestLookupModel>>
 {
-    public async Task<PaginationResult<EnrolledCourseLookupModel>> Handle(GetEnrolledCourseListQuery request, CancellationToken cancellationToken)
+    public async Task<PaginationResult<EnrollmentRequestLookupModel>> Handle(GetEnrolledCourseListQuery request, CancellationToken cancellationToken)
     {
         var baseQuery = dbContext.Courses
             .Where(course => course.Status == CourseStatus.Approved)
@@ -59,7 +59,7 @@ public class GetEnrolledCourseListQueryHandler(IBraimpDbContext dbContext, IBlob
 
 
         var resultItems = pageData
-            .Select(course => new EnrolledCourseLookupModel
+            .Select(course => new EnrollmentRequestLookupModel
             {
                 Id = course.Id,
                 Title = course.Title,

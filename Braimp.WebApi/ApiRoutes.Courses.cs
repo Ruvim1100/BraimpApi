@@ -13,5 +13,6 @@ public partial class ApiRoutes
         public const string GetEnrolled = "api/courses/enrolled";
         public const string GetOwned = "api/courses/owned";
         public const string GetStudents = "api/courses/{courseId}/students";
+        public const string DeleteParticipant = "api/courses/{courseId}/participants/{userId}";
     }
 }

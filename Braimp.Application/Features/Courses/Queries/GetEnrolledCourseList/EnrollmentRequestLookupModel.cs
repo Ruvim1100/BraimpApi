@@ -1,5 +1,5 @@
 ﻿namespace Braimp.Application.Features.Courses.Queries.GetEnrolledCourseList;
-public class EnrolledCourseLookupModel
+public class EnrollmentRequestLookupModel
 {
     public Guid Id { get; set; }
     public string Title { get; set; } = string.Empty;
