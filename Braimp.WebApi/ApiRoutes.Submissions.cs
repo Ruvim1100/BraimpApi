@@ -8,5 +8,6 @@ public partial class ApiRoutes
         public const string GetById = "api/courses/{courseId}/assignments/{assignmentId}/submissions/{id}";
         public const string Get = "api/courses/{courseId}/assignments/{assignmentId}/submissions";
         public const string Update = "api/courses/{courseId}/assignments/{assignmentId}/submissions/{id}";
+        public const string Grade = "api/courses/{courseId}/assignments/{assignmentId}/submissions/{id}/grade";
     }
 }

@@ -2,5 +2,8 @@
 using MediatR;
 
 namespace Braimp.Application.Features.AI.SummarizeLesson;
-public record class SummarizeLessonCommand(string Content) : IRequest<AiMessage>;
+public class SummarizeLessonCommand : IRequest<AiMessage>
+{
+    public Guid LessonId { get; set; }
+}
 

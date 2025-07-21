@@ -17,13 +17,13 @@ public class Endpoint : ICarterModule
             .WithTags(EndpointTags.Lessons);
     }
 
-    private async Task<IResult> Handler([FromRoute] Guid courseId, [FromRoute] Guid moduleId, [FromRoute] Guid lessonId,
+    private async Task<IResult> Handler([FromRoute] Guid courseId, [FromRoute] Guid moduleId, [FromRoute] Guid id,
         [FromBody] Request request, IMediator mediator, CancellationToken cancellationToken)
     {
         var command = new TranslateLessonCommand
         {
             Language = request.Language,
-            SourceText = request.LessonText
+            LessonId = id
         };
 
         var translatedText = await mediator.Send(command, cancellationToken);

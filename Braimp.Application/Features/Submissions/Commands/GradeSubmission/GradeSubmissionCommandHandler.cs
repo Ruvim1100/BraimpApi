@@ -3,7 +3,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace Braimp.Application.Features.Submissions.Commands.GradeSubmission;
-public class GradeSubmissionCommandHandler(IBraimpDbContext dbContext, IUnitOfWork unitOfWork) 
+public class GradeSubmissionCommandHandler(IBraimpDbContext dbContext, IUnitOfWork unitOfWork, ICurrentUserService currentUserService) 
     : IRequestHandler<GradeSubmissionCommand, Unit>
 {
     public async Task<Unit> Handle(GradeSubmissionCommand request, CancellationToken cancellationToken)
@@ -12,7 +12,7 @@ public class GradeSubmissionCommandHandler(IBraimpDbContext dbContext, IUnitOfWo
             .FirstAsync(submission => submission.Id == request.Id, cancellationToken);
 
         submission.ReviewedAt = DateTimeOffset.UtcNow;
-        submission.ReviewerId = request.ReviewerId;
+        submission.ReviewerId = currentUserService.UserId;
 
         submission.Grade = request.Grade ?? submission.Grade;
         submission.ReviewComment = request.ReviewComment ?? submission.ReviewComment;

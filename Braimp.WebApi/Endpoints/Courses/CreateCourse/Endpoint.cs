@@ -13,7 +13,7 @@ public class Endpoint : ICarterModule
     {
         app.MapPost(ApiRoutes.Courses.Create, Handler)
             .RequireAuthorization(Roles.User)
-            .Produces(StatusCodes.Status201Created)
+            .Produces(StatusCodes.Status200OK)
             .ProducesValidationProblem()
             .WithTags(EndpointTags.Courses);
     }
@@ -22,8 +22,8 @@ public class Endpoint : ICarterModule
         IMediator mediator, IMapper mapper, ICurrentUserService currentUser, CancellationToken cancellationToken)
     {
         var command = mapper.Map<CreateCourseCommand>(createCourseDto);
-        await mediator.Send(command, cancellationToken);
+        var id = await mediator.Send(command, cancellationToken);
 
-        return Results.Created();
+        return Results.Ok(id);
     }
 }

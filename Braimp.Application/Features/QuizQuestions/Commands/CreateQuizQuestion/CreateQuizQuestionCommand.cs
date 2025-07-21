@@ -9,6 +9,5 @@ public class CreateQuizQuestionCommand : IRequest<Guid>
     public int Weight { get; set; } = 1;
     public Guid QuizId { get; set; }
     public Guid CourseId { get; set; }
-    public ResourceModel? Resource { get; set; }
     public ICollection<QuizOptionModel>? QuizOptions { get; set; }
 }

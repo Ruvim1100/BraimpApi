@@ -28,8 +28,8 @@ public class AzureOpenAiService : IAiService
         _translateLesson = new TranslateSkills(kernel);
     }
 
-    public Task<AiMessage> SummarizeLessonAsync(AiMessage request, CancellationToken cancellationToken = default) =>
-        _summarizeLesson.RunAsync(request, cancellationToken);
+    public Task<AiMessage> SummarizeLessonAsync(string promt, CancellationToken cancellationToken = default) =>
+        _summarizeLesson.RunAsync(promt, cancellationToken);
 
     public Task<AiMessage> GenerateTestAsync(string promt, CancellationToken cancellationToken = default) =>
         _generateTest.RunAsync(promt, cancellationToken);

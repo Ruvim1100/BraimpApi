@@ -6,11 +6,13 @@ public partial class ApiRoutes
         public const string Create = "api/courses";
         public const string Delete = "api/courses/{id}";
         public const string GetById = "api/courses/{id}";
+        public const string Review = "api/courses/{id}/review";
         public const string Get = "api/courses";
         public const string Update = "api/courses/{id}";
         public const string UpdateBannerImage = "api/courses/{id}/banner";
         public const string UpdateThumbnailImage = "api/courses/{id}/thumbnail";
         public const string GetEnrolled = "api/courses/enrolled";
+        public const string GetPending = "api/courses/pending";
         public const string GetOwned = "api/courses/owned";
         public const string GetStudents = "api/courses/{courseId}/students";
         public const string DeleteParticipant = "api/courses/{courseId}/participants/{userId}";

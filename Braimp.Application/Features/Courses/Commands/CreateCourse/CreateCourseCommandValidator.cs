@@ -18,10 +18,6 @@ public class CreateCourseCommandValidator : AbstractValidator<CreateCourseComman
             .MaximumLength(1000)
             .WithMessage("Description cannot exceed 1000 characters.");
 
-        RuleFor(command => command.GradingSystem)
-            .NotEmpty()
-            .WithMessage("Grading system is required.");
-
         RuleFor(command => command.CourseCategoryId)
             .NotEmpty()
             .WithMessage("Category is required.");
@@ -32,5 +28,6 @@ public class CreateCourseCommandValidator : AbstractValidator<CreateCourseComman
     }
 
     private async Task<bool> CategoryExists(CreateCourseCommand command, CancellationToken cancellationToken) =>
-        await _dbContext.CourseCategories.AnyAsync(category => category.Id == command.CourseCategoryId);
+        await _dbContext.CourseCategories.AnyAsync(category => category.Id == command.CourseCategoryId, 
+            cancellationToken);
 }

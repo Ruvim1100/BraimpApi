@@ -31,11 +31,6 @@ public class CreateQuizQuestionCommandValidator : AbstractValidator<CreateQuizQu
             .MustAsync(QuizExists)
             .WithMessage("Quiz does not exist.");
 
-        RuleFor(command => command.Resource!.OriginalFileName)
-            .Must(fn => Path.HasExtension(fn) &&
-                        new[] { ".jpg", ".png", ".pdf" }.Contains(Path.GetExtension(fn).ToLower()))
-            .WithMessage("Uploaded file must have a valid extension (jpg, png или pdf).");
-        
         RuleFor(cmd => cmd.QuestionType)
           .IsInEnum()
           .WithMessage("Invalid question type.");

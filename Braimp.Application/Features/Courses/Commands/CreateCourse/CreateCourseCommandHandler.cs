@@ -22,7 +22,7 @@ public class CreateCourseCommandHandler(IBraimpDbContext dbContext, IUnitOfWork 
             Title = request.Title,
             Description = request.Description,
             Status = CourseStatus.Pending,
-            GradingSystem = request.GradingSystem,
+            GradingSystem = GradingSystem.HundredPoint,
             CourseCategoryId = request.CourseCategoryId 
         };
 

@@ -3,6 +3,7 @@ using Braimp.Application.Modules;
 using Braimp.WebApi.Constants;
 using Carter;
 using MediatR;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Braimp.WebApi.Endpoints.Ai.SummarizeLesson
 {
@@ -10,17 +11,16 @@ namespace Braimp.WebApi.Endpoints.Ai.SummarizeLesson
     {
         public void AddRoutes(IEndpointRouteBuilder app)
         {
-            app.MapPost(ApiRoutes.Ai.Summarize, Handler)
+            app.MapPost(ApiRoutes.Lessons.Summarize, Handler)
                 .RequireAuthorization(Roles.User)
                 .Produces<AiMessage>(StatusCodes.Status200OK)
                 .ProducesValidationProblem()
-                .WithName("SummarizeLessonEndpoint")
-                .WithTags(EndpointTags.Ai);
+                .WithTags(EndpointTags.Lessons);
         }
 
-        private async Task<IResult> Handler(SummarizeLessonRequest summarizeLessonDto, IMediator mediator, CancellationToken cancellationToken)
+        private async Task<IResult> Handler([FromRoute] Guid id, IMediator mediator, CancellationToken cancellationToken)
         {
-            var command = new SummarizeLessonCommand(summarizeLessonDto.content);
+            var command = new SummarizeLessonCommand{LessonId = id };
             var result = await mediator.Send(command, cancellationToken);
             return Results.Ok(result);
 

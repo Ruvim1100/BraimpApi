@@ -1,4 +1,5 @@
 ﻿using Braimp.Application.Abstraction;
+using Braimp.Domain.Entities.Courses.Enums;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -23,6 +24,8 @@ public class DeleteCourseCommandHandler(IBraimpDbContext dbContext, IUnitOfWork 
 
         course.IsDeleted = true;
         await unitOfWork.SaveChangesAsync(cancellationToken);
+
+        course.Status = CourseStatus.Archived;
 
         logger.LogInformation(
             "DeleteCourseCommand completed successfully: course with Id={CourseId} deleted",

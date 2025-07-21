@@ -19,4 +19,5 @@ internal class EndpointTags
     public const string CourseImages = "CourseImages";
     public const string CourseNews = "CourseNews";
     public const string EnrollmentRequests = "EnrollmentRequests";
+    public const string SystemStats = "SystemStats";
 }

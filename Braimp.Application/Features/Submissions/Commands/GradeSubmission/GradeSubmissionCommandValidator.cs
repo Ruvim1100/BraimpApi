@@ -18,10 +18,6 @@ public class GradeSubmissionCommandValidator : AbstractValidator<GradeSubmission
             .NotEmpty()
             .WithMessage("Assignment ID is required");
 
-        RuleFor(command => command.ReviewerId)
-            .NotEmpty()
-            .WithMessage("Reviewer ID is required");
-
         RuleFor(command => command.CourseId)
             .NotEmpty()
             .WithMessage("Course ID is required");
