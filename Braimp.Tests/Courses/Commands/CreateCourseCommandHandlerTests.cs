@@ -20,20 +20,17 @@ public class CreateCourseCommandHandlerTests : TestCommandBase
 
 
     [Fact]
-    public async Task CreateCourseCommandHandler_Success()
+    public async Task CreateCourseCommandHandler_CreatesCourse_WithDescription()
     {
         // Arrange
         var userId = BraimpContextFactory.UserAId;
+        _mockCurrentUser.Setup(x => x.UserId).Returns(userId);
 
-        _mockCurrentUser.Setup(mockUser => mockUser.UserId).Returns(userId);
-
-        var handler = new CreateCourseCommandHandler(context, context, _mockCurrentUser.Object,
-            _mockLogger.Object);
-
+        var handler = new CreateCourseCommandHandler(context, context, _mockCurrentUser.Object, _mockLogger.Object);
         var command = new CreateCourseCommand
         {
             Title = "New Test Course",
-            GradingSystem = GradingSystem.HundredPoint,
+            Description = "Test Description",
             CourseCategoryId = BraimpContextFactory.CourseCategoryId
         };
 
@@ -48,34 +45,7 @@ public class CreateCourseCommandHandlerTests : TestCommandBase
         course.GradingSystem.ShouldBe(GradingSystem.HundredPoint);
         course.CourseCategoryId.ShouldBe(BraimpContextFactory.CourseCategoryId);
 
-        var participant = course.Participants.FirstOrDefault(p => p.UserId == userId);
-        participant.ShouldNotBeNull();
-        participant!.Role.ShouldBe(CourseRole.Owner);
+        var participant = course.Participants.Single(p => p.UserId == userId);
+        participant.Role.ShouldBe(CourseRole.Owner);
     }
-
-    //[Fact]
-    //public async Task CreateCourseCommandHandler_ShouldThrow_WhenCategoryNotFound()
-    //{
-    //    // Arrange
-    //    var userId = BraimpContextFactory.UserAId;
-
-    //    _mockCurrentUser.Setup(x => x.UserId).Returns(userId);
-
-    //    var handler = new CreateCourseCommandHandler(context, context, _mockCurrentUser.Object,
-    //        _mockLogger.Object);
-
-    //    var command = new CreateCourseCommand
-    //    {
-    //        Title = "Invalid Category Course",
-    //        Description = "Description",
-    //        GradingSystem = GradingSystem.HundredPoint,
-    //        CourseCategoryId = Guid.NewGuid()
-    //    };
-
-    //    // Act & Assert
-    //    var act = () => handler.Handle(command, CancellationToken.None);
-
-    //    // Assert
-    //    //await Should.ThrowAsync<Exception>(act);
-    //}
 }

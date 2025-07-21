@@ -23,16 +23,30 @@ public static class TestHelpers
     public static IMediator CreateMediator(IBraimpDbContext dbContext, IMapper mapper)
     {
         var services = new ServiceCollection();
+
         services.AddLogging();
+
         services.AddMediatR(cfg =>
         {
             cfg.RegisterServicesFromAssembly(typeof(GetCourseListQueryHandler).Assembly);
         });
+
         services.AddSingleton(dbContext);
         services.AddSingleton(mapper);
+
         var currentUserMock = new Mock<ICurrentUserService>();
         currentUserMock.Setup(u => u.UserId).Returns(Guid.NewGuid());
         services.AddSingleton(currentUserMock.Object);
-        return services.BuildServiceProvider().GetRequiredService<IMediator>();
+
+        var blobStorageMock = new Mock<IBlobStorageService>();
+        blobStorageMock
+            .Setup(x => x.GetDownloadTokens(
+                It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<TimeSpan>()))
+            .Returns(("fake-preview-url", "fake-download-url"));
+        services.AddSingleton(blobStorageMock.Object);
+
+        var provider = services.BuildServiceProvider();
+        return provider.GetRequiredService<IMediator>();
     }
+
 }

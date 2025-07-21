@@ -1,5 +1,6 @@
 ﻿using Braimp.Application.Features.Courses.Commands.DeleteCourse;
 using Braimp.Tests.Common;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Shouldly;
@@ -15,11 +16,10 @@ public class DeleteCourseCommandHandlerTests : TestCommandBase
     }
 
     [Fact]
-    public async Task DeleteCommandHandler_Succes()
+    public async Task DeleteCommandHandler_Success()
     {
         // Arrange 
         var handler = new DeleteCourseCommandHandler(context, context, _mockLogger.Object);
-
         var command = new DeleteCourseCommand
         {
             Id = BraimpContextFactory.CourseIdForDelete
@@ -29,8 +29,13 @@ public class DeleteCourseCommandHandlerTests : TestCommandBase
         await handler.Handle(command, CancellationToken.None);
 
         // Assert
-        var course = await context.Courses.FindAsync(command.Id);
-        course.ShouldBeNull();
+        var course = await context.Courses
+            .IgnoreQueryFilters()
+            .FirstOrDefaultAsync(c => c.Id == command.Id, CancellationToken.None);
+
+        course.ShouldNotBeNull();
+
+        course!.IsDeleted.ShouldBeTrue();
     }
 
     [Fact]

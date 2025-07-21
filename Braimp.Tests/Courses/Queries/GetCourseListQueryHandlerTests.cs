@@ -23,13 +23,14 @@ public class GetCourseListQueryHandlerTests
     }
 
     [Fact]
-    public async Task GetCourseListQueryHandler_Success()
+    public async Task Handle_Returns_CorrectPaginationResult()
     {
         // Arrange
         var handler = new GetCourseListQueryHandler(
             _dbContext,
             _mockLogger.Object,
-            _mockBlobStorageService.Object);
+            _mockBlobStorageService.Object
+        );
 
         var query = new GetCourseListQuery
         {
@@ -37,12 +38,23 @@ public class GetCourseListQueryHandlerTests
             PageSize = 10
         };
 
-        // Act 
+        // Act
         var result = await handler.Handle(query, CancellationToken.None);
 
         // Assert
-        result.ShouldNotBeNull();
-        result.TotalCount.ShouldBe(4);
-        result.ShouldBeOfType<PaginationResult<CourseLookupModel>>();
+        result.ShouldBeAssignableTo<PaginationResult<CourseLookupModel>>();
+
+        result.Page.ShouldBe(1);
+        result.PageSize.ShouldBe(10);
+        result.TotalCount.ShouldBe(4);    
+        result.Items.Count.ShouldBe(4);  
+
+        result.Items
+            .ShouldAllBe(item => item is CourseLookupModel);
+
+        foreach (var item in result.Items)
+        {
+            item.ThumbnailImageUrl.ShouldBeNull();
+        }
     }
 }
