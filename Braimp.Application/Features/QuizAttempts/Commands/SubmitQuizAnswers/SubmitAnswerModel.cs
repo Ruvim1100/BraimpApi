@@ -7,5 +7,4 @@ public class SubmitAnswerModel
     public QuestionType Type { get; set; }
     public string? TextAnswer { get; set; }
     public List<Guid>? SelectedOptionIds { get; set; }
-    public Guid? SelectedOptionId { get; set; }
 }

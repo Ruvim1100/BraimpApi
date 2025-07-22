@@ -1,4 +1,5 @@
 ﻿using Braimp.Application.Abstraction;
+using Braimp.Domain.Entities.Courses.Enums;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 
@@ -6,10 +7,15 @@ namespace Braimp.Application.Features.Assignments.Commands.CreateAssignment;
 public class CreateAssignmentCommandValidator : AbstractValidator<CreateAssignmentCommand>
 {
     private readonly IBraimpDbContext _dbContext;
+    private readonly ICourseAuthorizationService _courseAuthorization;
+    private readonly ICurrentUserService _currentUser;
 
-    public CreateAssignmentCommandValidator(IBraimpDbContext dbContext)
+    public CreateAssignmentCommandValidator(IBraimpDbContext dbContext,
+        ICourseAuthorizationService courseAuthorization, ICurrentUserService currentUser)
     {
         _dbContext = dbContext;
+        _courseAuthorization = courseAuthorization;
+        _currentUser = currentUser;
 
         RuleFor(assignment => assignment.Title)
             .NotEmpty().WithMessage("Title is required")
@@ -30,6 +36,16 @@ public class CreateAssignmentCommandValidator : AbstractValidator<CreateAssignme
         RuleFor(assignment => assignment)
             .MustAsync(CourseExists)
             .WithMessage("Specified course does not exist");
+
+        RuleFor(x => x)
+            .MustAsync(async (command, ct) =>
+            {
+                return await courseAuthorization.HasRole(
+                    command.CourseId,
+                    currentUser.UserId,
+                    CourseRole.Owner);
+            })
+            .WithMessage("You must be the owner of the course to perform this action.");
     }
 
 

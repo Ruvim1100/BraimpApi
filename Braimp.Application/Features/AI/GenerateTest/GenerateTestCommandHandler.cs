@@ -42,7 +42,7 @@ public class GenerateTestCommandHandler(IAiService aiService, IBraimpDbContext d
             CourseId = request.CourseId,
             Title = request.Title,
             MaxAttempts = 1,
-            IsPublished = false,
+            IsPublished = true,
             IsRandomized = false,
             SortIndex = maxSortIndex + 1,
             Questions = new List<QuizQuestion>()

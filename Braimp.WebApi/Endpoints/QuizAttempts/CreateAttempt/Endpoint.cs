@@ -4,7 +4,7 @@ using Carter;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Braimp.WebApi.Endpoints.QuizAttempts;
+namespace Braimp.WebApi.Endpoints.QuizAttempts.CreateAttempt;
 public class Endpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)

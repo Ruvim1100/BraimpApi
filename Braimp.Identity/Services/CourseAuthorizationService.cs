@@ -27,4 +27,13 @@ public class CourseAuthorizationService(IBraimpDbContext dbContext) : ICourseAut
         if (!isParticipant)
             throw new ForbiddenAccessException($"Access denied: User {userId} is not a participant of course {courseId}");
     }
+
+    public async Task<bool> HasRole(Guid courseId, Guid userId, params CourseRole[] allowedRoles)
+    {
+        return await dbContext.CourseParticipants
+            .AnyAsync(participant =>
+                participant.CourseId == courseId &&
+                participant.UserId == userId &&
+                allowedRoles.Contains(participant.Role));
+    }
 }

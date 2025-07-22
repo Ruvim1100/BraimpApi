@@ -1,4 +1,5 @@
 ﻿using Braimp.Application.Abstraction;
+using Braimp.Domain.Entities.Courses.Enums;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 
@@ -6,10 +7,15 @@ namespace Braimp.Application.Features.Assignments.Commands.UpdateAssignment;
 public class UpdateAssignmentCommandValidator : AbstractValidator<UpdateAssignmentCommand>
 {
     private readonly IBraimpDbContext _dbContext;
+    private readonly ICourseAuthorizationService _courseAuthorization;
+    private readonly ICurrentUserService _currentUser;
 
-    public UpdateAssignmentCommandValidator(IBraimpDbContext dbContext)
+    public UpdateAssignmentCommandValidator(IBraimpDbContext dbContext,
+        ICourseAuthorizationService courseAuthorization, ICurrentUserService currentUser)
     {
         _dbContext = dbContext;
+        _courseAuthorization = courseAuthorization;
+        _currentUser = currentUser;
 
         RuleFor(command => command.Id)
             .NotEmpty()
@@ -34,6 +40,16 @@ public class UpdateAssignmentCommandValidator : AbstractValidator<UpdateAssignme
         RuleFor(x => x)
             .MustAsync(AssignmentExistsInCourse)
             .WithMessage("The assignment does not exist in the specified course.");
+
+        RuleFor(x => x)
+            .MustAsync(async (command, ct) =>
+            {
+                return await courseAuthorization.HasRole(
+                    command.CourseId,
+                    currentUser.UserId,
+                    CourseRole.Owner);
+            })
+            .WithMessage("You must be the owner of the course to perform this action.");
     }
 
     private bool BeAFutureDate(DateTimeOffset? deadline)

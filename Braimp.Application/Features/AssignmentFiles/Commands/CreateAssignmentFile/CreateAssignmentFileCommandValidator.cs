@@ -1,4 +1,5 @@
 ﻿using Braimp.Application.Abstraction;
+using Braimp.Domain.Entities.Courses.Enums;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 
@@ -6,9 +7,15 @@ namespace Braimp.Application.Features.AssignmentFiles.Commands.CreateAssignmentF
 public class CreateAssignmentFileCommandValidator : AbstractValidator<CreateAssignmentFileCommand>
 {
     private readonly IBraimpDbContext _dbContext;
-    public CreateAssignmentFileCommandValidator(IBraimpDbContext dbContext)
+    private readonly ICourseAuthorizationService _courseAuthorization;
+    private readonly ICurrentUserService _currentUser;
+
+    public CreateAssignmentFileCommandValidator(IBraimpDbContext dbContext, 
+        ICourseAuthorizationService courseAuthorization, ICurrentUserService currentUser)
     {
         _dbContext = dbContext;
+        _courseAuthorization = courseAuthorization;
+        _currentUser = currentUser;
 
         RuleFor(command => command.AssignmentId)
             .NotEmpty().WithMessage("AssignmentId is required");
@@ -27,11 +34,21 @@ public class CreateAssignmentFileCommandValidator : AbstractValidator<CreateAssi
 
         RuleFor(command => command.FileStream.Length)
             .LessThanOrEqualTo(10 * 1024 * 1024)
-            .WithMessage("File size must be less than 5MB.");
+            .WithMessage("File size must be less than 10MB.");
 
         RuleFor(command => command)
             .MustAsync(AssignmentExists)
             .WithMessage("Assignemnt doesn't exist");
+
+        RuleFor(x => x)
+            .MustAsync(async (command, ct) =>
+            {
+                return await courseAuthorization.HasRole(
+                    command.CourseId,
+                    currentUser.UserId,
+                    CourseRole.Owner);
+            })
+            .WithMessage("You must be the owner of the course to perform this action.");
     }
 
     private async Task<bool> AssignmentExists(CreateAssignmentFileCommand command, CancellationToken cancellationToken) => 
